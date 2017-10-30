@@ -1,18 +1,18 @@
 # CS 165 Medical Center Manager
 Our system will allow patients to create accounts in order to view the information of each institution such as the services, contact numbers, and others. The user may search for the institution nearest to his/her location and can set an appointment on a specific service offered by the chosen institution. After visiting the institution, the user may also give their feedback and rating on the institution or service. Each institution is handled by an administrator, a member of the staff, who can add, update, or delete the institution’s information and also manage the appointments made. Each institution will also have a database of BFA-accredited products and drugs, showing the function and price, that can be viewed and searched by the regular users and these information will be handled by the administrator.
 
-##### Members:
+### Members:
   - Treacy Evangelista
   - Mikayla Lopez
   - Gabriel Patron
   - Juan Gabriel Tamayo
   
-##### Installation and Set Up
+### Installation and Set Up
 
 This project's main dependencies are Python 3, pip3, a virtualenv, Django 1.11, and MySQL.
 I will cover installation of pip, virtualenvs, Django and how to set up the project. I will not cover MySQL installations. I use a Mac so I'm not 100% sure about Linux installations.
 
-##### Installing Python3 and Pip3
+### Installing Python3 and Pip3
 On Linux
 
     $ sudo apt-get update
@@ -26,7 +26,7 @@ On Mac
     
 To check if it works **_python3_** should open up the python shell and **_pip3_** should display all the commands and flags for pip.
 
-##### Installing virtualenvs
+### Installing virtualenvs
 What is a virtualenv?
 > virtualenv is a tool to create isolated Python environments. virtualenv  creates a folder which contains all the necessary executables to use the          packages that a Python project would need.
 
@@ -36,10 +36,10 @@ Test installation
     
     $ virtualenv --version
     
-##### Create the database
+### Create the database
 Open your MySQL client and type: **CREATE DATABASE medcentermanager_db;**
 
-##### Cloning the Project
+### Cloning the Project
 1. Go to the directory where you want to clone the project
 2. Create your virtualenv. I have my envname as the project name _'medcentermanager'_
     > $ virtualenv -p python3 envname
