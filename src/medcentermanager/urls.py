@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from users.views import RegistrationView
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^registration/(?P<user_type>\w+)', RegistrationView.as_view(), name='registration'),
 ]
