@@ -30,6 +30,7 @@ class RegularUser(AbstractBaseUser):
     RegularUser model
     """
 
+    user_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     mobile_number = models.CharField(max_length=40, unique=True)
@@ -49,4 +50,70 @@ class RegularUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    
+
+class AdministratorUserManager(BaseUserManager):
+    def create_user(self, institution_name, email, mobile_number, landline_number, 
+                    open_time, close_time, location, category, staff, additional_info,
+                    password=None):
+        """ 
+        Creates and saves a RegularUser with given information and hashed password
+        """
+
+        if not institution_name or email:
+            raise ValueError('Administrators must provide an institution name and email')
+
+        administrator = self.model(
+            institution_name=institution_name,
+            email=self.normalize_email(email),
+            mobile_number=mobile_number,
+            landline_number=landline_number,
+            open_time=open_time,
+            close_time=close_time,
+            location=location,
+            category=category, 
+            staff=staff,
+            additional_info=additional_info,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        
+        return administrator
+
+class AdministratorUser(AbstractBaseUser):
+    """ 
+    AdministratorUser model
+    """
+
+    INSTITUTION_CHOICES = (
+        ('treatment_center', 'Treatment Center'),
+        ('social_hygiene_clinic', 'Social Hygiene Clinic'),
+        ('testing_hub', 'Testing Hub')
+    )
+
+    admin_id = models.AutoField(primary_key=True)
+    institution_name = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, unique=True)
+    mobile_number = models.CharField(max_length=40, unique=True)
+    landline_number = models.CharField(max_length=40, unique=True)
+    open_time = models.CharField(max_length=5)
+    close_time = models.CharField(max_length=5)
+    location = models.CharField(max_length=255, unique=True)
+    category = models.CharField(max_length=2, choices=INSTITUTION_CHOICES)
+    staff = models.TextField()
+    additional_info = models.TextField()
+
+    objects = AdministratorUserManager()
+
+    USERNAME_FIELD = 'institution_name'
+    REQUIRED_FIELDS = ['email']
+
+    def get_full_name(self):
+        return self.institution_name
+
+    def get_short_name(self):
+        return self.email
+
+    def __str__(self):
+        return self.institution_name
+
