@@ -3,6 +3,8 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 
+INSTITUTION_CHOICES = ['treatment_center', 'social_hygiene_clinic', 'testing_hub']
+
 
 class RegularUserManager(BaseUserManager):
     def create_user(self, username, email, mobile_number, landline_number, password=None):
@@ -52,15 +54,18 @@ class RegularUser(AbstractBaseUser):
 
 
 class AdministratorUserManager(BaseUserManager):
-    def create_user(self, institution_name, email, mobile_number, landline_number, 
+    def create_administrator(self, institution_name, email, mobile_number, landline_number, 
                     open_time, close_time, location, category, staff, additional_info,
                     password=None):
         """ 
         Creates and saves a RegularUser with given information and hashed password
         """
 
-        if not institution_name or email:
+        if not institution_name or not email:
             raise ValueError('Administrators must provide an institution name and email')
+
+        if category not in INSTITUTION_CHOICES:
+            raise ValueError('{} is not a valid institution category'.format(category))
 
         administrator = self.model(
             institution_name=institution_name,
@@ -75,21 +80,15 @@ class AdministratorUserManager(BaseUserManager):
             additional_info=additional_info,
         )
 
-        user.set_password(password)
-        user.save(using=self._db)
+        administrator.set_password(password)
+        administrator.save(using=self._db)
         
         return administrator
 
 class AdministratorUser(AbstractBaseUser):
     """ 
     AdministratorUser model
-    """
-
-    INSTITUTION_CHOICES = (
-        ('treatment_center', 'Treatment Center'),
-        ('social_hygiene_clinic', 'Social Hygiene Clinic'),
-        ('testing_hub', 'Testing Hub')
-    )
+    """    
 
     admin_id = models.AutoField(primary_key=True)
     institution_name = models.CharField(max_length=255, unique=True)
@@ -98,8 +97,8 @@ class AdministratorUser(AbstractBaseUser):
     landline_number = models.CharField(max_length=40, unique=True)
     open_time = models.CharField(max_length=5)
     close_time = models.CharField(max_length=5)
-    location = models.CharField(max_length=255, unique=True)
-    category = models.CharField(max_length=2, choices=INSTITUTION_CHOICES)
+    location = models.CharField(max_length=255)
+    category = models.CharField(max_length=21)
     staff = models.TextField()
     additional_info = models.TextField()
 
