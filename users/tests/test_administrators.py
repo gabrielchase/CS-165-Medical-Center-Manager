@@ -1,12 +1,18 @@
 from django.test import TestCase
 
-from users.models import AdministratorUser
+from users.models import (
+    AdministratorUser, INSTITUTION_CHOICES
+)
 
 
 class AdministratorUserTestCase(TestCase):
     fixtures = ['medcentermanager/fixtures/administrators.json']
 
     def setUp(self):
+        """ 
+        Hash the passwords of each saved administrator
+        """
+
         self.administrators = AdministratorUser.objects.all()
 
         for administrator in self.administrators:
@@ -17,6 +23,7 @@ class AdministratorUserTestCase(TestCase):
 
     def test_administrators_loaded(self):
         for idx, administrator in enumerate(self.administrators):
+            assert isinstance(administrator, AdministratorUser)
             assert administrator.admin_id
             assert administrator.institution_name
             assert 'administrator_user_{}@email.com'.format(idx+1) == administrator.email
@@ -28,13 +35,15 @@ class AdministratorUserTestCase(TestCase):
             assert administrator.category
             assert administrator.staff
             assert administrator.additional_info
+
+            """ Check password is hashed but the real password works """
             assert administrator.password != 'password'
             assert administrator.check_password('password')
         
         assert len(self.administrators) == 3
 
     def test_regular_user_create_user_works(self):
-        CATEGORIES = ['treatment_center', 'social_hygiene_clinic', 'testing_hub', 'random_scrandom']
+        CATEGORIES = INSTITUTION_CHOICES + ['random_scrandom']
 
         new_administrator_data = {
             'institution_name': 'new_institution',
@@ -50,6 +59,12 @@ class AdministratorUserTestCase(TestCase):
         }
 
         for idx, category in enumerate(CATEGORIES):
+            """ 
+            Create a 'new_administrator' for each category. 
+            Should fail if the category is 'random_scrandom' which is not a 
+            valid institution choice.
+            """
+            
             try:
                 new_administrator = AdministratorUser.objects.create_administrator(
                     institution_name=new_administrator_data.get('institution_name'),
@@ -68,6 +83,7 @@ class AdministratorUserTestCase(TestCase):
                 new_administrator.set_password(new_administrator_data.get('password'))
                 new_administrator.save()
 
+                assert isinstance(new_administrator, AdministratorUser)
                 assert new_administrator.admin_id
                 assert new_administrator.admin_id == len(self.administrators) + idx + 1
                 assert new_administrator.institution_name == new_administrator_data.get('institution_name')
@@ -80,6 +96,8 @@ class AdministratorUserTestCase(TestCase):
                 assert new_administrator.category == category
                 assert new_administrator.staff == new_administrator_data.get('staff')
                 assert new_administrator.additional_info == new_administrator_data.get('additional_info')
+
+                """ Check password is hashed but the real password works """
                 assert new_administrator.password != 'password'
                 assert new_administrator.check_password('password')
 

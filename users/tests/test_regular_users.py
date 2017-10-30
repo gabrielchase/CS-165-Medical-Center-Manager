@@ -7,6 +7,10 @@ class RegularUserTestCase(TestCase):
     fixtures = ['medcentermanager/fixtures/regular_users.json']
 
     def setUp(self):
+        """ 
+        Hash the passwords of each saved regular user
+        """
+        
         self.users = RegularUser.objects.all()
 
         for user in self.users:
@@ -16,13 +20,16 @@ class RegularUserTestCase(TestCase):
         return self.users
     
     def test_regular_users_loaded(self):
-        for user in self.users:
+        for idx, user in enumerate(self.users):
+            assert isinstance(user, RegularUser)
             assert user.user_id
-            assert 'regular_user_' in user.email
-            assert '@email.com' in user.email
+            assert 'regular_user_{}@email.com'.format(idx+1) == user.email
             assert user.mobile_number
             assert user.landline_number
+
+            """ Check password is hashed but the real password works """
             assert user.password != 'password'
+            assert user.check_password('password')
         
         assert len(self.users) == 3
 
@@ -50,6 +57,8 @@ class RegularUserTestCase(TestCase):
         assert new_user.email == new_user_data.get('email')
         assert new_user.mobile_number == new_user_data.get('mobile_number')
         assert new_user.landline_number == new_user_data.get('landline_number')
+
+        """ Check password is hashed but the real password works """
         assert new_user.password != new_user_data.get('password')
         assert new_user.check_password(new_user_data.get('password'))
 
