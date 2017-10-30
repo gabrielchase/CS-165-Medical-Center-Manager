@@ -1,0 +1,35 @@
+[
+    {
+        "model": "users.RegularUser",
+        "pk": 1,
+        "fields": {
+            "username": "regular_user_1",
+            "email": "regular_user_1@email.com",
+            "mobile_number": "0000-111-1111",
+            "landline_number": "000-1111",
+            "password": "password"
+        }
+    },
+    {
+        "model": "users.RegularUser",
+        "pk": 2,
+        "fields": {
+            "username": "regular_user_2",
+            "email": "regular_user_2@email.com",
+            "mobile_number": "0000-222-2222",
+            "landline_number": "000-2222",
+            "password": "password"
+        }
+    },
+    {
+        "model": "users.RegularUser",
+        "pk": 3,
+        "fields": {
+            "username": "regular_user_3",
+            "email": "regular_user_3@email.com",
+            "mobile_number": "0000-333-3333",
+            "landline_number": "000-3333",
+            "password": "password"
+        }
+    }
+]

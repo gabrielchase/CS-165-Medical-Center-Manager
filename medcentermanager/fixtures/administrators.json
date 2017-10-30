@@ -1,0 +1,53 @@
+[
+    {
+        "model": "users.AdministratorUser",
+        "pk": 1,
+        "fields": {
+            "institution_name": "institution_1",
+            "email": "administrator_user_1@email.com",
+            "mobile_number": "1111-111-1111",
+            "landline_number": "111-1111",
+            "password": "password",
+            "open_time": "08:00",
+            "close_time": "18:00",
+            "location": "Quezon City",
+            "category": "treatment_center",
+            "staff": "Cardiologist: Dr. Dela Rosa\nOncologist: Dr. Sullivan\nENT: Dr. Dela Cruz",
+            "additional_info": "Institution 1 was built in the year 1995 to commemorate Dr. Institution's fight against HIV"
+        }
+    },
+    {
+        "model": "users.AdministratorUser",
+        "pk": 2,
+        "fields": {
+            "institution_name": "institution_2",
+            "email": "administrator_user_2@email.com",
+            "mobile_number": "1111-222-2222",
+            "landline_number": "111-2222",
+            "password": "password",
+            "open_time": "07:00",
+            "close_time": "17:00",
+            "location": "Quezon City",
+            "category": "social_hygiene_clinic",
+            "staff": "Cardiologist: Dr. Suarez\nOncologist: Dr. Raj\nENT: Dr. Hao",
+            "additional_info": "Institution 2 was built in the year 2000 to commemorate Dr. Institution's fight against AIDS"
+        }
+    },
+    {
+        "model": "users.AdministratorUser",
+        "pk": 3,
+        "fields": {
+            "institution_name": "institution_3",
+            "email": "administrator_user_3@email.com",
+            "mobile_number": "1111-333-3333",
+            "landline_number": "111-3333",
+            "password": "password",
+            "open_time": "00:00",
+            "close_time": "00:00",
+            "location": "Antipolo",
+            "category": "testing_hub",
+            "staff": "Cardiologist: Dr. Guiao\nOncologist: Dr. Cheng\nENT: Dr. Lam",
+            "additional_info": "Institution 3 was built in the year 2010 to combat AIDS"
+        }
+    }
+]
