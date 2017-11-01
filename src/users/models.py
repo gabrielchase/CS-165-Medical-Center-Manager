@@ -33,10 +33,10 @@ class RegularUser(AbstractBaseUser):
     """
 
     user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    mobile_number = models.CharField(max_length=40, unique=True)
-    landline_number = models.CharField(max_length=40, unique=True)
+    username = models.CharField(max_length=255, unique=True, blank=False, null=False)
+    email = models.EmailField(max_length=255, unique=True, blank=False, null=False)
+    mobile_number = models.CharField(max_length=40, unique=True, blank=True, null=True)
+    landline_number = models.CharField(max_length=40, unique=True, blank=True, null=True)
 
     objects = RegularUserManager()
 
