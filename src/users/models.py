@@ -33,10 +33,10 @@ class RegularUser(AbstractBaseUser):
     """
 
     user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=255, unique=True, blank=False, null=False)
-    email = models.EmailField(max_length=255, unique=True, blank=False, null=False)
-    mobile_number = models.CharField(max_length=40, unique=True, blank=True, null=True)
-    landline_number = models.CharField(max_length=40, unique=True, blank=True, null=True)
+    username = models.CharField(max_length=255, unique=True, null=False)
+    email = models.EmailField(max_length=255, unique=True, null=False)
+    mobile_number = models.CharField(max_length=40, unique=True, null=True)
+    landline_number = models.CharField(max_length=40, unique=True, null=True)
 
     objects = RegularUserManager()
 
@@ -91,16 +91,16 @@ class AdministratorUser(AbstractBaseUser):
     """    
 
     admin_id = models.AutoField(primary_key=True)
-    institution_name = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(max_length=255, unique=True)
-    mobile_number = models.CharField(max_length=40, unique=True)
-    landline_number = models.CharField(max_length=40, unique=True)
-    open_time = models.CharField(max_length=5)
-    close_time = models.CharField(max_length=5)
-    location = models.CharField(max_length=255)
-    category = models.CharField(max_length=21)
-    staff = models.TextField()
-    additional_info = models.TextField()
+    institution_name = models.CharField(max_length=255, unique=True, null=False)
+    email = models.EmailField(max_length=255, unique=True, null=False)
+    mobile_number = models.CharField(max_length=40, unique=True, null=True)
+    landline_number = models.CharField(max_length=40, unique=True, null=True)
+    open_time = models.CharField(max_length=5, null=True)
+    close_time = models.CharField(max_length=5, null=True)
+    location = models.CharField(max_length=255, null=True)
+    category = models.CharField(max_length=21, null=False)
+    staff = models.TextField(null=True)
+    additional_info = models.TextField(null=True)
 
     objects = AdministratorUserManager()
 
