@@ -5,9 +5,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import (authenticate, login)
 
-from users.models import (
-    RegularUser, AdministratorUser 
-)
+from users.models import (RegularUser, AdministratorUser)
 
 
 class RegistrationView(View):
@@ -87,16 +85,21 @@ class LoginView(TemplateView):
         user = None
         user_type = kwargs.get('user_type')
 
-        username = request.POST.get('email')
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
-        print('{} {} authenticated'.format(user.user_id, user.email))
+        user = authenticate(request, user_type=user_type, email=email, password=password)
             
         if user is not None:
             login(request, user)
-            # Go to success URL
+            context = {
+                'user': user,
+                'user_type': user.__class__.__name__
+            }
+
+            return redirect(reverse('dashboard:home'))
         else:
             messages.error(request, 'Login failed')
-            return self.get(request, context)
             
+            return self.get(request)
+
