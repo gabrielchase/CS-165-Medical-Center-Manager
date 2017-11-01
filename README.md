@@ -53,3 +53,12 @@ Open your MySQL client and type: **CREATE DATABASE medcentermanager_db;**
     > $ git clone https://github.com/gabrielchase/CS-165-Medical-Center-Manager.git
 7. Install the project requirements
     > $ pip3 install -r requirements.txt
+8. cd into the folder project and check for the folder with the file 'manage.py'
+9. Make database migrations
+    > $ python manage.py makemigrations
+10. Migrate the database
+    > $ python manage.py migrate
+11. Test to see if it's working. (4 tests should pass)
+    > $ python manage.py test users.tests
+12. Run the server with:
+    > $ python manage.py runserver
