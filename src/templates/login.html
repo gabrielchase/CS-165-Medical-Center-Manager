@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h1>Login</h1>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <label for="email">Email: </label>
+        <input type="text" {% if user_email %} value="{{ user_email }}" {% endif %} name="email" required />
+        <br>
+        <br>
+        
+        <label for="password">Password: </label>
+        <input type="password" name="password" required />
+        <br>
+        <br>
+        
+        <input type="submit" value="register" />
+    </form>
+</div>
+
+{% endblock %}

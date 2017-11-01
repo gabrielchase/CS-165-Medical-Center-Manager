@@ -1,10 +1,9 @@
-from django.shortcuts import (
-    render, redirect
-)
+from django.shortcuts import (render, redirect)
 from django.views.generic import View
 from django.views.generic.base import TemplateView
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth import (authenticate, login)
 
 from users.models import (
     RegularUser, AdministratorUser 
@@ -78,5 +77,26 @@ class RegistrationView(View):
             context = {
                 'user_type': user_type
             }
+            return self.get(request, context)
+
+
+class LoginView(TemplateView):
+    template_name = 'login.html'
+
+    def post(self, request, *args, **kwargs):
+        user = None
+        user_type = kwargs.get('user_type')
+
+        username = request.POST.get('email')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        print('{} {} authenticated'.format(user.user_id, user.email))
+            
+        if user is not None:
+            login(request, user)
+            # Go to success URL
+        else:
+            messages.error(request, 'Login failed')
             return self.get(request, context)
             
