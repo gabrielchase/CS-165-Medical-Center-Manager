@@ -19,7 +19,7 @@ class RegistrationView(View):
         user_type = kwargs.get('user_type')
 
         if user_type == 'administrator':
-            template_name = 'administrator_fields.html'
+            template_name = 'auth/administrator_fields.html'
 
         context = {
             'user_type': user_type
