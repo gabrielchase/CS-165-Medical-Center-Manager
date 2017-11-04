@@ -1,18 +1,21 @@
 from django.shortcuts import (render, redirect)
 from django.http import HttpResponseRedirect
-from django.views.generic import View
+from django.views.generic import (View, DetailView)
 from django.views.generic.base import TemplateView
 from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth import (authenticate, login, logout)
+from django.contrib.auth import (get_user_model, authenticate, login, logout)
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from users.models import (BaseUser, AdministratorDetails)
+from users.models import AdministratorDetails
 from medcentermanager import settings
+
+User = get_user_model()
 
 
 class RegistrationView(View):
     def get(self, request, *args, **kwargs):
-        template_name = 'registration.html'
+        template_name = 'auth/registration.html'
         user_type = kwargs.get('user_type')
 
         if user_type == 'administrator':
@@ -46,7 +49,7 @@ class RegistrationView(View):
 
         try:
             if user_type == 'regular':
-                new_instance = BaseUser.objects.create_user(
+                new_instance = User.objects.create_user(
                     username=username,
                     email=email,
                     mobile_number=mobile_number,
@@ -87,7 +90,7 @@ class RegistrationView(View):
 
 
 class LoginView(TemplateView):
-    template_name = 'login.html'
+    template_name = 'auth/login.html'
 
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
@@ -112,9 +115,13 @@ class LoginView(TemplateView):
 class LogoutView(View):
     """ Provides users the ability to logout """
     
-    url = '/login/'
+    url = settings.LOGIN_URL
 
     def get(self, request, *args, **kwargs):
-        print('logging out {}'.format(request.user))
+        messages.success(request, 'You have successfully logged out')
         logout(request)
         return redirect(settings.LOGIN_URL)
+
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
