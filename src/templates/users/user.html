@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h1>{{ object.username }}</h1>
+    <h1>{{ object.email }}</h1>
+    <h1>{{ object.mobile_number }}</h1>
+    <h1>{{ object.landline_number }}</h1>
+
+    {% if object.administratordetails %}
+        <h1>{{ object.administratordetails.open_time }}</h1>
+        <h1>{{ object.administratordetails.close_time }}</h1>
+        <h1>{{ object.administratordetails.location }}</h1>
+        <h1>{{ object.administratordetails.category }}</h1>
+        <h1>{{ object.administratordetails.staff }}</h1>
+        <h1>{{ object.administratordetails.additional_info }}</h1>
+    {% endif%}
+</div>
+
+{% endblock %}
