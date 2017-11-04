@@ -3,7 +3,7 @@
 {% block content %}
 <div>
     <h1>Edit Profile</h1>
-    <form action={% url 'users:detail' slug=object.slug %} method="PUT">
+    <form action={% url 'users:update' %} method="PUT">
         {% csrf_token %}
 
 
