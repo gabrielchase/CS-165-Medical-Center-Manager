@@ -4,11 +4,11 @@
 <div>
     <h1>Login</h1>
 
-    <form action="" method="POST">
+    <form action="{% url 'login' %}" method="POST">
         {% csrf_token %}
 
         <label for="email">Email: </label>
-        <input type="text" {% if user_email %} value="{{ user_email }}" {% endif %} name="email" required />
+        <input type="text" name="email" required />
         <br>
         <br>
         
