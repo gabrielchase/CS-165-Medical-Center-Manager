@@ -125,3 +125,12 @@ class LogoutView(View):
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
+    template_name = 'users/user.html'
+
+
+class UserUpdateView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'users/user_update.html'
+
+    def get_object(self):
+        return self.request.user
