@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from users.models import (RegularUser, AdministratorUser)
+from users.models import (BaseUser, AdministratorDetails)
 
-admin.site.register(RegularUser)
-admin.site.register(AdministratorUser)
+admin.site.register(BaseUser)
+admin.site.register(AdministratorDetails)
