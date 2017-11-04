@@ -1,47 +1,57 @@
 from django.db import models
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
+    BaseUserManager, AbstractBaseUser,
 )
 
 INSTITUTION_CHOICES = ['treatment_center', 'social_hygiene_clinic', 'testing_hub']
 
 
-class RegularUserManager(BaseUserManager):
-    def create_user(self, username, email, mobile_number, landline_number, password=None):
+class BaseUserManager(BaseUserManager):
+    def create_user(self, username, email, mobile_number, landline_number, is_admin=False, password=None):
         """ 
         Creates and saves a RegularUser with given information and hashed password
         """
 
-        if not email:
-            raise ValueError('Users must have an email address')
+        # print('-----------')
+        # print('Creating {} with email address: {}\nadmin: {}'.format(username, email, is_admin))
+        # print('-----------')
 
+        if not email or not username:
+            raise ValueError('Users must have an email address')
+        
+        print('Making user\nadmin: {}'.format(is_admin))
+        
         user = self.model(
             username=username,
             email=self.normalize_email(email),
             mobile_number=mobile_number,
-            landline_number=landline_number
+            landline_number=landline_number,
+            is_admin=is_admin
         )
+        print(user)
 
         user.set_password(password)
         user.save(using=self._db)
         
         return user
 
-class RegularUser(AbstractBaseUser):
-    """ 
-    RegularUser model
-    """
+
+class BaseUser(AbstractBaseUser):
 
     user_id = models.AutoField(primary_key=True)
+    
+    # Displayed as Institution Name for Administrators
     username = models.CharField(max_length=255, unique=True, null=False)
+    
     email = models.EmailField(max_length=255, unique=True, null=False)
     mobile_number = models.CharField(max_length=40, unique=True, null=True)
     landline_number = models.CharField(max_length=40, unique=True, null=True)
+    is_admin = models.BooleanField(default=False)
 
-    objects = RegularUserManager()
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    objects = BaseUserManager()
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def get_full_name(self):
         return self.email
@@ -53,66 +63,44 @@ class RegularUser(AbstractBaseUser):
         return self.email
 
 
-class AdministratorUserManager(BaseUserManager):
-    def create_administrator(self, institution_name, email, mobile_number, landline_number, 
-                    open_time, close_time, location, category, staff, additional_info,
-                    password=None):
-        """ 
-        Creates and saves a RegularUser with given information and hashed password
-        """
+class AdministratorDetailsManager(models.Manager):
+    
+    def create_administrator(self, username, email, mobile_number, landline_number, 
+                            open_time, close_time, location, category, staff, additional_info,
+                            password=None):
+        
+        if not email or not username:
+            raise ValueError('Administrators must have an email address')
 
-        if not institution_name or not email:
-            raise ValueError('Administrators must provide an institution name and email')
+        print('creating user')
+        user = BaseUser.objects.create_user(username, email, mobile_number, landline_number, True, password=password)
+        print(user)
+        print(user.__dict__)
 
-        if category not in INSTITUTION_CHOICES:
-            raise ValueError('{} is not a valid institution category'.format(category))
-
-        administrator = self.model(
-            institution_name=institution_name,
-            email=self.normalize_email(email),
-            mobile_number=mobile_number,
-            landline_number=landline_number,
+        administrator_details = self.model(
+            user=user,
             open_time=open_time,
             close_time=close_time,
             location=location,
-            category=category, 
+            category=category,
             staff=staff,
-            additional_info=additional_info,
+            additional_info=additional_info
         )
 
-        administrator.set_password(password)
-        administrator.save(using=self._db)
-        
-        return administrator
+        administrator_details.save()
 
-class AdministratorUser(AbstractBaseUser):
-    """ 
-    AdministratorUser model
-    """    
+        return administrator_details
 
-    admin_id = models.AutoField(primary_key=True)
-    institution_name = models.CharField(max_length=255, unique=True, null=False)
-    email = models.EmailField(max_length=255, unique=True, null=False)
-    mobile_number = models.CharField(max_length=40, unique=True, null=True)
-    landline_number = models.CharField(max_length=40, unique=True, null=True)
-    open_time = models.CharField(max_length=5, null=True)
-    close_time = models.CharField(max_length=5, null=True)
+
+class AdministratorDetails(models.Model):
+    """ AdministratorDetails model """    
+
+    user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, primary_key=True)
+    open_time = models.CharField(max_length=5, null=True) # '08:00'
+    close_time = models.CharField(max_length=5, null=True) # '18:00'
     location = models.CharField(max_length=255, null=True)
     category = models.CharField(max_length=21, null=False)
     staff = models.TextField(null=True)
     additional_info = models.TextField(null=True)
-
-    objects = AdministratorUserManager()
-
-    USERNAME_FIELD = 'institution_name'
-    REQUIRED_FIELDS = ['email']
-
-    def get_full_name(self):
-        return self.institution_name
-
-    def get_short_name(self):
-        return self.email
-
-    def __str__(self):
-        return self.institution_name
-
+    
+    objects = AdministratorDetailsManager()
