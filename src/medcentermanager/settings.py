@@ -133,3 +133,20 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 AUTH_USER_MODEL = 'users.BaseUser'
 
 # AUTHENTICATION_BACKENDS = ['users.backends.CustomAuthBackend']
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     }
+# }
