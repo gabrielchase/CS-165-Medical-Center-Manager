@@ -2,18 +2,43 @@
 
 {% block content %}
 <div>
-    <h1>Register</h1>
+    <h1>Register {% if user_type == 'administrator' %} Your Institution {% endif %}</h1>
 
-    <form action="" method="POST">
+    <form action="{% url 'registration' user_type=user_type%}" method="POST">
         {% csrf_token %}
 
-        {% block user_fields %}
-        {% endblock user_fields %} 
-        
+        {% if user_type == 'regular' %}
+            <label for="username">Username: </label>
+        {% elif user_type == 'administrator' %}
+            <label for="username">Institution Name: </label>
+        {% endif %}
+        <input type="text" name="username" required/>
+        <br>
+        <br>   
+
+        <label for="email">Email: </label>
+        <input type="text" name="email" required/>
+        <br>
+        <br>
+
         <label for="password">Password: </label>
         <input type="password" name="password" required/>
         <br>
         <br>
+        
+        <label for="mobile_number">Mobile Number: </label>
+        <input type="text" name="mobile_number" />
+        <br>
+        <br>
+        
+        <label for="landline_number">Landline Number: </label>
+        <input type="text" name="landline_number" />
+        <br>
+        <br>
+        
+
+        {% block user_fields %}
+        {% endblock user_fields %} 
         
         <input type="submit" value="Register" />
     </form>
