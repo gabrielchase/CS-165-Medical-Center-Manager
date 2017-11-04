@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser,
 )
@@ -26,7 +27,8 @@ class BaseUserManager(BaseUserManager):
             email=self.normalize_email(email),
             mobile_number=mobile_number,
             landline_number=landline_number,
-            is_admin=is_admin
+            is_admin=is_admin,
+            slug=slugify(username)
         )
         print(user)
 
@@ -47,11 +49,13 @@ class BaseUser(AbstractBaseUser):
     mobile_number = models.CharField(max_length=40, unique=True, null=True)
     landline_number = models.CharField(max_length=40, unique=True, null=True)
     is_admin = models.BooleanField(default=False)
+    slug = models.SlugField(unique=True)
 
     objects = BaseUserManager()
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+    slug_field = 'username'
 
     def get_full_name(self):
         return self.email
