@@ -1,27 +1,30 @@
 from django.shortcuts import (render, redirect)
+from django.http import HttpResponseRedirect
 from django.views.generic import View
 from django.views.generic.base import TemplateView
 from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth import (authenticate, login)
+from django.contrib.auth import (authenticate, login, logout)
 
-from users.models import (RegularUser, AdministratorUser)
+from users.models import (BaseUser, AdministratorDetails)
 
 
 class RegistrationView(View):
     def get(self, request, *args, **kwargs):
-        template_name = ''
+        template_name = 'registration.html'
         user_type = kwargs.get('user_type')
 
-        if user_type == 'regular':
-            template_name = 'regular_user_fields.html'
-        elif user_type == 'administrator':
+        if user_type == 'administrator':
             template_name = 'administrator_fields.html'
+
+        context = {
+            'user_type': user_type
+        }
         
-        return render(request, template_name)
+        return render(request, template_name, context)
 
     def post(self, request, *args, **kwargs):
-        user_type = request.POST.get('user_type')
+        user_type = kwargs.get('user_type')
         new_instance = {}
 
         username = request.POST.get('username')
@@ -29,7 +32,6 @@ class RegistrationView(View):
         mobile_number = request.POST.get('mobile_number') or None
         landline_number = request.POST.get('landline_number') or None
 
-        institution_name = request.POST.get('institution_name')
         open_time = request.POST.get('open_time') or None
         close_time = request.POST.get('close_time') or None
         location = request.POST.get('location') or None
@@ -39,9 +41,11 @@ class RegistrationView(View):
 
         password = request.POST.get('password')
 
+        print('Registering {} as a {} user'.format(email, user_type))
+
         try:
             if user_type == 'regular':
-                new_instance = RegularUser.objects.create_user(
+                new_instance = BaseUser.objects.create_user(
                     username=username,
                     email=email,
                     mobile_number=mobile_number,
@@ -49,8 +53,8 @@ class RegistrationView(View):
                     password=password
                 )    
             elif user_type == 'administrator':
-                new_instance = AdministratorUser.objects.create_administrator(
-                    institution_name=institution_name,
+                new_instance = AdministratorDetails.objects.create_administrator(
+                    username=username,
                     email=email,
                     mobile_number=mobile_number,
                     landline_number=landline_number,
@@ -63,13 +67,16 @@ class RegistrationView(View):
                     password=password
                 )    
 
+            print('new_instance: {}'.format(new_instance.__dict__))
+            
             context = {
-                'user_email': new_instance.email
+                'user_type': user_type,
+                'new_user': new_instance
             }
 
             messages.success(request, 'Profile created. Please log in')
             
-            return render(request, 'login.html', context)
+            return redirect(reverse('login'))
         except:
             messages.error(request, 'Sign up failed')
             context = {
@@ -82,20 +89,17 @@ class LoginView(TemplateView):
     template_name = 'login.html'
 
     def post(self, request, *args, **kwargs):
-        user = None
-        user_type = kwargs.get('user_type')
-
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(request, user_type=user_type, email=email, password=password)
+        print('pre-authenticating {}'.format(email))
+        user = authenticate(request, username=email, password=password)
+        print('authenticated')
+        print(user.__dict__)
             
         if user is not None:
             login(request, user)
-            context = {
-                'user': user,
-                'user_type': user.__class__.__name__
-            }
+            print('{} has logged in'.format(user))
 
             return redirect(reverse('dashboard:home'))
         else:
@@ -103,3 +107,10 @@ class LoginView(TemplateView):
             
             return self.get(request)
 
+
+# # def logout_view(request):
+# #     print('in logout')
+# #     print('logging out {}'.format(request.user))
+# #     logout(request)
+# #     print('log out successful')
+# #     return redirect('/')
