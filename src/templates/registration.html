@@ -4,7 +4,7 @@
 <div>
     <h1>Register {% if user_type == 'administrator' %} Your Institution {% endif %}</h1>
 
-    <form action="{% url 'registration' user_type=user_type%}" method="POST">
+    <form action={% url 'registration' user_type=user_type%} method="POST">
         {% csrf_token %}
 
         {% if user_type == 'regular' %}
