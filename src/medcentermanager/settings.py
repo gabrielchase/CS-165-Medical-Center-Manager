@@ -128,5 +128,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+
+AUTH_USER_MODEL = 'users.BaseUser'
 
 AUTHENTICATION_BACKENDS = ['users.backends.CustomAuthBackend']
