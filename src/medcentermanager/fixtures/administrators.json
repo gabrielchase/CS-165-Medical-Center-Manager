@@ -1,10 +1,10 @@
 [
     {
-        "model": "users.AdministratorUser",
+        "model": "users.BaseUser",
         "pk": 1,
         "fields": {
-            "institution_name": "institution_1",
-            "email": "administrator_user_1@email.com",
+            "username": "institution_1",
+            "email": "administrator_1@email.com",
             "mobile_number": "1111-111-1111",
             "landline_number": "111-1111",
             "password": "password",
@@ -17,11 +17,11 @@
         }
     },
     {
-        "model": "users.AdministratorUser",
+        "model": "users.BaseUser",
         "pk": 2,
         "fields": {
-            "institution_name": "institution_2",
-            "email": "administrator_user_2@email.com",
+            "username": "institution_2",
+            "email": "administrator_2@email.com",
             "mobile_number": "1111-222-2222",
             "landline_number": "111-2222",
             "password": "password",
@@ -34,11 +34,11 @@
         }
     },
     {
-        "model": "users.AdministratorUser",
+        "model": "users.BaseUser",
         "pk": 3,
         "fields": {
-            "institution_name": "institution_3",
-            "email": "administrator_user_3@email.com",
+            "username": "institution_3",
+            "email": "administrator_3@email.com",
             "mobile_number": "1111-333-3333",
             "landline_number": "111-3333",
             "password": "password",
