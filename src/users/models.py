@@ -55,7 +55,6 @@ class BaseUser(AbstractBaseUser):
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
-    slug_field = 'username'
 
     def get_full_name(self):
         return self.email

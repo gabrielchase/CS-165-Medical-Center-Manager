@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<a href={% url 'users:detail' slug=user.slug %}>Edit My Profile</a>
+<a href={% url 'users:update' %}>Edit My Profile</a>
 <a href={% url 'logout' %}>Logout</a>
 
 <h1>Dashboard</h1>
