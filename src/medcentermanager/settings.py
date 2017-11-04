@@ -132,4 +132,4 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 
 AUTH_USER_MODEL = 'users.BaseUser'
 
-AUTHENTICATION_BACKENDS = ['users.backends.CustomAuthBackend']
+# AUTHENTICATION_BACKENDS = ['users.backends.CustomAuthBackend']
