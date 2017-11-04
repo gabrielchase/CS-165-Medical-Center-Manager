@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import (authenticate, login, logout)
 
 from users.models import (BaseUser, AdministratorDetails)
+from medcentermanager import settings
 
 
 class RegistrationView(View):
@@ -92,25 +93,28 @@ class LoginView(TemplateView):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        print('pre-authenticating {}'.format(email))
+        print('authenticating {}'.format(email))
         user = authenticate(request, username=email, password=password)
-        print('authenticated')
-        print(user.__dict__)
             
         if user is not None:
+            print('authenticated')
             login(request, user)
             print('{} has logged in'.format(user))
 
             return redirect(reverse('dashboard:home'))
         else:
+            print('error in authenticating')
             messages.error(request, 'Login failed')
             
             return self.get(request)
 
 
-# # def logout_view(request):
-# #     print('in logout')
-# #     print('logging out {}'.format(request.user))
-# #     logout(request)
-# #     print('log out successful')
-# #     return redirect('/')
+class LogoutView(View):
+    """ Provides users the ability to logout """
+    
+    url = '/login/'
+
+    def get(self, request, *args, **kwargs):
+        print('logging out {}'.format(request.user))
+        logout(request)
+        return redirect(settings.LOGIN_URL)
