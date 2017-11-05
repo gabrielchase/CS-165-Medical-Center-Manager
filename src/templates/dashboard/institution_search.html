@@ -5,7 +5,8 @@
 <h1>Institutions</h1>
 
 {% for inst in institutions %}
-    <p>{{ inst.username }}</p>
+    <a href="{{ inst.get_profile }}">{{ inst.username }}</a>
+    <br>
 {% endfor %}
 
 {% endblock %}
