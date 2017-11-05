@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import (get_user_model, authenticate, login, logout)
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
 from users.models import AdministratorDetails
 from medcentermanager import settings
@@ -134,3 +135,48 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return self.request.user
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        mobile_number = request.POST.get('mobile_number') or None
+        landline_number = request.POST.get('landline_number') or None
+
+        open_time = request.POST.get('open_time') or None
+        close_time = request.POST.get('close_time') or None
+        location = request.POST.get('location') or None
+        category = request.POST.get('category')
+        staff = request.POST.get('staff') or None
+        additional_info = request.POST.get('additional_info') or None
+
+        password = request.POST.get('password')
+
+        user = get_object_or_404(User, email=email)
+        print('got {}'.format(user))
+
+        if user.check_password(password):
+            print('password is good. updating {}'.format(user))
+            
+            user.username = username
+            user.email = email
+            user.mobile_number = mobile_number
+            user.landline_number = landline_number
+
+            try:
+                user.administratordetails.open_time = open_time
+                user.administratordetails.close_time = close_time
+                user.administratordetails.close_time = close_time
+                user.administratordetails.location = location
+                user.administratordetails.category = category
+                user.administratordetails.staff = staff
+                user.administratordetails.additional_info = additional_info
+                user.administratordetails.save()
+            except:
+                pass
+
+            user.save()
+            messages.success(request, 'Successfully updated your profile')
+        else:
+            messages.error(request, 'There was a problem with updating your profile')
+
+        return redirect(reverse('users:update'))
