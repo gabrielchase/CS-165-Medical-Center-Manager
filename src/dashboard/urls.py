@@ -1,8 +1,9 @@
 from django.conf.urls import (url, include)
 from django.contrib import admin
 
-from dashboard.views import DashboardHomeView
+from dashboard.views import (DashboardHome, InstitutionList)
 
 urlpatterns = [
-    url(r'^$', DashboardHomeView.as_view(), name='home')
+    url(r'^$', DashboardHome.as_view(), name='home'),
+    url(r'^search/', InstitutionList.as_view(), name='institution-list')
 ]
