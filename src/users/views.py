@@ -10,7 +10,9 @@ from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 
 from dashboard.models import Service
-from users.models import AdministratorDetails
+from users.models import (
+    AdministratorDetails, AdministratorServices 
+)
 from medcentermanager import settings
 
 User = get_user_model()
@@ -141,9 +143,8 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(UserUpdateView, self).get_context_data(**kwargs)
         services = Service.objects.all()
-        admin_services = [service.name for service in self.request.user.administratordetails.services.all()] 
-        print(self.request.user)
-        print(admin_services)
+        self_admin = AdministratorDetails.objects.get(user=self.request.user)
+        admin_services =  AdministratorServices.objects.filter(admin=self_admin)
         
         context = {
             'object': self.request.user,
