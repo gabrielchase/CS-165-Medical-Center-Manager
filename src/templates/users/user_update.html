@@ -6,7 +6,6 @@
     <form action={% url 'users:update' %} method="POST">
         {% csrf_token %}
 
-
         <label for="username">Username: </label>
         <input type="text" name="username" value="{{ object.username }}"  />
         <br>
@@ -59,7 +58,23 @@
             <br>
         {% endif%}
 
-        <label for="password">Type password to confirm: </label>
+        <h1>Services Offered</h1>
+        {% for service in services %}
+            <input 
+                type="checkbox" 
+                name="service" 
+                id="{{ service.name }}" 
+                value="{{ service.name }}"
+                {% if service.name in admin_services %}
+                    checked
+                {% endif %}
+            >
+            <label for="{{ service.name }}">{{ service.name }}</label>
+            <br>
+        {% endfor %}
+        
+        <br>
+        <label for="password">Type password to confirm changes: </label>
         <input type="password" name="password" value="password" />
         <br>
         <br>

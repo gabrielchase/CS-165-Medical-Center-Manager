@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 
+from dashboard.models import Service
 from users.models import AdministratorDetails
 from medcentermanager import settings
 
@@ -136,6 +137,20 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return self.request.user
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserUpdateView, self).get_context_data(**kwargs)
+        services = Service.objects.all()
+        admin_services = [service.name for service in self.request.user.administratordetails.services.all()] 
+        print(self.request.user)
+        print(admin_services)
+        
+        context = {
+            'object': self.request.user,
+            'services': services,
+            'admin_services': admin_services
+        }
+        return context
 
     def post(self, request, *args, **kwargs):
         username = request.POST.get('username')
