@@ -95,7 +95,7 @@ As of now (Nov 7), you can see a logout and edit my profile buttons at the top
 
 Edit my profile brings you to the following link where you may update your details
 
-    '/users/edit
+    '/users/edit'
 
 Logout will log you out lol
 
@@ -107,7 +107,7 @@ While logged in you may visit the following link to do a search:
 
     '/dashboard/search
 
-You may query by changing the url parameters, 'l' for location and 'c' for category.
+You may query by changing the url parameters, *'l'* for location and *'c'* for category.
 Of course you have to populate the database first with administrator accounts.
 
     '/dashboard/search?c=treatment_center'
