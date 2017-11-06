@@ -5,11 +5,16 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser,
 )
 
+from dashboard.models import (
+    Service, Product
+)
+
 INSTITUTION_CHOICES = ['treatment_center', 'social_hygiene_clinic', 'testing_hub']
 
 
 class BaseUserManager(BaseUserManager):
-    def create_user(self, username, email, mobile_number, landline_number, is_admin=False, password=None):
+    
+    def create_user(self, username, email, mobile_number=None, landline_number=None, is_admin=False, password=None):
         """ 
         Creates and saves a RegularUser with given information and hashed password
         """
@@ -109,5 +114,18 @@ class AdministratorDetails(models.Model):
     category = models.CharField(max_length=21, null=False)
     staff = models.TextField(null=True)
     additional_info = models.TextField(null=True)
+
+    services = models.ManyToManyField(Service, through='AdministratorServices')
     
     objects = AdministratorDetailsManager()
+
+    def __str__(self):
+        return self.user.email
+
+
+class AdministratorServices(models.Model):
+
+    admin_service_id = models.AutoField(primary_key=True)
+    admin = models.ForeignKey(AdministratorDetails)
+    service = models.ForeignKey(Service)
+    price = models.FloatField()
