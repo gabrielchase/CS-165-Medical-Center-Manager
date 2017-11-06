@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import (get_user_model, authenticate, login, logout)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from django.utils.text import slugify
 
 from users.models import AdministratorDetails
 from medcentermanager import settings
@@ -161,6 +162,7 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
             user.email = email
             user.mobile_number = mobile_number
             user.landline_number = landline_number
+            user.slug = slugify(username)
 
             try:
                 user.administratordetails.open_time = open_time
