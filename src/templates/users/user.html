@@ -4,17 +4,24 @@
 <div>
     <h1>{{ object.username }}</h1>
     <h1>{{ object.email }}</h1>
-    <h1>{{ object.mobile_number }}</h1>
-    <h1>{{ object.landline_number }}</h1>
+    <p>{{ object.mobile_number }}</p>
+    <p>{{ object.landline_number }}</p>
 
-    {% if object.administratordetails %}
-        <h1>{{ object.administratordetails.open_time }}</h1>
-        <h1>{{ object.administratordetails.close_time }}</h1>
-        <h1>{{ object.administratordetails.location }}</h1>
-        <h1>{{ object.administratordetails.category }}</h1>
-        <h1>{{ object.administratordetails.staff }}</h1>
-        <h1>{{ object.administratordetails.additional_info }}</h1>
+    {% if object.is_admin %}
+        <p>{{ object.administratordetails.open_time }}</p>
+        <p>{{ object.administratordetails.close_time }}</p>
+        <p>{{ object.administratordetails.location }}</p>
+        <p>{{ object.administratordetails.category }}</p>
+        <p>{{ object.administratordetails.staff }}</p>
+        <p>{{ object.administratordetails.additional_info }}</p>
+
+        <h1>Services</h1>
+        <ul></ul>
+        {% for service in object.administratordetails.services.all %}
+            <li> {{ service.name }}: {{ service.description }}</li>
+        {% endfor %}
     {% endif%}
+
 </div>
 
 {% endblock %}
