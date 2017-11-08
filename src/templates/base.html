@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Med Center Manager</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
     {% if messages %}
@@ -23,5 +24,8 @@
     
     {% block content %}
     {% endblock content %} 
+
+    {% block javascript %} 
+    {% endblock %}
 </body>
 </html>
