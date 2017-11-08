@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic import (ListView, DetailView)
+from django.views.generic import (View, ListView, DetailView)
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.shortcuts import (get_object_or_404, redirect)
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -17,14 +20,12 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardHome, self).get_context_data(**kwargs)
-        services = Service.objects.all()
         self_admin = AdministratorDetails.objects.get(user=self.request.user)
-        admin_services =  AdministratorServices.objects.filter(admin=self_admin)
+        my_services =  AdministratorServices.objects.filter(admin=self_admin)
         
         context = {
             'user': self.request.user,
-            'services': services,
-            'admin_services': admin_services
+            'my_services': my_services
         }
         return context
 
@@ -48,5 +49,56 @@ class InstitutionList(LoginRequiredMixin, ListView):
 
         context['institutions'] = institutions
         return context
+
+    
+class ServiceView(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard/admin_services.html'
+
+    def get_object(self):
+        return self.request.user
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ServiceView, self).get_context_data(**kwargs)
+        services = Service.objects.all()
+        self_admin = AdministratorDetails.objects.get(user=self.request.user)
+        my_services =  AdministratorServices.objects.filter(admin=self_admin)
+        
+        context = {
+            'user': self.request.user,
+            'services': services,
+            'my_services': my_services
+        }
+
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        price = request.POST.get('price')
+
+        self_admin = get_object_or_404(AdministratorDetails, user=self.request.user)
+        service = Service.objects.get(name=name)
+
+        try:
+            admin_service = AdministratorServices.objects.get(admin__user=self.request.user, service=service)
+
+            """ If service with given admin and service exist, update current values"""
+            admin_service.description = description
+            admin_service.price = price
+            admin_service.save()
+            messages.success(request, 'Updated {} as a service. '.format(name))
+        except AdministratorServices.DoesNotExist:
+            """ If service with given admin does not exist, create a new AdministratorService """
+
+            AdministratorServices.objects.create(
+                admin=self_admin,
+                service=service,
+                description=description,
+                price=price
+            )
+            
+            messages.success(request, 'Successfully added {} as a service'.format(name))
+
+        return redirect(reverse('dashboard:services'))
 
     
