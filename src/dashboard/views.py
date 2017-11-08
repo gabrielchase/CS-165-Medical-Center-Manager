@@ -51,17 +51,16 @@ class InstitutionList(LoginRequiredMixin, ListView):
         return context
 
     
-class ServiceView(LoginRequiredMixin, TemplateView):
+class ServiceView(LoginRequiredMixin, View):
     template_name = 'dashboard/admin_services.html'
 
     def get_object(self):
         return self.request.user
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(ServiceView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
         services = Service.objects.all()
-        self_admin = AdministratorDetails.objects.get(user=self.request.user)
-        my_services =  AdministratorServices.objects.filter(admin=self_admin)
+        my_services =  AdministratorServices.objects.filter(admin__user=self.request.user)
+        s_query = request.GET.get('s')
         
         context = {
             'user': self.request.user,
@@ -69,7 +68,12 @@ class ServiceView(LoginRequiredMixin, TemplateView):
             'my_services': my_services
         }
 
-        return context
+        if s_query:
+            current_service = Service.objects.get(name=s_query)
+            edit_service = AdministratorServices.objects.get(admin__user=self.request.user, service=current_service)
+            context['edit_service'] = edit_service
+
+        return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
         name = request.POST.get('name')

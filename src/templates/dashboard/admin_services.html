@@ -7,17 +7,17 @@
     {% csrf_token %}
 
     <label for="">Name: </label>
-    <input type="text" name="name">
+    <input type="text" name="name" {% if edit_service %} value="{{ edit_service.service.name }}" {% endif %}>
     <br>
     <br>
 
     <label for="">Description:</label>
-    <input type="text" name="description">
+    <input type="text" name="description" {% if edit_service %} value="{{ edit_service.description }}" {% endif %}>
     <br>
     <br>
     
     <label for="">Price:</label>
-    <input type="number" step="0.01" name="price">
+    <input type="number" step="0.01" name="price" {% if edit_service %} value="{{ edit_service.price }}" {% endif %}>
     <br>
     <br>
 
@@ -28,7 +28,7 @@
 <ul>
 {% for instance in my_services %}
     <li>{{ instance.service.name }}: {{ instance.description }} <strong>{{ instance.price }}</strong> 
-        <button>Edit</button> 
+        <a href="{% url 'dashboard:services' %}?s={{ instance.service.name }}">Edit</a> 
         <a href="{% url 'dashboard:services-delete' %}?s={{ instance.service.name }}">Delete</a>
     </li>
 {% endfor %}
