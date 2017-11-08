@@ -77,11 +77,17 @@ class ServiceView(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         name = request.POST.get('name')
-        description = request.POST.get('description')
+        description = request.POST.get('description') or None
         price = request.POST.get('price')
 
         self_admin_instance = get_object_or_404(AdministratorDetails, user=self.request.user)
-        service = Service.objects.get(name=name)
+        service = None
+
+        try:
+            service = Service.objects.get(name=name)
+        except Service.DoesNotExist:
+            messages.error(request, 'Service does not exist'.format(name))
+            return redirect(reverse('dashboard:services'))
 
         try:
             admin_service = AdministratorServices.objects.get(admin__user=self.request.user, service=service)

@@ -7,17 +7,17 @@
     {% csrf_token %}
 
     <label for="">Name: </label>
-    <input type="text" name="name" {% if edit_service %} value="{{ edit_service.service.name }}" {% endif %}>
+    <input type="text" name="name" {% if edit_service %} value="{{ edit_service.service.name }}" {% endif %} required>
     <br>
     <br>
 
     <label for="">Description:</label>
-    <input type="text" name="description" {% if edit_service %} value="{{ edit_service.description }}" {% endif %}>
+    <input type="text" name="description" {% if edit_service.description %} value="{{ edit_service.description }}" {% endif %}>
     <br>
     <br>
     
     <label for="">Price:</label>
-    <input type="number" step="0.01" name="price" {% if edit_service %} value="{{ edit_service.price }}" {% endif %}>
+    <input type="number" step="0.01" name="price" {% if edit_service %} value="{{ edit_service.price }}" {% endif %} required>
     <br>
     <br>
 
