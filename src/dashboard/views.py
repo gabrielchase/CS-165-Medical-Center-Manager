@@ -80,7 +80,7 @@ class ServiceView(LoginRequiredMixin, View):
         description = request.POST.get('description')
         price = request.POST.get('price')
 
-        self_admin = get_object_or_404(AdministratorDetails, user=self.request.user)
+        self_admin_instance = get_object_or_404(AdministratorDetails, user=self.request.user)
         service = Service.objects.get(name=name)
 
         try:
@@ -95,7 +95,7 @@ class ServiceView(LoginRequiredMixin, View):
             """ If service with given admin does not exist, create a new AdministratorService """
 
             AdministratorServices.objects.create(
-                admin=self_admin,
+                admin=self_admin_instance,
                 service=service,
                 description=description,
                 price=price
