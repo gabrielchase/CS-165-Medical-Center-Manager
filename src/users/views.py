@@ -140,19 +140,6 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
     def get_object(self):
         return self.request.user
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(UserUpdateView, self).get_context_data(**kwargs)
-        services = Service.objects.all()
-        self_admin = AdministratorDetails.objects.get(user=self.request.user)
-        admin_services =  AdministratorServices.objects.filter(admin=self_admin)
-        
-        context = {
-            'object': self.request.user,
-            'services': services,
-            'admin_services': admin_services
-        }
-        return context
-
     def post(self, request, *args, **kwargs):
         username = request.POST.get('username')
         email = request.POST.get('email')

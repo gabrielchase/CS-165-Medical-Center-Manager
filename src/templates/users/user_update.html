@@ -57,23 +57,7 @@
             <br>
             <br>
         {% endif%}
-
-        <h1>Services Offered</h1>
-        {% for service in services %}
-            <input 
-                type="checkbox" 
-                name="service" 
-                id="{{ service.name }}" 
-                value="{{ service.name }}"
-                {% if service.name in admin_services %}
-                    checked
-                {% endif %}
-            >
-            <label for="{{ service.name }}">{{ service.name }}</label>
-            <br>
-        {% endfor %}
         
-        <br>
         <label for="password">Type password to confirm changes: </label>
         <input type="password" name="password" value="password" />
         <br>

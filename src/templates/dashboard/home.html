@@ -10,4 +10,12 @@
     You are {% if user.is_admin %} an admin {% elif not user.is_admin %}a regular user {% endif %}
 </strong></p>
 
+<h1>Services Offered</h1>
+<a href="{% url 'dashboard:service-view' %}">Add Services</a>
+<ul>
+{% for instance in admin_services %}
+    <li>{{ instance.service.name }}: {{ instance.price }} </li>
+{% endfor %}
+</ul>
+
 {% endblock %}

@@ -6,13 +6,26 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+from users.models import (
+    AdministratorDetails, AdministratorServices
+)
+from dashboard.models import Service
+
 
 class DashboardHome(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard/home.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardHome, self).get_context_data(**kwargs)
-        context['user'] = self.request.user
+        services = Service.objects.all()
+        self_admin = AdministratorDetails.objects.get(user=self.request.user)
+        admin_services =  AdministratorServices.objects.filter(admin=self_admin)
+        
+        context = {
+            'user': self.request.user,
+            'services': services,
+            'admin_services': admin_services
+        }
         return context
 
 
