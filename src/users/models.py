@@ -129,3 +129,6 @@ class AdministratorServices(models.Model):
     admin = models.ForeignKey(AdministratorDetails)
     service = models.ForeignKey(Service)
     price = models.FloatField()
+
+    def __str__(self):
+        return '{}-{}'.format(self.admin, self.service)
