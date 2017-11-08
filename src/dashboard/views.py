@@ -101,4 +101,12 @@ class ServiceView(LoginRequiredMixin, TemplateView):
 
         return redirect(reverse('dashboard:services'))
 
-    
+
+class ServiceDeleteView(View):
+
+    def get(self, request, *args, **kwargs):
+        service = request.GET.get('s')
+        AdministratorServices.objects.get(admin__user=self.request.user, service=service).delete()
+        messages.success(request, '{} service deleted'.format(service))
+
+        return redirect(reverse('dashboard:services'))
