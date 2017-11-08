@@ -11,9 +11,9 @@
 </strong></p>
 
 <h1>Services Offered</h1>
-<a href="{% url 'dashboard:service-view' %}">Add Services</a>
+<a href="{% url 'dashboard:services' %}">Add Services</a>
 <ul>
-{% for instance in admin_services %}
+{% for instance in my_services %}
     <li>{{ instance.service.name }}: {{ instance.price }} </li>
 {% endfor %}
 </ul>
