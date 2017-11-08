@@ -27,7 +27,7 @@
 <h1>My Services</h1>
 <form action="">
 {% for instance in my_services %}
-    <li>{{ instance.service.name }}: {{ instance.description }} <strong>{{ instance.price }}</strong> <button>Edit</button></li>
+    <li>{{ instance.service.name }}: {{ instance.description }} <strong>{{ instance.price }}</strong> <button>Edit</button> <button>Delete</button></li>
     <br>
 {% endfor %}
 </form>
