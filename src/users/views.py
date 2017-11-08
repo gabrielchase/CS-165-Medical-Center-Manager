@@ -119,8 +119,6 @@ class LoginView(TemplateView):
 
 class LogoutView(View):
     """ Provides users the ability to logout """
-    
-    url = settings.LOGIN_URL
 
     def get(self, request, *args, **kwargs):
         messages.success(request, 'You have successfully logged out')
