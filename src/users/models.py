@@ -128,6 +128,7 @@ class AdministratorServices(models.Model):
     admin_service_id = models.AutoField(primary_key=True)
     admin = models.ForeignKey(AdministratorDetails)
     service = models.ForeignKey(Service)
+    description = models.TextField()
     price = models.FloatField()
 
     def __str__(self):
