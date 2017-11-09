@@ -13,10 +13,10 @@ class Service(models.Model):
 class Product(models.Model):
     
     product_id = models.AutoField(primary_key=True)
-    generic_name = models.CharField(max_length=255)
-    brand_name = models.CharField(max_length=255)
-    manufacturer = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    generic_name = models.CharField(max_length=255, unique=True, null=False)
+    brand_name = models.CharField(max_length=255, unique=True, null=False)
+    manufacturer = models.CharField(max_length=255, null=True)
+    description = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.generic_name
