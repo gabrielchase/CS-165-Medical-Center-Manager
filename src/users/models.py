@@ -116,6 +116,7 @@ class AdministratorDetails(models.Model):
     additional_info = models.TextField(null=True)
 
     services = models.ManyToManyField(Service, through='AdministratorServices')
+    products = models.ManyToManyField(Product, through='AdministratorProducts')
     
     objects = AdministratorDetailsManager()
 
@@ -133,3 +134,16 @@ class AdministratorServices(models.Model):
 
     def __str__(self):
         return '{}-{}'.format(self.admin, self.service)
+
+
+class AdministratorProducts(models.Model):
+
+    admin_product_id = models.AutoField(primary_key=True)
+    admin = models.ForeignKey(AdministratorDetails)
+    product = models.ForeignKey(Product)
+    price = models.FloatField(null=True)
+    stock = models.IntegerField(null=True)
+    description = models.TextField(null=True)
+
+    def __str__(self):
+        return '{}-{}'.format(self.admin, self.product)

@@ -16,7 +16,6 @@ class Product(models.Model):
     generic_name = models.CharField(max_length=255, unique=True, null=False)
     brand_name = models.CharField(max_length=255, unique=True, null=False)
     manufacturer = models.CharField(max_length=255, null=True)
-    description = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.generic_name
