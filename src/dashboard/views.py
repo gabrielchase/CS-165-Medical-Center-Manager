@@ -10,7 +10,7 @@ from django.urls import reverse
 User = get_user_model()
 
 from users.models import (
-    AdministratorDetails, AdministratorServices
+    AdministratorDetails, AdministratorServices, AdministratorProducts
 )
 from dashboard.models import Service
 
@@ -21,11 +21,13 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardHome, self).get_context_data(**kwargs)
         self_admin = AdministratorDetails.objects.get(user=self.request.user)
-        my_services =  AdministratorServices.objects.filter(admin=self_admin)
+        my_services = AdministratorServices.objects.filter(admin=self_admin)
+        my_products = AdministratorProducts.objects.filter(admin=self_admin)
         
         context = {
             'user': self.request.user,
-            'my_services': my_services
+            'my_services': my_services,
+            'my_products': my_products
         }
         return context
 
