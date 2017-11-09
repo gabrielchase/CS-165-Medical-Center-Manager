@@ -114,7 +114,10 @@ class ServiceView(LoginRequiredMixin, View):
         return redirect(reverse('dashboard:services'))
 
 
-class ServiceDeleteView(View):
+class ServiceDeleteView(LoginRequiredMixin, View):
+
+    def get_object(self):
+        return self.request.user
 
     def get(self, request, *args, **kwargs):
         service = request.GET.get('s')
