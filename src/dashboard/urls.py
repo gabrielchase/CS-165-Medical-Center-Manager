@@ -4,7 +4,7 @@ from django.contrib import admin
 from dashboard.views import (
     DashboardHome, InstitutionList, 
     ServiceView, ServiceDeleteView,
-    ProductView
+    ProductView, ProductDeleteView
 )
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^services/delete', ServiceDeleteView.as_view(), name='services-delete'),
     url(r'^services/', ServiceView.as_view(), name='services'),
 
-    # url(r'^services/delete', ServiceDeleteView.as_view(), name='services-delete'),
+    url(r'^products/delete', ProductDeleteView.as_view(), name='products-delete'),
     url(r'^products/', ProductView.as_view(), name='products'),
 
     

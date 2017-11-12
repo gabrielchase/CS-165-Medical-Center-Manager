@@ -192,3 +192,17 @@ class ProductView(LoginRequiredMixin, View):
             messages.success(request, 'Successfully added {} as a product'.format(generic_name))
 
         return redirect(reverse('dashboard:products'))
+
+
+class ProductDeleteView(LoginRequiredMixin, View):
+
+    def get_object(self):
+        return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        generic_name = request.GET.get('p')
+        product = Product.objects.get(generic_name=generic_name)
+        AdministratorProducts.objects.get(admin__user=self.request.user, product=product).delete()
+        messages.success(request, '{} product deleted'.format(product))
+
+        return redirect(reverse('dashboard:products'))

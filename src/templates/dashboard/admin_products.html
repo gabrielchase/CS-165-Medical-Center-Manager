@@ -50,7 +50,7 @@
         <strong>{{ instance.product.manufacturer }}</strong>:
         {{ instance.price }} {{ instance.stock}} {{ instance.description}}
         <a href="{% url 'dashboard:products' %}?p={{ instance.product.generic_name }}">Edit</a> 
-        <a href="{% url 'dashboard:services-delete' %}?s={{ instance.service.name }}">Delete</a>
+        <a href="{% url 'dashboard:products-delete' %}?p={{ instance.product.generic_name }}">Delete</a>
     </li>
     {% endfor %}
 </ul>
