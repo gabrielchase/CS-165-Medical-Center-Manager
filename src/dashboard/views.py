@@ -10,9 +10,9 @@ from django.urls import reverse
 User = get_user_model()
 
 from users.models import (
-    AdministratorDetails, AdministratorServices, AdministratorProducts
+    AdministratorDetails, AdministratorServices, AdministratorProducts, 
 )
-from dashboard.models import Service
+from dashboard.models import (Service, Product)
 
 
 class DashboardHome(LoginRequiredMixin, TemplateView):
@@ -20,9 +20,8 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardHome, self).get_context_data(**kwargs)
-        self_admin = AdministratorDetails.objects.get(user=self.request.user)
-        my_services = AdministratorServices.objects.filter(admin=self_admin)
-        my_products = AdministratorProducts.objects.filter(admin=self_admin)
+        my_services = AdministratorServices.objects.filter(admin__user=self.request.user)
+        my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
         
         context = {
             'user': self.request.user,
@@ -125,3 +124,71 @@ class ServiceDeleteView(LoginRequiredMixin, View):
         messages.success(request, '{} service deleted'.format(service))
 
         return redirect(reverse('dashboard:services'))
+
+
+class ProductView(LoginRequiredMixin, View):
+    template_name = 'dashboard/admin_products.html'
+
+    def get_object(self):
+        return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.all()
+        my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
+        p_query = request.GET.get('p')
+        
+        context = {
+            'user': self.request.user,
+            'products': products,
+            'my_products': my_products
+        }
+
+        if p_query:
+            print(p_query)
+            current_product = Product.objects.get(generic_name=p_query)
+            edit_product = AdministratorProducts.objects.get(admin__user=self.request.user, product=current_product)
+
+            print(edit_product)
+
+            context['edit_product'] = edit_product
+
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        generic_name, brand_name = request.POST.get('product').split(' - ')
+        price = request.POST.get('price')
+        stock = request.POST.get('stock')
+        description = request.POST.get('description')
+
+        self_admin_instance = get_object_or_404(AdministratorDetails, user=self.request.user)
+        product = None
+
+        try:
+            product = Product.objects.get(generic_name=generic_name)
+        except Product.DoesNotExist:
+            messages.error(request, 'Product does not exist'.format(name))
+            return redirect(reverse('dashboard:products'))
+
+        try:
+             product = AdministratorProducts.objects.get(admin__user=self.request.user, product=product)
+
+             """ If service with given admin and service exist, update current values"""
+
+             product.price = price
+             product.stock = stock
+             product.description = description
+             product.save()
+             messages.success(request, 'Updated {} as a product.'.format(generic_name))
+        except AdministratorProduct.DoesNotExist:
+            """ If service with given admin does not exist, create a new AdministratorService """
+
+            AdministratorProducts.objects.create(
+                admin=self_admin_instance,
+                product=product,
+                price=price,
+                stock=stock,
+                description=description
+            )
+            messages.success(request, 'Successfully added {} as a product'.format(generic_name))
+
+        return redirect(reverse('dashboard:products'))
