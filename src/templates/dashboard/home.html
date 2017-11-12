@@ -19,7 +19,7 @@
 </ul>
 
 <h1>Products Offered</h1>
-<a href="">Manage Products</a>
+<a href="{% url 'dashboard:products' %}">Manage Products</a>
 <ul>
     {% for instance in my_products %}
         <li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
