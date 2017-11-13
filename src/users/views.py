@@ -50,8 +50,6 @@ class RegistrationView(View):
 
         password = request.POST.get('password')
 
-        print('Registering {} as a {} user'.format(email, user_type))
-
         try:
             if user_type == 'regular':
                 new_instance = User.objects.create_user(
@@ -75,8 +73,6 @@ class RegistrationView(View):
                     additional_info=additional_info,
                     password=password
                 )    
-
-            print('new_instance: {}'.format(new_instance.__dict__))
             
             context = {
                 'user_type': user_type,
@@ -101,19 +97,13 @@ class LoginView(TemplateView):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        print('authenticating {}'.format(email))
         user = authenticate(request, username=email, password=password)
             
         if user is not None:
-            print('authenticated')
             login(request, user)
-            print('{} has logged in'.format(user))
-
             return redirect(reverse('dashboard:home'))
         else:
-            print('error in authenticating')
             messages.error(request, 'Login failed')
-            
             return self.get(request)
 
 
@@ -167,11 +157,8 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
         password = request.POST.get('password')
 
         user = get_object_or_404(User, email=email)
-        print('got {}'.format(user))
 
         if user.check_password(password):
-            print('password is good. updating {}'.format(user))
-            
             user.username = username
             user.email = email
             user.mobile_number = mobile_number
