@@ -147,3 +147,15 @@ class AdministratorProducts(models.Model):
 
     def __str__(self):
         return '{}-{}'.format(self.admin, self.product)
+
+
+class Feedback(models.Model):
+    
+    feedback_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(BaseUser, on_delete=models.CASCADE)
+    admin = models.ForeignKey(AdministratorDetails, on_delete=models.CASCADE)
+    rating = models.IntegerField(null=False)
+    comment = models.TextField()
+
+    def __str__(self):
+        return '{} to {} ({}): {}'.format(self.user, self.admin, self.rating, self.comment)
