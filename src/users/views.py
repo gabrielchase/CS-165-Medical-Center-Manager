@@ -133,11 +133,16 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
         slug = self.kwargs.get('slug')
+        fid = self.request.GET.get('fid')
         user_viewed = User.objects.get(slug=slug)
+
         context['current_user'] = self.request.user
         context['feedback'] = Feedback.objects.filter(admin__user=user_viewed)
+        
+        if fid:
+            context['current_feedback'] = Feedback.objects.get(feedback_id=fid)
+        
         return context
-
 
 class UserUpdateView(LoginRequiredMixin, DetailView):
     model = User
@@ -210,19 +215,27 @@ class FeedbackView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         slug = kwargs.get('slug')
+        fid = request.POST.get('feedback_id')
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
         admin = AdministratorDetails.objects.get(user__slug=slug)
         
         try: 
-            Feedback.objects.create(
-                user=self.request.user,
-                admin=admin,
-                rating=rating,
-                comment=comment
-            )
-            messages.success(request, 'Successfully added comment')
+            if fid:
+                current_feedback = Feedback.objects.get(feedback_id=fid)
+                current_feedback.rating = rating
+                current_feedback.comment = comment 
+                current_feedback.save()
+                messages.success(request, 'Successfully edited comment')
+            else:
+                Feedback.objects.create(
+                    user=self.request.user,
+                    admin=admin,
+                    rating=rating,
+                    comment=comment
+                )
+                messages.success(request, 'Successfully added comment')
         except:
-            messages.error(request, 'There was an error in adding your comment')
+            messages.error(request, 'An error occured with your comment')
 
         return redirect(reverse('users:detail', kwargs={'slug': slug}))
