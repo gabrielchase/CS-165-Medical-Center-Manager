@@ -130,6 +130,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     template_name = 'users/user.html'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        return context
+
 
 class UserUpdateView(LoginRequiredMixin, DetailView):
     model = User

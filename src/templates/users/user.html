@@ -18,9 +18,13 @@
         <h1>Services</h1>
         <ul></ul>
         {% for service in object.administratordetails.services.all %}
-            <li> {{ service.name }}: {{ service.description }}</li>
+            <li> {{ service.name }} </li>
         {% endfor %}
     {% endif%}
+
+    {% if not current_user.is_admin %}
+        <p> {{ current_user }} is not an admin </p>
+    {% endif %}
 </div>
 
 {% endblock %}
