@@ -187,13 +187,13 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
                 user.administratordetails.staff = staff
                 user.administratordetails.additional_info = additional_info
                 user.administratordetails.save()
-            except:
-                pass
 
-            user.save()
-            messages.success(request, 'Successfully updated your profile')
+                user.save()
+                messages.success(request, 'Successfully updated your profile')
+            except:
+                messages.error(request, 'There was a problem with updating your profile')
         else:
-            messages.error(request, 'There was a problem with updating your profile')
+            messages.error(request, 'There was a problem verifying your profile')
 
         return redirect(reverse('users:update'))
 
