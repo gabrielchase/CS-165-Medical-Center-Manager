@@ -24,7 +24,7 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
         my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
         
         context = {
-            'user': self.request.user,
+            'current_user': self.request.user,
             'my_services': my_services,
             'my_products': my_products
         }
