@@ -193,7 +193,7 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
         return redirect(reverse('users:update'))
 
 
-class FeedbackCreateView(LoginRequiredMixin, View):
+class FeedbackView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         slug = kwargs.get('slug')

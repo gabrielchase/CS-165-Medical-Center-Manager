@@ -28,7 +28,7 @@
         <h1>Comments</h1>
         {% if not current_user.is_admin %}
             <p><strong>Add Comment</strong></p>
-            <form action="{% url 'users:feedback-create' slug=object.slug %}" method="POST">
+            <form action="{% url 'users:feedback' slug=object.slug %}" method="POST">
                 {% csrf_token %}
 
                 <label for="">Rating:</label>
