@@ -191,3 +191,25 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
             messages.error(request, 'There was a problem with updating your profile')
 
         return redirect(reverse('users:update'))
+
+
+class FeedbackCreateView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        slug = kwargs.get('slug')
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment')
+        admin = AdministratorDetails.objects.get(user__slug=slug)
+        
+        try: 
+            Feedback.objects.create(
+                user=self.request.user,
+                admin=admin,
+                rating=rating,
+                comment=comment
+            )
+            messages.success(request, 'Successfully added comment')
+        except:
+            messages.error(request, 'There was an error in adding your comment')
+
+        return redirect(reverse('users:detail', kwargs={'slug': slug}))
