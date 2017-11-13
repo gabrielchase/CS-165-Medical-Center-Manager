@@ -195,6 +195,19 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
 
 class FeedbackView(LoginRequiredMixin, View):
 
+    def get(self, request, *args, **kwargs):
+        fid = request.GET.get('fid')
+        slug = kwargs.get('slug')
+        feedback = Feedback.objects.get(feedback_id=fid)
+        
+        if feedback.user == self.request.user:
+            feedback.delete()
+            messages.success(request, 'Successfully deleted your comment')
+        else:
+            messages.error(request, 'Error in deleting your comment')
+        
+        return redirect(reverse('users:detail', kwargs={'slug': slug}))
+
     def post(self, request, *args, **kwargs):
         slug = kwargs.get('slug')
         rating = request.POST.get('rating')
