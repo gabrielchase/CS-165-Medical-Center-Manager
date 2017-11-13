@@ -17,14 +17,24 @@
 
         <h1>Services</h1>
         <ul></ul>
+        
         {% for service in object.administratordetails.services.all %}
             <li> {{ service.name }} </li>
         {% endfor %}
-    {% endif%}
 
-    {% if not current_user.is_admin %}
-        <p> {{ current_user }} is not an admin </p>
-    {% endif %}
+        <!-- If logged in user is not an admin and they are seeing an institution page,
+            they can put comments --> 
+
+        <h1>Comments</h1>
+        {% if not current_user.is_admin %}
+            {% for f in feedback %}
+                <p><strong>by {{ f.user.username}}</strong>: {{ f.rating }} stars </p>
+                <p>{{ f.comment }}</p>
+                <br>
+            {% endfor %}
+        {% endif %}
+        
+    {% endif%}
 </div>
 
 {% endblock %}

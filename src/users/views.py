@@ -11,7 +11,7 @@ from django.utils.text import slugify
 
 from dashboard.models import Service
 from users.models import (
-    AdministratorDetails, AdministratorServices 
+    Feedback, AdministratorDetails, AdministratorServices 
 )
 from medcentermanager import settings
 
@@ -132,7 +132,10 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
+        slug = self.kwargs.get('slug')
+        user_viewed = User.objects.get(slug=slug)
         context['current_user'] = self.request.user
+        context['feedback'] = Feedback.objects.filter(admin__user=user_viewed)
         return context
 
 
