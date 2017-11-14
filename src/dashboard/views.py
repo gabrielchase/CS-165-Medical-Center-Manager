@@ -41,12 +41,20 @@ class InstitutionList(LoginRequiredMixin, ListView):
 
         category = self.request.GET.get('c')
         location = self.request.GET.get('l')
+        service = self.request.GET.get('s')
+        product = self.request.GET.get('p')
 
         if category:
             institutions = institutions.filter(administratordetails__category=category)
         
         if location:
             institutions = institutions.filter(administratordetails__location__icontains=location)
+
+        if service:
+            institutions = institutions.filter(administratordetails__administratorservices__service=service)
+
+        if product:
+            institutions = institutions.filter(administratordetails__administratorproducts__product__generic_name__icontains=product)
 
         context['institutions'] = institutions
         return context
