@@ -23,11 +23,10 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
         my_services = AdministratorServices.objects.filter(admin__user=self.request.user)
         my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
         
-        context = {
-            'current_user': self.request.user,
-            'my_services': my_services,
-            'my_products': my_products
-        }
+        context['current_user'] =  self.request.user
+        context['my_services'] =  my_services
+        context['my_products'] =  my_products
+
         return context
 
 
@@ -57,6 +56,7 @@ class InstitutionList(LoginRequiredMixin, ListView):
             institutions = institutions.filter(administratordetails__administratorproducts__product__generic_name__icontains=product)
 
         context['institutions'] = institutions
+        
         return context
 
     
