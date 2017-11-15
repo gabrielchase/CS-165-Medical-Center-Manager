@@ -8,6 +8,7 @@ from django.contrib.auth import (get_user_model, authenticate, login, logout)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
+from django.core.exceptions import ObjectDoesNotExist
 
 from dashboard.models import Service
 from users.models import (
@@ -142,6 +143,7 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
         return self.request.user
 
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         username = request.POST.get('username')
         email = request.POST.get('email')
         mobile_number = request.POST.get('mobile_number') or None
@@ -159,13 +161,15 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
         user = get_object_or_404(User, email=email)
 
         if user.check_password(password):
-            user.username = username
-            user.email = email
-            user.mobile_number = mobile_number
-            user.landline_number = landline_number
-            user.slug = slugify(username)
-
+            print('password is good')
             try:
+                user.username = username
+                user.email = email
+                user.mobile_number = mobile_number
+                user.landline_number = landline_number
+                user.slug = slugify(username)
+                user.save()
+            
                 user.administratordetails.open_time = open_time
                 user.administratordetails.close_time = close_time
                 user.administratordetails.close_time = close_time
@@ -174,11 +178,11 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
                 user.administratordetails.staff = staff
                 user.administratordetails.additional_info = additional_info
                 user.administratordetails.save()
-
-                user.save()
-                messages.success(request, 'Successfully updated your profile')
+            except ObjectDoesNotExist:
+                pass 
             except:
-                messages.error(request, 'There was a problem with updating your profile')
+                messages.error(request, 'There was a problem in updating your profile')
+            messages.success(request, 'Successfully updated profile')
         else:
             messages.error(request, 'There was a problem verifying your profile')
 
