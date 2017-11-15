@@ -183,7 +183,7 @@ class ProductView(LoginRequiredMixin, View):
              product.description = description
              product.save()
              messages.success(request, 'Updated {} as a product.'.format(generic_name))
-        except AdministratorProduct.DoesNotExist:
+        except AdministratorProducts.DoesNotExist:
             """ If service with given admin does not exist, create a new AdministratorService """
 
             AdministratorProducts.objects.create(
