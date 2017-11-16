@@ -28,7 +28,7 @@
         {% if not current_user.is_admin %}
             <h1>Set An Appointment</h1>
             <p><strong>Make an Appointment</strong></p>
-            <form action="{% url 'appointments:create' slug=object.slug %}" method="POST">
+            <form action="{% url 'appointments:base' slug=object.slug %}" method="POST">
                 {% csrf_token %}
 
                 <label for="">Date</label>

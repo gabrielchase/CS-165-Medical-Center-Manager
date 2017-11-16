@@ -13,7 +13,10 @@ from dashboard.models import Service
 User = get_user_model()
 
 
-class AppointmentCreate(View):
+class AppointmentView(View):
+
+    def get(self, request, *args, **kwargs):
+        print(request.GET)
 
     def post(self, request, *args, **kwargs):
         if self.request.user.is_admin: 
