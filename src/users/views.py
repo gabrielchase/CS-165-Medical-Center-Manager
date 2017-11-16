@@ -140,6 +140,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
             user_viewed_appointments = Appointment.objects.filter(admin__user=user_viewed)
             taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in user_viewed_appointments ]
             context['available_appointment_timeslots'] = Timeslot.objects.exclude(timeslot_id__in=taken_appointment_timeslots_ids)
+            context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed)
         
         return context
 

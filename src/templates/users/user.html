@@ -26,6 +26,16 @@
             they can set up an appointment and CRUD comments --> 
 
         {% if not current_user.is_admin %}
+            {% if my_appointments_here %}
+                <h1>Your Appointments Here</h1>
+                <ul>
+                    {% for aptmt in my_appointments_here %}
+                        <li> {{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }} 
+                            <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Delete</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <h1>Set An Appointment</h1>
             <p><strong>Make an Appointment</strong></p>
             <form action="{% url 'appointments:base' slug=object.slug %}" method="POST">
