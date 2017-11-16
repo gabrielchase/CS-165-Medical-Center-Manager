@@ -25,11 +25,16 @@
         <!-- If logged in user is not an admin and they are seeing an institution page,
             they can set up an appointment and CRUD comments --> 
 
-        <h1>Set An Appointment</h1>
         {% if not current_user.is_admin %}
+            <h1>Set An Appointment</h1>
             <p><strong>Make an Appointment</strong></p>
-            <form action="" method="POST">
+            <form action="{% url 'appointments:create' slug=object.slug %}" method="POST">
                 {% csrf_token %}
+
+                <label for="">Date</label>
+                <input type="text" name="date">
+                <br>
+                <br>
 
                 <label for="">Timeslot: </label>
                 <select name="timeslot" id="">
