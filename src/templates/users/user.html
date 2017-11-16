@@ -23,10 +23,46 @@
         {% endfor %}
 
         <!-- If logged in user is not an admin and they are seeing an institution page,
-            they can put comments --> 
+            they can set up an appointment and CRUD comments --> 
 
-        <h1>Comments</h1>
+        <h1>Set An Appointment</h1>
         {% if not current_user.is_admin %}
+            <p><strong>Make an Appointment</strong></p>
+            <form action="" method="POST">
+                {% csrf_token %}
+
+                <label for="">Timeslot: </label>
+                <select name="timeslot" id="">
+                    <option value="none">--- Select ---</option>
+                    {% for aptmt in available_appointment_timeslots%}
+                        <option value="{{ aptmt.timeslot_id }}">{{ aptmt }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <br>
+
+                <label for="Service">Service: </label>
+                <select name="service" id="">
+                    <option value="none">--- Select ---</option>
+                    {% for service in object.administratordetails.services.all %}
+                        <option value="{{ service.name }}">{{ service.name }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <br>
+
+                <label for="">Additional Info:</label>
+                <br>
+                <br>
+                <textarea name="additional_info" id="" cols="30" rows="10" ></textarea>
+                <br>
+                <br>
+
+                <input type="submit" value="Submit" />                
+            </form>
+            <br>
+
+            <h1>Comments</h1>
             <p><strong>Add Comment</strong></p>
             <form action="{% url 'users:feedback' slug=object.slug %}" method="POST">
                 {% csrf_token %}
