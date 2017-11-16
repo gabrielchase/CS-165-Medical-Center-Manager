@@ -16,7 +16,18 @@ User = get_user_model()
 class AppointmentView(View):
 
     def get(self, request, *args, **kwargs):
-        print(request.GET)
+        aptmt_id = request.GET.get('aptmtid')
+        slug = kwargs.get('slug')
+        aptmt = Appointment.objects.get(appointment_id=aptmt_id)
+        admin_user = User.objects.get(slug=slug)
+
+        if aptmt.user == self.request.user and aptmt.admin.user == admin_user:
+            aptmt.delete()
+            messages.success(request, 'Successfully deleted your appointment')
+        else:
+            messages.error(request, 'Error in deleting your appointment')
+            
+        return redirect(reverse('users:detail', kwargs={'slug': slug}))
 
     def post(self, request, *args, **kwargs):
         if self.request.user.is_admin: 
