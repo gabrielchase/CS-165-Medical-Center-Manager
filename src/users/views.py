@@ -14,6 +14,9 @@ from dashboard.models import Service
 from users.models import (
     Feedback, AdministratorDetails, AdministratorServices 
 )
+from appointments.models import (
+    Timeslot, Appointment
+)
 from medcentermanager import settings
 
 User = get_user_model()
@@ -132,6 +135,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         
         if fid:
             context['current_feedback'] = Feedback.objects.get(feedback_id=fid)
+
+        if user_viewed.is_admin:
+            user_viewed_appointments = Appointment.objects.filter(admin__user=user_viewed)
+            taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in user_viewed_appointments ]
+            context['available_appointment_timeslots'] = Timeslot.objects.exclude(timeslot_id__in=taken_appointment_timeslots_ids)
         
         return context
 
