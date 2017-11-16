@@ -2,35 +2,42 @@
 
 {% block user_fields %}
 
-<label for="open_time">Opening Time: </label>
-<input type="text" name="open_time" />
-<br>
-<br>
+<div class="two fields">
+	<div class="field">
+		<label for="open_time">Opening Time: </label>
+		<input type="text" name="open_time" placeholder="Opening Time"/>
+	</div>
 
-<label for="close_time">Closing Time: </label>
-<input type="text" name="close_time" />
-<br>
-<br>
+	<div class="field">
+		<label for="close_time">Closing Time: </label>
+		<input type="text" name="close_time" placeholder="Closing Time" />
+	</div>
+</div>
 
-<label for="location">Location: </label>
-<input type="text" name="location" />
-<br>
-<br>
+<div class="field">
+	<label for="location">Location: </label>
+	<input type="text" name="location" placeholder="Street, Barangay, City/Province" />
+</div>
 
-<label for="category">Category: </label>
-<input type="text" name="category" required />
-<br>
-<br>
+<div class="field">
+	<label for="category">Category: </label>
+	<select name="category" required>
+		<option value="none">--- Select ---</option>
+		<option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
+		<option value="Testing Hub">Testing Hub</option>
+		<option value="Treatment Center">Treatment Center</option>
+	</select>
+</div>
 
-<label for="staff">Staff: </label>
-<textarea name="staff" ></textarea>
-<br>
-<br>
+<div class="field">
+	<label for="staff">Staff: </label>
+	<textarea name="staff" placeholder="Staff Members' Names"></textarea>
+</div>
 
-<label for="additional_info">Additional Information: </label>
-<textarea name="additional_info" ></textarea>
-<br>
-<br>
+<div class="field">
+	<label for="additional_info">Additional Information: </label>
+	<textarea name="additional_info" ></textarea>
+</div>
 
 
 {% endblock %}
