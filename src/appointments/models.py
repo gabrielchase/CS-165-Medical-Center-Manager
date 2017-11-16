@@ -26,6 +26,7 @@ class Appointment(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     status = models.CharField(max_length=255, default='Pending')
+    additional_info = models.TextField()
 
     def __str__(self):
         return '{} for {} at {} from {} on {}'.format(self.service, self.user, self.admin, self.timeslot, self.date)
