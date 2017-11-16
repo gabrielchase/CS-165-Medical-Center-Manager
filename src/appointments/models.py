@@ -20,12 +20,12 @@ class Timeslot(models.Model):
 class Appointment(models.Model):
 
     appointment_id = models.AutoField(primary_key=True)
-    timeslot = models.ForeignKey(Timeslot, on_delete=models.CASCADE, unique=True)
-    date = models.DateField(auto_now=False, auto_now_add=False, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
-    admin = models.ForeignKey(AdministratorDetails, on_delete=models.CASCADE, unique=True)
+    timeslot = models.ForeignKey(Timeslot, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    admin = models.ForeignKey(AdministratorDetails, on_delete=models.CASCADE)
+    date = models.DateField(auto_now=False, auto_now_add=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     status = models.CharField(max_length=255, default='Pending')
 
     def __str__(self):
-        return '{} for {} at {} from {}'.format(self.service, self.user, self.admin, self.timeslot)
+        return '{} for {} at {} from {} on {}'.format(self.service, self.user, self.admin, self.timeslot, self.date)
