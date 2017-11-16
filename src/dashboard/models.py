@@ -13,8 +13,8 @@ class Service(models.Model):
 class Product(models.Model):
     
     product_id = models.AutoField(primary_key=True)
-    generic_name = models.CharField(max_length=255, unique=True, null=False)
-    brand_name = models.CharField(max_length=255, unique=True, null=False)
+    generic_name = models.CharField(max_length=255, null=False)
+    brand_name = models.CharField(max_length=255, null=False)
     manufacturer = models.CharField(max_length=255, null=True)
 
     def __str__(self):
