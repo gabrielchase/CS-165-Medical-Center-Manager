@@ -31,6 +31,13 @@
                     
                     <input type="submit" value="Login" class="ui blue button"/>
                 </form>
+                <br>
+                <h4>No account? Register now!</h4>
+                <div class="ui buttons">
+                  <input type="submit" value="Admin" class="ui button" onclick="location.href='{% url 'registration' user_type='administrator' %}'"/>
+                  <div class="or"></div>
+                  <input type="submit" value="Regular" class="ui positive button" onclick="location.href='{% url 'registration' user_type='regular' %}'"/>
+                </div>
             </div>
             {% endblock %}
         </div>
