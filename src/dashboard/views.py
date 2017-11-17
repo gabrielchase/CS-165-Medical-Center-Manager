@@ -151,14 +151,18 @@ class ProductView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
+        p_query = request.GET.get('p')
+        
         products = Product.objects.all()
         my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
-        p_query = request.GET.get('p')
+        my_product_ids = [ inst.product.product_id for inst in my_products ]
+        other_products = Product.objects.exclude(product_id__in=my_product_ids)
         
         context = {
             'user': self.request.user,
             'products': products,
-            'my_products': my_products
+            'my_products': my_products,
+            'other_products': other_products
         }
 
         if p_query:

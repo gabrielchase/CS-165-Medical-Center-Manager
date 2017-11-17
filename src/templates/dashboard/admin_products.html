@@ -18,8 +18,8 @@
             <option value="none">--- Select ---</option>
         {% endif%}
 
-        {% for product in products %}
-            <option value="{{ product.generic_name }} - {{ product.brand_name }}">{{ product.generic_name }} - {{ product.brand_name }}</option>
+        {% for product in other_products %}
+            <option value="{{ product.generic_name }} - {{ product.brand_name }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
         {% endfor %}
     </select>
     <br>
