@@ -73,14 +73,18 @@ class ServiceView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
+        s_query = request.GET.get('s')
+
         services = Service.objects.all()
         my_services =  AdministratorServices.objects.filter(admin__user=self.request.user)
-        s_query = request.GET.get('s')
+        my_services_names = [ inst.service.name for inst in my_services ]
+        other_services = Service.objects.exclude(name__in=my_services_names)
         
         context = {
             'user': self.request.user,
             'services': services,
-            'my_services': my_services
+            'my_services': my_services,
+            'other_services': other_services
         }
 
         if s_query:
