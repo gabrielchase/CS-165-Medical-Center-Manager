@@ -6,8 +6,17 @@
 <form action="{% url 'dashboard:services' %}" method="POST">
     {% csrf_token %}
 
-    <label for="">Name: </label>
-    <input type="text" name="name" {% if edit_service %} value="{{ edit_service.service.name }}" {% endif %} required>
+    <label for="Service">Service: </label>
+    <select name="name" id="">
+        {% if edit_service %} 
+            <option value="{{ edit_service.service.name }}">{{ edit_service.service.name }}</option>
+        {% else %}
+            <option value="none">--- Select ---</option>
+        {% endif %}
+        {% for service in other_services %}
+            <option value="{{ service.name }}">{{ service.name }}</option>
+        {% endfor %}
+    </select>
     <br>
     <br>
 
