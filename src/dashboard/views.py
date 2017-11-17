@@ -13,6 +13,7 @@ from users.models import (
     AdministratorDetails, AdministratorServices, AdministratorProducts, 
 )
 from dashboard.models import (Service, Product)
+from appointments.models import Appointment
 
 
 class DashboardHome(LoginRequiredMixin, TemplateView):
@@ -20,12 +21,17 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardHome, self).get_context_data(**kwargs)
-        my_services = AdministratorServices.objects.filter(admin__user=self.request.user)
-        my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
-        
-        context['current_user'] =  self.request.user
-        context['my_services'] =  my_services
-        context['my_products'] =  my_products
+        context['current_user'] = self.request.user
+
+        if self.request.user.is_admin:
+            context['appointments'] = Appointment.objects.filter(admin__user=self.request.user, status='Accepted')
+            context['pending_appointments'] = Appointment.objects.filter(admin__user=self.request.user, status='Pending')
+        else:
+            context['appointments'] = Appointment.objects.filter(user=self.request.user, status='Accepted')
+            context['pending_appointments'] = Appointment.objects.filter(user=self.request.user, status='Pending')
+
+        context['my_services'] = AdministratorServices.objects.filter(admin__user=self.request.user)
+        context['my_products'] = AdministratorProducts.objects.filter(admin__user=self.request.user)
 
         return context
 

@@ -10,23 +10,39 @@
     You are {% if current_user.is_admin %} an admin {% elif not current_user.is_admin %}a regular user {% endif %}
 </strong></p>
 
-{% if user.is_admin %}
-<h1>Services Offered</h1>
-<a href="{% url 'dashboard:services' %}">Manage Services</a>
+<h1>Scheduled Appointments</h1>
 <ul>
-{% for instance in my_services %}
-    <li>{{ instance.service.name }}: {{ instance.price }} </li>
-{% endfor %}
+    {% for aptmt in appointments %}
+        <li> {{ aptmt }} </li>
+    {% endfor %}
 </ul>
-
-<h1>Products Offered</h1>
-<a href="{% url 'dashboard:products' %}">Manage Products</a>
+<h1>Pending Appointments</h1>
 <ul>
-    {% for instance in my_products %}
-        <li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
-            {{ instance.price }} {{ instance.stock }} {{ instance.description }}
+    {% for aptmt in pending_appointments %}
+        <li>
+            {{ aptmt }} {% if current_user.is_admin %} <a href="">Accept</a> <a href="">Delete</a> {% endif %}
         </li>
     {% endfor %}
 </ul>
+
+{% if user.is_admin %}
+    <h1>Services Offered</h1>
+    <a href="{% url 'dashboard:services' %}">Manage Services</a>
+    <ul>
+    {% for instance in my_services %}
+        <li>{{ instance.service.name }}: {{ instance.price }} </li>
+    {% endfor %}
+    </ul>
+
+    <h1>Products Offered</h1>
+    <a href="{% url 'dashboard:products' %}">Manage Products</a>
+    <ul>
+        {% for instance in my_products %}
+            <li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
+                {{ instance.price }} {{ instance.stock }} {{ instance.description }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endif %}
+
 {% endblock %}

@@ -32,7 +32,7 @@
                     {% for aptmt in my_appointments_here %}
                         <li> {{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }} 
                             <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Delete</a>
-                    </li>
+                        </li>
                     {% endfor %}
                 </ul>
             {% endif %}
