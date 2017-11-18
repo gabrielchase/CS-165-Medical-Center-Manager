@@ -1,70 +1,94 @@
-{% extends "base.html" %}
+<div class="ui grid container center aligned" style="margin-top: 100px">
+    <div class="three column row">
+        <div class="column"></div>
+        <div class="eleven wide column">         
 
-{% block content %}
-<div>
-    <h1>Edit Profile</h1>
-    <form action={% url 'users:update' %} method="POST">
-        {% csrf_token %}
+            {% extends "base.html" %}
 
-        <label for="username">Username: </label>
-        <input type="text" name="username" value="{{ object.username }}"  />
-        <br>
-        <br>   
+            {% block content %}
+            <div class="ui stacked segment">
+                <h1>Edit Profile</h1>
+                <form class="ui form" action={% url 'users:update' %} method="POST">
+                    {% csrf_token %}
 
-        <label for="email">Email: </label>
-        <input type="text" name="email" value="{{ object.email }}" />
-        <br>
-        <br>
-        
-        <label for="mobile_number">Mobile Number: </label>
-        <input type="text" name="mobile_number" {% if object.mobile_number %} value="{{ object.mobile_number }}" {% endif %}  />
-        <br>
-        <br>
-        
-        <label for="landline_number">Landline Number: </label>
-        <input type="text" name="landline_number" {% if object.landline_number %} value="{{ object.landline_number }}" {% endif %}  />
-        <br>
-        <br>
+                    <div class="field">
+                        <label for="username">Username: </label>
+                        <input type="text" name="username" value="{{ object.username }}"  />
+                    </div>
 
-        {% if object.administratordetails %}
-            <label for="open_time">Open Time: </label>
-            <input type="text" name="open_time" {% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %} />
-            <br>
-            <br>
+                    <div class="field">
+                        <label for="email">Email: </label>
+                        <input type="text" name="email" value="{{ object.email }}" />
+                    </div>
 
-            <label for="close_time">Close Time: </label>
-            <input type="text" name="close_time" {% if object.administratordetails.close_time %} value="{{ object.administratordetails.close_time }}" {% endif %} />
-            <br>
-            <br>
+                    <div class="two fields">
+                        <div class="field">
+                            <label for="mobile_number">Mobile Number: </label>
+                            <input type="text" name="mobile_number" {% if object.mobile_number %} value="{{ object.mobile_number }}" {% endif %}  />
+                        </div>
 
-            <label for="location">Location: </label>
-            <input type="text" name="location" {% if object.administratordetails.location %} value="{{ object.administratordetails.location }}" {% endif %} />
-            <br>
-            <br>
+                        <div class="field">    
+                            <label for="landline_number">Landline Number: </label>
+                            <input type="text" name="landline_number" {% if object.landline_number %} value="{{ object.landline_number }}" {% endif %}  />
+                        </div>
+                    </div>
 
-            <label for="category">Category: </label>
-            <input type="text" name="category" {% if object.administratordetails.category %} value="{{ object.administratordetails.category }}" {% endif %} />
-            <br>
-            <br>
 
-            <label for="staff">Staff: </label>
-            <input type="text" name="staff" {% if object.administratordetails.staff %} value="{{ object.administratordetails.staff }}" {% endif %} />
-            <br>
-            <br>
+                    {% if object.administratordetails %}
+                        <div class="two fields">
+                            <div class="field">
+                                <label for="open_time">Open Time: </label>
+                                <input type="text" name="open_time" {% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %} />
+                            </div>
 
-            <label for="additional_info">Additional Information: </label>
-            <input type="text" name="additional_info" {% if object.administratordetails.additional_info %} value="{{ object.administratordetails.additional_info }}" {% endif %} />
-            <br>
-            <br>
-        {% endif%}
-        
-        <label for="password">Type password to confirm changes: </label>
-        <input type="password" name="password" value="password" />
-        <br>
-        <br>
-        
-        <input type="submit" value="Edit" />
-    </form>
+                            <div class="field">
+                                <label for="close_time">Close Time: </label>
+                                <input type="text" name="close_time" {% if object.administratordetails.close_time %} value="{{ object.administratordetails.close_time }}" {% endif %} />
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="location">Location: </label>
+                            <input type="text" name="location" {% if object.administratordetails.location %} value="{{ object.administratordetails.location }}" {% endif %} />
+                        </div>
+
+                        <div class="field">
+                            <label for="category">Category: </label>
+                            <!-- <input type="text" name="category" {% if object.administratordetails.category %} value="{{ object.administratordetails.category }}" {% endif %} /> -->
+                            <select name="category" id="" required>
+                                {% if object.administratordetails.category %}
+                                    <option value="{{ object.administratordetails.category }}">{{ object.administratordetails.category }}</option>
+                                {% else %}
+                                    <option value="none">--- Select ---</option>
+                                {% endif %}
+                                <option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
+                                <option value="Testing Hub">Testing Hub</option>
+                                <option value="Treatment Center">Treatment Center</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="staff">Staff: </label>
+                            <input type="text" name="staff" {% if object.administratordetails.staff %} value="{{ object.administratordetails.staff }}" {% endif %} />
+                        </div>
+
+                        <div class="field">
+                            <label for="additional_info">Additional Information: </label>
+                            <input type="text" name="additional_info" {% if object.administratordetails.additional_info %} value="{{ object.administratordetails.additional_info }}" {% endif %} />
+                        </div>
+                    {% endif%}
+                    
+                    <div class="field">
+                        <label for="password">Type password to confirm changes: </label>
+                        <input type="password" name="password" />
+                    </div>
+                    
+                    <input type="submit" value="Save" class="ui blue button" />
+                </form>
+            </div>
+
+            {% endblock %}
+        </div>
+        <div class="column"></div>
+    </div>
 </div>
-
-{% endblock %}

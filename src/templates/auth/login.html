@@ -1,24 +1,47 @@
-{% extends "base.html" %}
+<div class="ui grid container center aligned" style="margin-top: 200px">
+    <div class="three column row">
+        <div class="column"></div>
+        <div class="eleven wide column">           
 
-{% block content %}
-<div>
-    <h1>Login</h1>
+            {% extends "base.html" %}
 
-    <form action={% url 'login' %} method="POST">
-        {% csrf_token %}
+            {% block content %}
 
-        <label for="email">Email: </label>
-        <input type="text" name="email" required />
-        <br>
-        <br>
-        
-        <label for="password">Password: </label>
-        <input type="password" name="password" required />
-        <br>
-        <br>
-        
-        <input type="submit" value="Login" />
-    </form>
+            <div class="ui stacked segment">
+                <h1>Login</h1>
+
+                <form class="ui form" action={% url 'login' %} method="POST">
+                    {% csrf_token %}
+
+                    <div class="field">
+                        <label for="email">Email: </label>
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="email" placeholder="Email" required />
+                        </div>
+                    </div>
+                        
+                    <div class="field">
+                        <label for="password">Password: </label>
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="Password" required />
+                        </div>
+                    </div>
+                    
+                    <input type="submit" value="Login" class="ui blue button"/>
+                </form>
+                <br>
+                <h4>No account? Register now!</h4>
+                <div class="ui buttons">
+                  <input type="submit" value="Admin" class="ui button" onclick="location.href='{% url 'registration' user_type='administrator' %}'"/>
+                  <div class="or"></div>
+                  <input type="submit" value="Regular" class="ui positive button" onclick="location.href='{% url 'registration' user_type='regular' %}'"/>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+        <div class="column"></div>
+    </div>
 </div>
 
-{% endblock %}

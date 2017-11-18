@@ -1,46 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="ui grid container center aligned" style="margin-top: 100px">
+    <div class="two column row">
+        <div class="column">
+            <div class="ui stacked segment">
+                <h1>Add or Update a Service</h1>
+                <form class="ui form" action="{% url 'dashboard:services' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label for="Service">Service: </label>
+                        <select name="name" id="">
+                            {% if edit_service %} 
+                                <option value="{{ edit_service.service.name }}">{{ edit_service.service.name }}</option>
+                            {% else %}
+                                <option value="none">--- Select ---</option>
+                            {% endif %}
+                            {% for service in other_services %}
+                                <option value="{{ service.name }}">{{ service.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="">Description:</label>
+                        <input type="text" name="description" {% if edit_service.description %} value="{{ edit_service.description }}" {% endif %}>
+                    </div>
+                    <div class="field">
+                        <label for="">Price:</label>
+                        <input type="number" step="0.01" name="price" {% if edit_service %} value="{{ edit_service.price }}" {% endif %} required>
+                    </div>
+                    <input type="submit" value="Submit" class="ui blue button"/>
+                </form>
+            </div>
+        </div>
 
-<h1>Add or Update a Service</h1>
-<form action="{% url 'dashboard:services' %}" method="POST">
-    {% csrf_token %}
-
-    <label for="Service">Service: </label>
-    <select name="name" id="">
-        {% if edit_service %} 
-            <option value="{{ edit_service.service.name }}">{{ edit_service.service.name }}</option>
-        {% else %}
-            <option value="none">--- Select ---</option>
-        {% endif %}
-        {% for service in other_services %}
-            <option value="{{ service.name }}">{{ service.name }}</option>
-        {% endfor %}
-    </select>
-    <br>
-    <br>
-
-    <label for="">Description:</label>
-    <input type="text" name="description" {% if edit_service.description %} value="{{ edit_service.description }}" {% endif %}>
-    <br>
-    <br>
-    
-    <label for="">Price:</label>
-    <input type="number" step="0.01" name="price" {% if edit_service %} value="{{ edit_service.price }}" {% endif %} required>
-    <br>
-    <br>
-
-    <input type="submit" value="Submit" />
-</form>
-
-<h1>My Services</h1>
-<ul>
-{% for instance in my_services %}
-    <li>{{ instance.service.name }}: {{ instance.description }} <strong>{{ instance.price }}</strong> 
-        <a href="{% url 'dashboard:services' %}?s={{ instance.service.name }}">Edit</a> 
-        <a href="{% url 'dashboard:services-delete' %}?s={{ instance.service.name }}">Delete</a>
-    </li>
-{% endfor %}
-</ul>
+        <div class="column">
+            <div class="ui basic segment">
+                <h1>My Services</h1>
+                <ul>
+                {% for instance in my_services %}
+                    <li>{{ instance.service.name }}: {{ instance.description }} <strong>{{ instance.price }}</strong> 
+                        <a href="{% url 'dashboard:services' %}?s={{ instance.service.name }}">Edit</a> 
+                        <a href="{% url 'dashboard:services-delete' %}?s={{ instance.service.name }}">Delete</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
