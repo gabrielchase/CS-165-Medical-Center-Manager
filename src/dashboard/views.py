@@ -13,6 +13,7 @@ from users.models import (
     AdministratorDetails, AdministratorServices, AdministratorProducts, 
 )
 from dashboard.models import (Service, Product)
+from appointments.models import Appointment
 
 
 class DashboardHome(LoginRequiredMixin, TemplateView):
@@ -20,12 +21,17 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardHome, self).get_context_data(**kwargs)
-        my_services = AdministratorServices.objects.filter(admin__user=self.request.user)
-        my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
-        
-        context['current_user'] =  self.request.user
-        context['my_services'] =  my_services
-        context['my_products'] =  my_products
+        context['current_user'] = self.request.user
+
+        if self.request.user.is_admin:
+            context['appointments'] = Appointment.objects.filter(admin__user=self.request.user, status='Accepted')
+            context['pending_appointments'] = Appointment.objects.filter(admin__user=self.request.user, status='Pending')
+        else:
+            context['appointments'] = Appointment.objects.filter(user=self.request.user, status='Accepted')
+            context['pending_appointments'] = Appointment.objects.filter(user=self.request.user, status='Pending')
+
+        context['my_services'] = AdministratorServices.objects.filter(admin__user=self.request.user)
+        context['my_products'] = AdministratorProducts.objects.filter(admin__user=self.request.user)
 
         return context
 
@@ -67,14 +73,18 @@ class ServiceView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
+        s_query = request.GET.get('s')
+
         services = Service.objects.all()
         my_services =  AdministratorServices.objects.filter(admin__user=self.request.user)
-        s_query = request.GET.get('s')
+        my_services_names = [ inst.service.name for inst in my_services ]
+        other_services = Service.objects.exclude(name__in=my_services_names)
         
         context = {
             'user': self.request.user,
             'services': services,
-            'my_services': my_services
+            'my_services': my_services,
+            'other_services': other_services
         }
 
         if s_query:
@@ -141,14 +151,18 @@ class ProductView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
+        p_query = request.GET.get('p')
+        
         products = Product.objects.all()
         my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
-        p_query = request.GET.get('p')
+        my_product_ids = [ inst.product.product_id for inst in my_products ]
+        other_products = Product.objects.exclude(product_id__in=my_product_ids)
         
         context = {
             'user': self.request.user,
             'products': products,
-            'my_products': my_products
+            'my_products': my_products,
+            'other_products': other_products
         }
 
         if p_query:

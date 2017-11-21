@@ -1,47 +1,57 @@
-{% extends "base.html" %}
+<div class="ui grid container center aligned" style="margin-top: 100px">
+    <div class="three column row">
+        <div class="column"></div>
+        <div class="eleven wide column">            
+            {% extends "base.html" %}
 
-{% block content %}
-<div>
-    <h1>Register {% if user_type == 'administrator' %} Your Institution {% endif %}</h1>
+            {% block content %}
 
-    <form action={% url 'registration' user_type=user_type%} method="POST">
-        {% csrf_token %}
+            <div class="ui stacked segment">
+                <h1>Register {% if user_type == 'administrator' %} Your Institution {% endif %}</h1>
+                <form class="ui form" action={% url 'registration' user_type=user_type%} method="POST">
+                    {% csrf_token %}
 
-        {% if user_type == 'regular' %}
-            <label for="username">Username: </label>
-        {% elif user_type == 'administrator' %}
-            <label for="username">Institution Name: </label>
-        {% endif %}
-        <input type="text" name="username" required/>
-        <br>
-        <br>   
+                    <div class="field">
+                        {% if user_type == 'regular' %}
+                            <label for="username">Username: </label>
+                        {% elif user_type == 'administrator' %}
+                            <label for="username">Institution Name: </label>
+                        {% endif %}
+                        <input type="text" name="username" placeholder="Username" required/>
+                    </div>  
 
-        <label for="email">Email: </label>
-        <input type="text" name="email" required/>
-        <br>
-        <br>
+                    <div class="field">
+                        <label for="email">Email: </label>
+                        <input type="text" name="email" placeholder="Email" required/>
+                    </div>
 
-        <label for="password">Password: </label>
-        <input type="password" name="password" required/>
-        <br>
-        <br>
-        
-        <label for="mobile_number">Mobile Number: </label>
-        <input type="text" name="mobile_number" />
-        <br>
-        <br>
-        
-        <label for="landline_number">Landline Number: </label>
-        <input type="text" name="landline_number" />
-        <br>
-        <br>
-        
+                    <div class="field">
+                        <label for="password">Password: </label>
+                        <input type="password" name="password" placeholder="Password" required/>
+                    </div>
+                    
+                    <div class="two fields">
+                        <div class="field">
+                            <label for="mobile_number">Mobile Number: </label>
+                            <input type="text" name="mobile_number" placeholder="Mobile Number"/>
+                        </div>
+                        
+                        <div class="field">
+                            <label for="landline_number">Landline Number: </label>
+                            <input type="text" name="landline_number" placeholder="Landline Number" />
+                        </div>
+                    </div>
+                    
 
-        {% block user_fields %}
-        {% endblock user_fields %} 
-        
-        <input type="submit" value="Register" />
-    </form>
+                    {% block user_fields %}
+                    {% endblock user_fields %} 
+                    
+                    <input type="submit" value="Register" class="ui blue button"/>
+                </form>
+            </div>
+            {% endblock %}
+        </div>
+        <div class="column"></div>
+    </div>
 </div>
 
-{% endblock %}

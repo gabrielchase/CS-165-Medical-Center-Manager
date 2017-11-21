@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users',
-    'dashboard'
+    'dashboard',
+    'appointments'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -131,8 +132,6 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 
 AUTH_USER_MODEL = 'users.BaseUser'
-
-# AUTHENTICATION_BACKENDS = ['users.backends.CustomAuthBackend']
 
 # LOGGING = {
 #     'version': 1,

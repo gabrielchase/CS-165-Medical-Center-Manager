@@ -19,10 +19,6 @@ class BaseUserManager(BaseUserManager):
         Creates and saves a RegularUser with given information and hashed password
         """
 
-        # print('-----------')
-        # print('Creating {} with email address: {}\nadmin: {}'.format(username, email, is_admin))
-        # print('-----------')
-
         if not email or not username:
             raise ValueError('Users must have an email address')
         
@@ -84,10 +80,7 @@ class AdministratorDetailsManager(models.Manager):
         if not email or not username:
             raise ValueError('Administrators must have an email address')
 
-        print('creating user')
         user = BaseUser.objects.create_user(username, email, mobile_number, landline_number, True, password=password)
-        print(user)
-        print(user.__dict__)
 
         administrator_details = self.model(
             user=user,
