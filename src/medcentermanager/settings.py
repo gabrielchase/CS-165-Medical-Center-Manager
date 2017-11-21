@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'medcentermanager_db',
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
