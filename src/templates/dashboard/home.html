@@ -16,14 +16,21 @@
 	<h1>Scheduled Appointments</h1>
 	<ul>
 		{% for aptmt in appointments %}
-			<li> {{ aptmt }} </li>
+			<li> 
+				{{ aptmt }} {% if current_user.is_admin %} <a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> {% endif %}
+			</li>
 		{% endfor %}
 	</ul>
 	<h1>Pending Appointments</h1>
 	<ul>
 		{% for aptmt in pending_appointments %}
 			<li>
-				{{ aptmt }} {% if current_user.is_admin %} <a href="">Accept</a> <a href="">Delete</a> {% endif %}
+				{{ aptmt }} 
+				
+				{% if current_user.is_admin %} 
+					<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
+					<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+				{% endif %}
 			</li>
 		{% endfor %}
 	</ul>
