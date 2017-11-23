@@ -59,3 +59,23 @@ class AppointmentView(View):
 
         return redirect(reverse('users:detail', kwargs={'slug': slug}))
  
+
+class AppointmentStatus(View):
+
+    def get(self, request, *args, **kwargs):
+        appointment_id = kwargs.get('appointment_id')
+        status = request.GET.get('s')
+
+        appointment = Appointment.objects.get(appointment_id=appointment_id)
+
+        if appointment.admin.user == request.user:
+            appointment.status = status
+            appointment.save()
+
+            messages.success(request, "Successfully set appointment with {} on {} at {} to '{}'"
+                                        .format(appointment.user.username, appointment.date, appointment.timeslot, status.upper()))            
+        else:
+            print('Appointment admin and request.user are not the same')
+            messages.error(request, "There was a problem with changing the appointment's status")
+        
+        return redirect(reverse('dashboard:home'))
