@@ -10,17 +10,31 @@
 </head>
 <body>
     {% if messages %}
-    <ul class="messages">
+        {% if message.tags == "success" %}
+            <div class="ui success message">
+                <div class="header">Success</div>
+        {% elif message.tags == "error" %}
+            <div class="ui error message">
+                <div class="header">Error</div>
+        {% else %}
+            <div class="ui info message">
+        {% endif %}
+    {% for message in messages %}
+        <ul class="list"><li>{{ message }}</li></ul>
+    {% endfor %}
+    </div>
+
+    <!-- <ul class="messages">
         {% for message in messages %}
             {% if message.tags == "success" %}
                 <li style="color:green"> {{ message }}</li>
-            {% elif message.tags == "error" %}
+            
                 <li style="color:red"> {{ message }}</li>
             {% else %}
                 <li style="color:blue"> {{ message }}</li>
             {% endif %}
         {% endfor %}
-    </ul>
+    </ul> -->
     {% endif %}
     
     {% block content %}
