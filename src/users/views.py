@@ -88,10 +88,8 @@ class RegistrationView(View):
             return redirect(reverse('login'))
         except:
             messages.error(request, 'Sign up failed')
-            context = {
-                'user_type': user_type
-            }
-            return self.get(request, context)
+            
+            return redirect(reverse('registration', kwargs={'user_type': user_type}))
 
 
 class LoginView(TemplateView):
