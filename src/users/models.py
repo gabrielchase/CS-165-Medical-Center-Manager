@@ -21,8 +21,12 @@ class BaseUserManager(BaseUserManager):
 
         if not email or not username:
             raise ValueError('Users must have an email address')
-        
-        print('Making user\nadmin: {}'.format(is_admin))
+
+        if self.model.objects.get(email=email) is not None:
+            raise ValueError('Email address is already taken')
+
+        if self.model.objects.get(username=username) is not None:
+            raise ValueError('Username is already taken')
         
         user = self.model(
             username=username,
@@ -32,7 +36,6 @@ class BaseUserManager(BaseUserManager):
             is_admin=is_admin,
             slug=slugify(username)
         )
-        print(user)
 
         user.set_password(password)
         user.save(using=self._db)

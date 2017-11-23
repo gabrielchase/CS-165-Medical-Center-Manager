@@ -86,9 +86,11 @@ class RegistrationView(View):
             messages.success(request, 'Profile created. Please log in')
             
             return redirect(reverse('login'))
+        except ValueError as e:
+            messages.error(request, e)
+            return redirect(reverse('registration', kwargs={'user_type': user_type}))
         except:
             messages.error(request, 'Sign up failed')
-            
             return redirect(reverse('registration', kwargs={'user_type': user_type}))
 
 
