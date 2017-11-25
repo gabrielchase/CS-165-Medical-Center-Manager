@@ -36,6 +36,14 @@
         they can set up an appointment and CRUD comments --> 
 
                         {% if not current_user.is_admin %}
+                            <h3>Set an Appointmnet</h3>
+                            <div class="ui calendar" id="example1">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text" placeholder="Date/Time">
+                            </div>
+                            </div>
+                            <br/>
                             {% if my_appointments_here %}
                                 <h1>Your Appointments Here</h1>
                                 <ul>
