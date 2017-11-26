@@ -33,9 +33,7 @@ class AppointmentTemplate(TemplateView):
         d = self.request.GET.get('d')
         
         if d:
-            d = d.replace(',', '')
-            month, day, year = d.split(' ')
-            date = get_date(month, day, year) 
+            date = get_date(d) 
             context['date'] = date
 
             taken_appointments = Appointment.objects.filter(admin__user=user_viewed, date=date, status='Accepted')
@@ -67,8 +65,7 @@ class AppointmentCreateDelete(View):
         if self.request.user.is_admin: 
             messages.error(request, 'You are an institution, you cannot make an appointment')
         else:
-            # HANDLE ERROR FOR NOT UNIQUE TIMESLOT ON SAME DATE
-            date = request.POST.get('date')
+            date = get_date(request.POST.get('date')) 
             timeslot_id = request.POST.get('timeslot')
             service_name = request.POST.get('service')  
             additional_info = request.POST.get('additional_info')
@@ -88,7 +85,7 @@ class AppointmentCreateDelete(View):
                 user=self.request.user,
                 additional_info=additional_info
             )
-            messages.success(request, 'You have successfully made an appointment on {} from {} for {} at {}'
+            messages.success(request, 'You have successfully requested an appointment on {} from {} for {} at {}'
                                         .format(date, timeslot, service, admin_user.username))
 
         return redirect(reverse('users:detail', kwargs={'slug': slug}))
