@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if not current_user.is_admin %}
+    <h3>Set an Appointment</h3>
+
+    <form action="{% url 'appointments:base' slug=current_user.slug %}" method="POST">
+        {% csrf_token %}
+
+        <div class="ui calendar" id="example1">
+            <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <input type="text" placeholder="Date/Time">
+            </div>
+        </div>
+        <br>
+    
+        
+        <label for="">Timeslot: </label>
+        <select name="timeslot" id="">
+            <option value="none">--- Select ---</option>
+            {% for aptmt in available_appointment_timeslots%}
+                <option value="{{ aptmt.timeslot_id }}">{{ aptmt }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+
+        <label for="Service">Service: </label>
+        <select name="service" id="">
+            <option value="none">--- Select ---</option>
+            {% for service in current_user.administratordetails.services.all %}
+                <option value="{{ service.name }}">{{ service.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <br>
+
+        <label for="">Additional Info:</label>
+        <br>
+        <br>
+        <textarea name="additional_info" id="" cols="30" rows="10" ></textarea>
+        <br>
+        <br>
+
+        <input type="submit" value="Submit" />                
+    </form>
+    <br>
+{% endif %}
+
+{% endblock %}

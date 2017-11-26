@@ -1,5 +1,5 @@
 from django.shortcuts import (render, redirect)
-from django.views.generic import View
+from django.views.generic import(TemplateView, View)
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse
@@ -13,7 +13,21 @@ from dashboard.models import Service
 User = get_user_model()
 
 
-class AppointmentView(View):
+class AppointmentTemplate(TemplateView):
+    template_name = 'appointments/create_appointment.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AppointmentTemplate, self).get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        return context
+
+    # def get(self, request, *args, **kwargs):
+    #     print(kwargs.get('slug'))
+    #     context = {}
+        
+    #     return render(request, self.template_name, context)
+
+class AppointmentCreateDelete(View):
 
     def get(self, request, *args, **kwargs):
         aptmt_id = request.GET.get('aptmtid')
