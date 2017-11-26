@@ -11,7 +11,7 @@
         <div class="ui calendar" id="example1">
             <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <input type="text" placeholder="Date/Time">
+                <input type="text" placeholder="Date/Time" {% if date %} value="{{ date }}" {% endif %}>
             </div>
         </div>
         <br>

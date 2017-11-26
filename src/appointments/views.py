@@ -25,7 +25,9 @@ class AppointmentTemplate(TemplateView):
         context['user_viewed'] = user_viewed
 
         date = self.request.GET.get('d')
-        print(date)
+        
+        if date:
+            context['date'] = date
 
         if user_viewed.is_admin:
             user_viewed_appointments = Appointment.objects.filter(admin__user=user_viewed)
