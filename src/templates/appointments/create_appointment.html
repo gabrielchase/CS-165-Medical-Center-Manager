@@ -5,13 +5,13 @@
 {% if not current_user.is_admin %}
     <h3>Set an Appointment with {{ user_viewed.username }}</h3>
 
-    <form action="{% url 'appointments:base' slug=current_user.slug %}" method="POST">
+    <form action="{% url 'appointments:base' slug=user_viewed.slug %}" method="POST">
         {% csrf_token %}
 
-        <div class="ui calendar" id="example1">
+        <div class="ui calendar" id="appointment-calendar">
             <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <input type="text" placeholder="Date/Time" {% if date %} value="{{ date }}" {% endif %}>
+                <input type="text" name="date" placeholder="Date" {% if date %} value="{{ date }}" {% endif %}>
             </div>
         </div>
         <br>

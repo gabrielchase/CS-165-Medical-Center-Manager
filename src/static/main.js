@@ -1,5 +1,5 @@
 console.log('load js')
-$('#example1').calendar({
+$('#appointment-calendar').calendar({
     type: 'date',
     onChange: function (date, text, mode) {
         let url = window.location.href
