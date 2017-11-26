@@ -8,6 +8,7 @@ from users.models import AdministratorDetails
 from appointments.models import (
     Timeslot, Appointment
 )
+from appointments.utils import get_date
 from dashboard.models import Service
 
 User = get_user_model()
@@ -22,18 +23,26 @@ class AppointmentTemplate(TemplateView):
         
         slug = self.kwargs.get('slug')
         user_viewed = User.objects.get(slug=slug)
+        
+        if not user_viewed.is_admin:
+            messages.error(request, 'User being viewed is not an institution')
+            return redirect(reverse('users:detail', kwargs={'slug': slug}))
+
         context['user_viewed'] = user_viewed
 
-        date = self.request.GET.get('d')
+        d = self.request.GET.get('d')
         
-        if date:
+        if d:
+            d = d.replace(',', '')
+            month, day, year = d.split(' ')
+            date = get_date(month, day, year) 
             context['date'] = date
 
-        if user_viewed.is_admin:
-            user_viewed_appointments = Appointment.objects.filter(admin__user=user_viewed)
-            taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in user_viewed_appointments ]
+            taken_appointments = Appointment.objects.filter(admin__user=user_viewed, date=date, status='Accepted')
+            taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in taken_appointments ]
+            
             context['available_appointment_timeslots'] = Timeslot.objects.exclude(timeslot_id__in=taken_appointment_timeslots_ids)
-            context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed)
+            # context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed)
         
         return context
 
