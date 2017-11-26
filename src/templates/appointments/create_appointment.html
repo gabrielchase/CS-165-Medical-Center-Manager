@@ -20,7 +20,7 @@
         <label for="">Timeslot: </label>
         <select name="timeslot" id="">
             <option value="none">--- Select ---</option>
-            {% for aptmt in available_appointment_timeslots%}
+            {% for aptmt in available_appointment_timeslots %}
                 <option value="{{ aptmt.timeslot_id }}">{{ aptmt }}</option>
             {% endfor %}
         </select>
@@ -30,7 +30,7 @@
         <label for="Service">Service: </label>
         <select name="service" id="">
             <option value="none">--- Select ---</option>
-            {% for service in current_user.administratordetails.services.all %}
+            {% for service in user_viewed.administratordetails.services.all %}
                 <option value="{{ service.name }}">{{ service.name }}</option>
             {% endfor %}
         </select>

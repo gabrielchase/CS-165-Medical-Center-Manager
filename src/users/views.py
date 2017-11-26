@@ -136,12 +136,6 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         if fid:
             context['current_feedback'] = Feedback.objects.get(feedback_id=fid)
 
-        if user_viewed.is_admin:
-            user_viewed_appointments = Appointment.objects.filter(admin__user=user_viewed)
-            taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in user_viewed_appointments ]
-            context['available_appointment_timeslots'] = Timeslot.objects.exclude(timeslot_id__in=taken_appointment_timeslots_ids)
-            context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed)
-        
         return context
 
 class UserUpdateView(LoginRequiredMixin, DetailView):
@@ -152,7 +146,6 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
         return self.request.user
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         username = request.POST.get('username')
         email = request.POST.get('email')
         mobile_number = request.POST.get('mobile_number') or None
