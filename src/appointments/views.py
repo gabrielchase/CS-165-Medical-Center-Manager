@@ -19,13 +19,22 @@ class AppointmentTemplate(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(AppointmentTemplate, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
+        
+        slug = self.kwargs.get('slug')
+        user_viewed = User.objects.get(slug=slug)
+        context['user_viewed'] = user_viewed
+
+        date = self.request.GET.get('d')
+        print(date)
+
+        if user_viewed.is_admin:
+            user_viewed_appointments = Appointment.objects.filter(admin__user=user_viewed)
+            taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in user_viewed_appointments ]
+            context['available_appointment_timeslots'] = Timeslot.objects.exclude(timeslot_id__in=taken_appointment_timeslots_ids)
+            context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed)
+        
         return context
 
-    # def get(self, request, *args, **kwargs):
-    #     print(kwargs.get('slug'))
-    #     context = {}
-        
-    #     return render(request, self.template_name, context)
 
 class AppointmentCreateDelete(View):
 
