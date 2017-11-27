@@ -3,7 +3,11 @@
 <form action="{% url 'dashboard:institution-list' %}" method="GET">
     <label for="">Category: </label>
     <select name="c" id="">
-        <option value="">--- Select ---</option>
+        {% if category %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% else %}
+            <option value="">--- Select ---</option>
+        {% endif %}
         <option value="Treatment Center">Treatment Center</option>
         <option value="Testing Hub">Testing Hub</option>
         <option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
@@ -11,7 +15,11 @@
 
     <label for="">Location</label>
     <select name="l" id="">
-        <option value="">--- Select ---</option>
+        {% if location %}
+            <option value="{{ location }}">{{ location }}</option>
+        {% else %}
+            <option value="">--- Select ---</option>
+        {% endif %}
         <option value="Quezon City">Quezon City</option>
         <option value="Mandaluyong">Mandaluyong</option>
         <option value="Makati">Makati</option>
@@ -19,7 +27,11 @@
 
     <label for="">Service</label>
     <select name="s" id="">
-        <option value="">--- Select ---</option>
+        {% if service %}
+            <option value="{{ service }}">{{ service }}</option>
+        {% else %}
+            <option value="">--- Select ---</option>
+        {% endif %}
         {% for service in services %}
             <option value="{{ service.name }}" type="checkbox">{{ service.name}}</option>
         {% endfor %}
@@ -27,7 +39,11 @@
 
     <label for="">Product</label>
     <select name="p" id="">
-        <option value="">--- Select ---</option>
+        {% if category %}
+            <option value="{{ category }}">{{ category }}</option>
+        {% else %}
+            <option value="">--- Select ---</option>
+        {% endif %}
         {% for product in products %}
             <option value="{{ product.generic_name }}" type="checkbox">{{ product.generic_name}} - {{ product.brand_name }}</option>
         {% endfor %}

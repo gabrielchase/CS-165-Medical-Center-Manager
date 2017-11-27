@@ -66,6 +66,10 @@ class InstitutionList(LoginRequiredMixin, ListView):
         context['institutions'] = institutions
         context['services'] = Service.objects.all()
         context['products'] = Product.objects.all()
+        context['category'] = category
+        context['location'] = location
+        context['service'] = service
+        context['product'] = product
         
         return context
 
