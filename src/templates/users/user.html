@@ -24,12 +24,23 @@
                             <p>Staff: {{ object.administratordetails.staff }}</p>
                             <p>Additional Info: {{ object.administratordetails.additional_info }}</p>
 
-                            <h2>Services</h2>
-                            <ul></ul>
-                            
+                            <h2>Services Offered</h2>
+                            <ul>
                             {% for service in object.administratordetails.services.all %}
                                 <li> {{ service.name }} </li>
                             {% endfor %}
+                            </ul>
+
+                            <h2>Products In Stock</h2>
+                            <ul>
+                            {% for instance in my_products %}
+                                <li>
+                                    <p> {{ instance.product.brand_name }} - {{ instance.product.generic_name }}: <strong>P{{ instance.price }}</strong> </p>
+                                    <p> Description: {{ instance.description }} </p>
+                                </li>
+                                <br>
+                            {% endfor %}
+                            </ul>
                         {% endif %}
 
     <!-- If logged in user is not an admin and they are seeing an institution page,

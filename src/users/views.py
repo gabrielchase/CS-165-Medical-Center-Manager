@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from dashboard.models import Service
 from users.models import (
-    Feedback, AdministratorDetails, AdministratorServices 
+    Feedback, AdministratorDetails, AdministratorServices, AdministratorProducts
 )
 from appointments.models import (
     Timeslot, Appointment
@@ -133,7 +133,9 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context['current_user'] = self.request.user
         context['feedback'] = Feedback.objects.filter(admin__user=user_viewed)
         context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed, status='Accepted')
-        
+        context['my_products'] = AdministratorProducts.objects.filter(admin__user=user_viewed)
+        print(context['my_products'])
+
         if fid:
             context['current_feedback'] = Feedback.objects.get(feedback_id=fid)
 
