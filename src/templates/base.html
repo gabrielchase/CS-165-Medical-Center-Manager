@@ -11,18 +11,15 @@
 <body>
     <h1 class="ui header" align="center">Med Center Manager</h1>
     {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            {% if message.tags == "success" %}
-                <li style="color:green"> {{ message }}</li>
-            {% elif message.tags == "error" %}
-                <li style="color:red"> {{ message }}</li>
-            {% else %}
-                <li style="color:blue"> {{ message }}</li>
-            {% endif %}
-        {% endfor %}
+    <div class="ui message">
+    <ul class="list messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
     </ul>
-    {% endif %}
+    </div>
+{% endif %}
+
     
     {% block content %}
     {% endblock content %} 
