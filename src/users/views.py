@@ -132,6 +132,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
         context['current_user'] = self.request.user
         context['feedback'] = Feedback.objects.filter(admin__user=user_viewed)
+        context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed, status='Accepted')
         
         if fid:
             context['current_feedback'] = Feedback.objects.get(feedback_id=fid)

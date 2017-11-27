@@ -36,13 +36,13 @@
         they can set up an appointment and CRUD comments --> 
 
                         {% if not current_user.is_admin %}
-                            {% if my_appointments_here %}
-                                <h1>Your Appointments Here</h1>
-                                <a href="{% url 'appointments:create' slug=object.slug %}">Set an Appointment</a>
+                            <h1>My Appointments Here</h1>
+                            <a href="{% url 'appointments:create' slug=object.slug %}">Set an Appointment</a>
+                            {% if my_appointments_here %}    
                                 <ul>
                                     {% for aptmt in my_appointments_here %}
                                         <li> {{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }} 
-                                            <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Delete</a>
+                                            <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Cancel</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
