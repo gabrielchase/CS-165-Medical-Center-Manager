@@ -4,7 +4,11 @@
 
 <div style="text-align: center; margin-top: 50px">
 	<a href={% url 'users:update' %}>Edit My Profile</a>
-	<a href={% url 'logout' %}>Logout</a>
+	<a href={% url 'logout' %}>Logout</a>	
+
+	{% block search_bar %}
+		{% include "dashboard/search_bar.html" %}
+	{% endblock  %}
 
 	<h1 class="title">Dashboard</h1>
 
