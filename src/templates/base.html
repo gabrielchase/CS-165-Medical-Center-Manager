@@ -10,14 +10,20 @@
 </head>
 <body>
     <h1 class="ui header" align="center">Med Center Manager</h1>
-    {% if messages %}
+{% if messages %}
+        {% if messages|length == 1 %}
+            {% for message in messages %}
+                <div class="ui message {% if message.tags %} {{ message.tags }}"{% endif %} align="left"> {{ message }} </div>
+            {% endfor %}
+        {% else %}
     <div class="ui message">
-    <ul class="list messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-    </ul>
+        <ul class="list messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</li> 
+        {% endfor %}
+        </ul>
     </div>
+    {% endif %}
 {% endif %}
 
     
