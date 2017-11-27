@@ -62,6 +62,10 @@ Open your MySQL client and type: **CREATE DATABASE medcentermanager_db;**
     > $ python manage.py test users.tests
 12. Run the server with:
     > $ python manage.py runserver
+13. Install NodeJS + NPM: https://docs.npmjs.com/getting-started/installing-node
+14. Install bower: https://bower.io/
+15. Install bower components in your project
+    > $ python manage.py bower install
 
 
 ### Endpoints
