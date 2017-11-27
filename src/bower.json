@@ -1,0 +1,20 @@
+{
+  "name": "medcentermanager",
+  "homepage": "https://github.com/gabrielchase/Medical-Center-Manager",
+  "authors": [
+    "gabrielchase <gchase.patron@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic-ui-calendar": "^0.0.8"
+  }
+}

@@ -1,5 +1,5 @@
 from django.shortcuts import (render, redirect)
-from django.views.generic import View
+from django.views.generic import(TemplateView, View)
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse
@@ -8,12 +8,44 @@ from users.models import AdministratorDetails
 from appointments.models import (
     Timeslot, Appointment
 )
+from appointments.utils import get_date
 from dashboard.models import Service
 
 User = get_user_model()
 
 
-class AppointmentView(View):
+class AppointmentTemplate(TemplateView):
+    template_name = 'appointments/create_appointment.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(AppointmentTemplate, self).get_context_data(**kwargs)
+        context['current_user'] = self.request.user
+        
+        slug = self.kwargs.get('slug')
+        user_viewed = User.objects.get(slug=slug)
+        
+        if not user_viewed.is_admin:
+            messages.error(request, 'User being viewed is not an institution')
+            return redirect(reverse('users:detail', kwargs={'slug': slug}))
+
+        context['user_viewed'] = user_viewed
+
+        d = self.request.GET.get('d')
+        
+        if d:
+            date = get_date(d) 
+            context['date'] = date
+
+            taken_appointments = Appointment.objects.filter(admin__user=user_viewed, date=date, status='Accepted')
+            taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in taken_appointments ]
+            
+            context['available_appointment_timeslots'] = Timeslot.objects.exclude(timeslot_id__in=taken_appointment_timeslots_ids)
+            # context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed)
+        
+        return context
+
+
+class AppointmentCreateDelete(View):
 
     def get(self, request, *args, **kwargs):
         aptmt_id = request.GET.get('aptmtid')
@@ -33,8 +65,7 @@ class AppointmentView(View):
         if self.request.user.is_admin: 
             messages.error(request, 'You are an institution, you cannot make an appointment')
         else:
-            # HANDLE ERROR FOR NOT UNIQUE TIMESLOT ON SAME DATE
-            date = request.POST.get('date')
+            date = get_date(request.POST.get('date')) 
             timeslot_id = request.POST.get('timeslot')
             service_name = request.POST.get('service')  
             additional_info = request.POST.get('additional_info')
@@ -54,7 +85,7 @@ class AppointmentView(View):
                 user=self.request.user,
                 additional_info=additional_info
             )
-            messages.success(request, 'You have successfully made an appointment on {} from {} for {} at {}'
+            messages.success(request, 'You have successfully requested an appointment on {} from {} for {} at {}'
                                         .format(date, timeslot, service, admin_user.username))
 
         return redirect(reverse('users:detail', kwargs={'slug': slug}))

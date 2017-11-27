@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Med Center Manager</title>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}"/>    
+    
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.css">
+    <link rel="stylesheet" type="text/css" href="{% static '/bower_components/semantic-ui-calendar/dist/calendar.min.css' %}"/>
+
+    <script type="text/javascript" src="{% static '/bower_components/semantic-ui-calendar/dist/calendar.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.js"></script>
 </head>
 <body>
     {% if messages %}
@@ -42,6 +52,6 @@
 
     {% block javascript %} 
     {% endblock %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.js"></script>
 </body>
+<script type="text/javascript" src="{% static 'main.js' %}"></script>
 </html>
