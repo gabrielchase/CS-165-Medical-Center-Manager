@@ -22,10 +22,10 @@ class BaseUserManager(BaseUserManager):
         if not email or not username:
             raise ValueError('Users must have an email address')
 
-        if self.model.objects.get(email=email) is not None:
+        if self.model.objects.filter(email=email).first():
             raise ValueError('Email address is already taken')
 
-        if self.model.objects.get(username=username) is not None:
+        if self.model.objects.filter(username=username).first():
             raise ValueError('Username is already taken')
         
         user = self.model(
