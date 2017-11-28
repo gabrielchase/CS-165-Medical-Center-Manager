@@ -2,7 +2,6 @@
 
 {% block content %}
 
-
 <div class="ui container centered grid">
 	<div class="eleven wide column segment" style="margin-top: 50px">
 		<div class="row" style="margin-bottom: 20px;">
@@ -26,20 +25,27 @@
 <div class="row">
 		<p></p>
 
-		<h1>Scheduled Appointments</h1>
-		<ul>
-			{% for aptmt in appointments %}
-				<li> {{ aptmt }} </li>
-			{% endfor %}
-		</ul>
-		<h1>Pending Appointments</h1>
-		<ul>
-			{% for aptmt in pending_appointments %}
-				<li>
-					{{ aptmt }} {% if current_user.is_admin %} <a href="">Accept</a> <a href="">Delete</a> {% endif %}
-				</li>
-			{% endfor %}
-		</ul>
+	<h1>Scheduled Appointments</h1>
+	<ul>
+		{% for aptmt in appointments %}
+			<li> 
+				{{ aptmt }} {% if current_user.is_admin %} <a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> {% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+	<h1>Pending Appointments</h1>
+	<ul>
+		{% for aptmt in pending_appointments %}
+			<li>
+				{{ aptmt }} 
+				
+				{% if current_user.is_admin %} 
+					<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
+					<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
 
 		{% if user.is_admin %}
 		<div class="ui grid container center aligned" style="margin-top: 50px">

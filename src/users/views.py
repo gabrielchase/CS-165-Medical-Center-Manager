@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from dashboard.models import Service
 from users.models import (
-    Feedback, AdministratorDetails, AdministratorServices 
+    Feedback, AdministratorDetails, AdministratorServices, AdministratorProducts
 )
 from appointments.models import (
     Timeslot, Appointment
@@ -76,7 +76,7 @@ class RegistrationView(View):
                     staff=staff,
                     additional_info=additional_info,
                     password=password
-                )    
+                )
             
             context = {
                 'user_type': user_type,
@@ -86,12 +86,12 @@ class RegistrationView(View):
             messages.success(request, 'Profile created. Please log in')
             
             return redirect(reverse('login'))
+        except ValueError as e:
+            messages.error(request, e)
+            return redirect(reverse('registration', kwargs={'user_type': user_type}))
         except:
             messages.error(request, 'Sign up failed')
-            context = {
-                'user_type': user_type
-            }
-            return self.get(request, context)
+            return redirect(reverse('registration', kwargs={'user_type': user_type}))
 
 
 class LoginView(TemplateView):
@@ -132,16 +132,12 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
         context['current_user'] = self.request.user
         context['feedback'] = Feedback.objects.filter(admin__user=user_viewed)
-        
+        context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed, status='Accepted')
+        context['my_products'] = AdministratorProducts.objects.filter(admin__user=user_viewed)
+
         if fid:
             context['current_feedback'] = Feedback.objects.get(feedback_id=fid)
 
-        if user_viewed.is_admin:
-            user_viewed_appointments = Appointment.objects.filter(admin__user=user_viewed)
-            taken_appointment_timeslots_ids = [ appointment.timeslot.timeslot_id for appointment in user_viewed_appointments ]
-            context['available_appointment_timeslots'] = Timeslot.objects.exclude(timeslot_id__in=taken_appointment_timeslots_ids)
-            context['my_appointments_here'] = Appointment.objects.filter(user=self.request.user, admin__user=user_viewed)
-        
         return context
 
 class UserUpdateView(LoginRequiredMixin, DetailView):
@@ -152,7 +148,6 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
         return self.request.user
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         username = request.POST.get('username')
         email = request.POST.get('email')
         mobile_number = request.POST.get('mobile_number') or None

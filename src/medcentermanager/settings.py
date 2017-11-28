@@ -40,7 +40,9 @@ INSTALLED_APPS = [
 
     'users',
     'dashboard',
-    'appointments'
+    'appointments',
+
+    'djangobower'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -127,6 +129,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, '/static/bower_components'),
+BOWER_PATH = '/usr/bin/bower'
+
+BOWER_INSTALLED_APPS = (
+    'semantic-ui-calendar',
+)
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
