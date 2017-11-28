@@ -76,7 +76,7 @@ class RegistrationView(View):
                     staff=staff,
                     additional_info=additional_info,
                     password=password
-                )    
+                )
             
             context = {
                 'user_type': user_type,
