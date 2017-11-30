@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
 <div class="ui container centered grid">
 	<div class="eleven wide column segment" style="margin-top: 50px">
@@ -23,29 +24,61 @@
 	</div>
 </div>
 <div class="row">
+	<p></p>
+ 	<div class="ui grid">
+  <div class="row">
+    <div class="sixteen wide column">
+      <div class="ui horizontal segments">
+        <div class="ui secondary vertical pointing menu">
+          <a class="active item">Appointments</a>
+          <a class="item">Services</a>
+          <a class="item">Companies</a>
+          <a class="item">Links</a>
+        </div>
+        <div class="ui segment" style="border-left-width: 0px;">
+          <h2>Scheduled Appointments</h2>
+			{% if appointments %}
+				<ul>
+					{% for aptmt in appointments %}
+						<li> 
+							{{ aptmt }} 
+							{% if current_user.is_admin %} 
+							<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> {% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+			<p>No scheduled appointments.</p>
+			{% endif %}
+
+			<h2>Pending Appointments</h2>
+			{% if pending_appointments %}
+				<ul>
+					{% for aptmt in pending_appointments %}
+						<li>
+							{{ aptmt }} 
+							
+							{% if current_user.is_admin %} 
+								<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
+								<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+
+			{% else %}
+			<p>No pending appointments.</p>
+			{% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+	</div>
+
 		<p></p>
 
-	<h1>Scheduled Appointments</h1>
-	<ul>
-		{% for aptmt in appointments %}
-			<li> 
-				{{ aptmt }} {% if current_user.is_admin %} <a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> {% endif %}
-			</li>
-		{% endfor %}
-	</ul>
-	<h1>Pending Appointments</h1>
-	<ul>
-		{% for aptmt in pending_appointments %}
-			<li>
-				{{ aptmt }} 
-				
-				{% if current_user.is_admin %} 
-					<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
-					<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
-				{% endif %}
-			</li>
-		{% endfor %}
-	</ul>
+	
 
 		{% if user.is_admin %}
 		<div class="ui grid container center aligned" style="margin-top: 50px">
@@ -82,3 +115,26 @@
 </div>
 </div>
 {% endblock %}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>
+
+<script type="text/javascript">
+
+function hey(){
+   $('.ui .item').on('click', function() {
+      $('.ui .item').removeClass('active');
+      $(this).addClass('active');
+   });             
+});
+
+$(document).ready(function(){
+   $('.ui .item').on('click', function() {
+      $('.ui .item').removeClass('active');
+      $(this).addClass('active');
+   });             
+});
+
+	$('.tabular.menu .item').tab();
+</script>
