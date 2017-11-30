@@ -50,6 +50,9 @@ class InstitutionList(LoginRequiredMixin, ListView):
         location = self.request.GET.get('l')
         service = self.request.GET.get('s')
         product = self.request.GET.get('p')
+        
+        if product:
+            generic_name, brand_name = product.split(' - ')
 
         if category:
             institutions = institutions.filter(administratordetails__category=category)
@@ -61,7 +64,7 @@ class InstitutionList(LoginRequiredMixin, ListView):
             institutions = institutions.filter(administratordetails__administratorservices__service=service)
 
         if product:
-            institutions = institutions.filter(administratordetails__administratorproducts__product__generic_name__icontains=product)
+            institutions = institutions.filter(administratordetails__administratorproducts__product__generic_name__icontains=generic_name)
 
         context['institutions'] = institutions
         context['services'] = Service.objects.all()
