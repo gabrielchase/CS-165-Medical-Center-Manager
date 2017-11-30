@@ -24,69 +24,39 @@
                             <p>Staff: {{ object.administratordetails.staff }}</p>
                             <p>Additional Info: {{ object.administratordetails.additional_info }}</p>
 
-                            <h2>Services</h2>
-                            <ul></ul>
-                            
+                            <h2>Services Offered</h2>
+                            <ul>
                             {% for service in object.administratordetails.services.all %}
                                 <li> {{ service.name }} </li>
                             {% endfor %}
+                            </ul>
+
+                            <h2>Products In Stock</h2>
+                            <ul>
+                            {% for instance in my_products %}
+                                <li>
+                                    <p> {{ instance.product.brand_name }} - {{ instance.product.generic_name }}: <strong>P{{ instance.price }}</strong> </p>
+                                    <p> Description: {{ instance.description }} </p>
+                                </li>
+                                <br>
+                            {% endfor %}
+                            </ul>
                         {% endif %}
 
     <!-- If logged in user is not an admin and they are seeing an institution page,
         they can set up an appointment and CRUD comments --> 
 
                         {% if not current_user.is_admin %}
-                            {% if my_appointments_here %}
-                                <h1>Your Appointments Here</h1>
+                            <h1>My Appointments Here</h1>
+                            <a href="{% url 'appointments:create' slug=object.slug %}">Set an Appointment</a>
+                            {% if my_appointments_here %}    
                                 <ul>
                                     {% for aptmt in my_appointments_here %}
                                         <li> {{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }} 
-                                            <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Delete</a>
+                                            <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Cancel</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
-                            {% endif %}
-
-                            {% if object.is_admin %}
-                                <h1>Set An Appointment</h1>
-                                <form action="{% url 'appointments:base' slug=object.slug %}" method="POST">
-                                    {% csrf_token %}
-
-                                    <label for="">Date</label>
-                                    <input type="text" name="date">
-                                    <br>
-                                    <br>
-
-                                    <label for="">Timeslot: </label>
-                                    <select name="timeslot" id="">
-                                        <option value="none">--- Select ---</option>
-                                        {% for aptmt in available_appointment_timeslots%}
-                                            <option value="{{ aptmt.timeslot_id }}">{{ aptmt }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <br>
-                                    <br>
-
-                                    <label for="Service">Service: </label>
-                                    <select name="service" id="">
-                                        <option value="none">--- Select ---</option>
-                                        {% for service in object.administratordetails.services.all %}
-                                            <option value="{{ service.name }}">{{ service.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <br>
-                                    <br>
-
-                                    <label for="">Additional Info:</label>
-                                    <br>
-                                    <br>
-                                    <textarea name="additional_info" id="" cols="30" rows="10" ></textarea>
-                                    <br>
-                                    <br>
-
-                                    <input type="submit" value="Submit" />                
-                                </form>
-                                <br>
                             {% endif %}
                         {% endif %} 
         

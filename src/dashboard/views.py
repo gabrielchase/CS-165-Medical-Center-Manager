@@ -22,6 +22,10 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(DashboardHome, self).get_context_data(**kwargs)
         context['current_user'] = self.request.user
+        context['services'] = Service.objects.all()
+        context['products'] = Product.objects.all()
+        context['my_services'] = AdministratorServices.objects.filter(admin__user=self.request.user)
+        context['my_products'] = AdministratorProducts.objects.filter(admin__user=self.request.user)
 
         if self.request.user.is_admin:
             context['appointments'] = Appointment.objects.filter(admin__user=self.request.user, status='Accepted')
@@ -29,9 +33,6 @@ class DashboardHome(LoginRequiredMixin, TemplateView):
         else:
             context['appointments'] = Appointment.objects.filter(user=self.request.user, status='Accepted')
             context['pending_appointments'] = Appointment.objects.filter(user=self.request.user, status='Pending')
-
-        context['my_services'] = AdministratorServices.objects.filter(admin__user=self.request.user)
-        context['my_products'] = AdministratorProducts.objects.filter(admin__user=self.request.user)
 
         return context
 
@@ -42,6 +43,7 @@ class InstitutionList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(InstitutionList, self).get_context_data(**kwargs)
+
         institutions = User.objects.all().filter(is_admin=True)
 
         category = self.request.GET.get('c')
@@ -62,6 +64,12 @@ class InstitutionList(LoginRequiredMixin, ListView):
             institutions = institutions.filter(administratordetails__administratorproducts__product__generic_name__icontains=product)
 
         context['institutions'] = institutions
+        context['services'] = Service.objects.all()
+        context['products'] = Product.objects.all()
+        context['category'] = category
+        context['location'] = location
+        context['service'] = service
+        context['product'] = product
         
         return context
 

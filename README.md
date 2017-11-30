@@ -1,4 +1,4 @@
-# CS 165 Medical Center Manager
+# Medical Center Manager
 Our system will allow patients to create accounts in order to view the information of each institution such as the services, contact numbers, and others. The user may search for the institution nearest to his/her location and can set an appointment on a specific service offered by the chosen institution. After visiting the institution, the user may also give their feedback and rating on the institution or service. Each institution is handled by an administrator, a member of the staff, who can add, update, or delete the institution’s information and also manage the appointments made. Each institution will also have a database of BFA-accredited products and drugs, showing the function and price, that can be viewed and searched by the regular users and these information will be handled by the administrator.
 
 ### Members:
@@ -62,6 +62,10 @@ Open your MySQL client and type: **CREATE DATABASE medcentermanager_db;**
     > $ python manage.py test users.tests
 12. Run the server with:
     > $ python manage.py runserver
+13. Install NodeJS + NPM: https://docs.npmjs.com/getting-started/installing-node
+14. Install bower: https://bower.io/
+15. Install bower components in your project
+    > $ python manage.py bower install
 
 
 ### Endpoints

@@ -1,15 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 <div class="ui grid container center aligned" style="margin-top: 20px">
     <div class="three column row">
         <div class="column"></div>
         <div class="eleven wide column"> 			
-			{% extends "base.html" %}
-
-			{% block content %}
-
-			<div class="ui icon input">
-			  	<input type="text" placeholder="Search...">
-			  	<i class="circular search link icon"></i>
-			</div>
+			{% block search_bar %}
+				{% include "dashboard/search_bar.html" %}
+			{% endblock  %}
 			<br>
 			<br>
 
@@ -24,9 +23,9 @@
 				</tr>
 				{% endfor %}
 			</table>
-
-			{% endblock %}
 		</div>
 		<div class="column"></div>
 	</div>
 </div>
+
+{% endblock %}
