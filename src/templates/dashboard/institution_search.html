@@ -3,26 +3,35 @@
 {% block content %}
 
 <div class="ui grid container center aligned" style="margin-top: 20px">
-    <div class="three column row">
         <div class="column"></div>
-        <div class="eleven wide column"> 			
+        <div class="twelve wide column"> 			
 			{% block search_bar %}
 				{% include "dashboard/search_bar.html" %}
 			{% endblock  %}
 			<br>
 			<br>
+			<div class="row">
+				<div class="ui secondary menu" style="border-bottom: 2px solid rgba(34, 36, 38, 0.15);"	>
+				  <a class="item" href={% url 'dashboard:home' %}>Home</a>
+				  <a class="active item" href={% url 'dashboard:institution-list' %}>View institutions</a>
+				  <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
 
-			<h1>Institutions</h1>
-
-			<table class="ui selectable celled table">
-				{% for inst in institutions %}
-				<tr>
-					<td>    
-				    	<a href="{{ inst.get_profile }}">{{ inst.username }}</a>
-				    </td>
-				</tr>
-				{% endfor %}
-			</table>
+				  <div class="right secondary menu">
+				    <a class="ui item" href={% url 'logout' %}> <i class="sign out icon"></i> Logout</a>
+				  </div>
+				</div>
+			</div>
+			<div class="row">
+				<table class="ui selectable celled table" style="margin-top: 20px">
+					{% for inst in institutions %}
+					<tr>
+						<td>    
+					    	<a href="{{ inst.get_profile }}">{{ inst.username }}</a>
+					    </td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
 		</div>
 		<div class="column"></div>
 	</div>

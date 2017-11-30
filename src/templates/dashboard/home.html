@@ -12,75 +12,77 @@
 			</small></div></h1>
 		</div>
 		<div class="row">
-		<div class="ui secondary menu" style="border-bottom: 2px solid rgba(34, 36, 38, 0.15);"	>
-	  <a class="active item" href={% url 'dashboard:home' %}>Home</a>
-	  <a class="item" href={% url 'dashboard:institution-list' %}>View institutions</a>
-	  <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
+			<div class="ui secondary menu" style="border-bottom: 2px solid rgba(34, 36, 38, 0.15);"	>
+			  <a class="active item" href={% url 'dashboard:home' %}>Home</a>
+			  <a class="item" href={% url 'dashboard:institution-list' %}>View institutions</a>
+			  <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
 
-	  <div class="right secondary menu">
-	    <a class="ui item" href={% url 'logout' %}> <i class="sign out icon"></i> Logout</a>
-	  </div>
+			  <div class="right secondary menu">
+			    <a class="ui item" href={% url 'logout' %}> <i class="sign out icon"></i> Logout</a>
+			  </div>
 
-	</div>
-</div>
-<div class="row">
-		<p></p>
-
-		<h1>Scheduled Appointments</h1>
-		<ul>
-			{% for aptmt in appointments %}
-				<li>
-					{{ aptmt }} 
-					<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> 
-				</li>
-			{% endfor %}
-		</ul>
-		<h1>Pending Appointments</h1>
-		<ul>
-			{% for aptmt in pending_appointments %}
-				<li>
-					{{ aptmt }} 
-					
-					{% if current_user.is_admin %} 
-						<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
-						<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
-					{% endif %}
-				</li>
-			{% endfor %}
-		</ul>
-
-		{% if user.is_admin %}
-		<div class="ui grid container center aligned" style="margin-top: 50px">
-			<div class="two column row">
-				<div class="column">	
-					<div class="ui basic segment">
-							<h1>Services Offered</h1>
-							<a href="{% url 'dashboard:services' %}">Manage Services</a>
-							<ul>
-							{% for instance in my_services %}
-								<li>{{ instance.service.name }}: {{ instance.price }} </li>
-							{% endfor %}
-							</ul>
-					</div>
-				</div>
-				<div class="ui vertical divider">and</div>
-				<div class="column">
-					<div class="ui basic segment">
-						<h1>Products Offered</h1>
-						<a href="{% url 'dashboard:products' %}">Manage Products</a>
-						<ul>
-							{% for instance in my_products %}
-								<li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
-									{{ instance.price }} {{ instance.stock }} {{ instance.description }}
-								</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
 			</div>
 		</div>
-		{% endif %}
+		<div class="row">
+			<div class="ui padded segment" style="margin-top: 20px">
+				<p></p>
+
+				<h1>Scheduled Appointments</h1>
+				<ul>
+					{% for aptmt in appointments %}
+						<li>
+							{{ aptmt }} 
+							<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> 
+						</li>
+					{% endfor %}
+				</ul>
+				<h1>Pending Appointments</h1>
+				<ul>
+					{% for aptmt in pending_appointments %}
+						<li>
+							{{ aptmt }} 
+							
+							{% if current_user.is_admin %} 
+								<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
+								<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+
+				{% if user.is_admin %}
+				<div class="ui grid container center aligned" style="margin-top: 50px">
+					<div class="two column row">
+						<div class="column">	
+							<div class="ui basic segment">
+									<h1>Services Offered</h1>
+									<a href="{% url 'dashboard:services' %}">Manage Services</a>
+									<ul>
+									{% for instance in my_services %}
+										<li>{{ instance.service.name }}: {{ instance.price }} </li>
+									{% endfor %}
+									</ul>
+							</div>
+						</div>
+						<div class="ui vertical divider">and</div>
+						<div class="column">
+							<div class="ui basic segment">
+								<h1>Products Offered</h1>
+								<a href="{% url 'dashboard:products' %}">Manage Products</a>
+								<ul>
+									{% for instance in my_products %}
+										<li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
+											{{ instance.price }} {{ instance.stock }} {{ instance.description }}
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
 	</div>
-</div>
 </div>
 {% endblock %}

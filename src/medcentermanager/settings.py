@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'medcentermanager_db',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'localhost',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -135,11 +135,7 @@ STATICFILES_DIRS = (
 )
 
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, '/static/bower_components'),
-BOWER_PATH = '/usr/bin/bower'
-
-BOWER_INSTALLED_APPS = (
-    'semantic-ui-calendar',
-)
+BOWER_PATH = '/usr/local/bin/bower'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
