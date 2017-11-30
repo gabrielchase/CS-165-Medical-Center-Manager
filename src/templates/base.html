@@ -19,33 +19,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.js"></script>
 </head>
 <body>
-    {% if messages %}
-        {% if message.tags == "success" %}
-            <div class="ui success message">
-                <div class="header">Success</div>
-        {% elif message.tags == "error" %}
-            <div class="ui error message">
-                <div class="header">Error</div>
+    <h1 class="ui header" align="center">Med Center Manager</h1>
+{% if messages %}
+        {% if messages|length == 1 %}
+            {% for message in messages %}
+                <div class="ui message {% if message.tags %} {{ message.tags }}"{% endif %} align="left"> {{ message }} </div>
+            {% endfor %}
         {% else %}
-            <div class="ui info message">
-        {% endif %}
-    {% for message in messages %}
-        <ul class="list"><li>{{ message }}</li></ul>
-    {% endfor %}
-    </div>
-
-    <!-- <ul class="messages">
+    <div class="ui message">
+        <ul class="list messages">
         {% for message in messages %}
-            {% if message.tags == "success" %}
-                <li style="color:green"> {{ message }}</li>
-            
-                <li style="color:red"> {{ message }}</li>
-            {% else %}
-                <li style="color:blue"> {{ message }}</li>
-            {% endif %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</li> 
         {% endfor %}
-    </ul> -->
+        </ul>
+    </div>
     {% endif %}
+{% endif %}
+
     
     {% block content %}
     {% endblock content %} 
