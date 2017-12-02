@@ -162,7 +162,7 @@ class ProductView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
-        p_query = request.GET.get('p')
+        product_id = request.GET.get('p')
         
         products = Product.objects.all()
         my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
@@ -176,8 +176,8 @@ class ProductView(LoginRequiredMixin, View):
             'other_products': other_products
         }
 
-        if p_query:
-            current_product = Product.objects.get(generic_name=p_query)
+        if product_id:
+            current_product = Product.objects.get(product_id=product_id)
             edit_product = AdministratorProducts.objects.get(admin__user=self.request.user, product=current_product)
             context['edit_product'] = edit_product
 
@@ -199,17 +199,17 @@ class ProductView(LoginRequiredMixin, View):
             return redirect(reverse('dashboard:products'))
 
         try:
-             product = AdministratorProducts.objects.get(admin__user=self.request.user, product=product)
+            admin_product = AdministratorProducts.objects.get(admin=self_admin_instance, product=product)
 
-             """ If service with given admin and service exist, update current values"""
+            """ If Product with given admin and Product exist, update current values"""
 
-             product.price = price
-             product.stock = stock
-             product.description = description
-             product.save()
-             messages.success(request, 'Successfully updated product')
+            admin_product.price = price
+            admin_product.stock = stock
+            admin_product.description = description
+            admin_product.save()
+            messages.success(request, 'Successfully updated product')
         except AdministratorProducts.DoesNotExist:
-            """ If service with given admin does not exist, create a new AdministratorService """
+            """ If Product with given admin does not exist, create a new AdministratorProduct """
 
             AdministratorProducts.objects.create(
                 admin=self_admin_instance,

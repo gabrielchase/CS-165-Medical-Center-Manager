@@ -55,8 +55,8 @@
                     <li>{{ instance.product.generic_name }} -  {{ instance.product.brand_name }} by
                         <strong>{{ instance.product.manufacturer }}</strong>:
                         {{ instance.price }} {{ instance.stock}} {{ instance.description}}
-                        <a href="{% url 'dashboard:products' %}?p={{ instance.admin_product_id }}">Edit</a> 
-                        <a href="{% url 'dashboard:products-delete' %}?p={{ instance.admin_product_id }}">Delete</a>
+                        <a href="{% url 'dashboard:products' %}?p={{ instance.product.product_id }}">Edit</a> 
+                        <a href="{% url 'dashboard:products-delete' %}?p={{ instance.product.product_id }}">Delete</a>
                     </li>
                     {% endfor %}
                 </ul>
