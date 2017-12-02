@@ -1,16 +1,73 @@
 {% extends "auth/registration.html" %}
 
 {% block user_fields %}
-
 <div class="two fields">
 	<div class="field">
 		<label for="open_time">Opening Time: </label>
-		<input type="text" name="open_time" placeholder="Opening Time"/>
+		<div class="ui selection dropdown">
+			<input type="hidden" name="opening-time">
+			<i class="dropdown icon"></i> <div class="default text">Opening Time</div>
+			<div class="menu">
+				<div class="item" data-value="00:00">00:00 / 12:00 AM</div>
+				<div class="item" data-value="01:00">01:00 / 01:00 AM</div>
+				<div class="item" data-value="02:00">02:00 / 02:00 AM</div>
+				<div class="item" data-value="03:00">03:00 / 03:00 AM</div>
+				<div class="item" data-value="04:00">04:00 / 04:00 AM</div>
+				<div class="item" data-value="05:00">05:00 / 05:00 AM</div>
+				<div class="item" data-value="06:00">06:00 / 06:00 AM</div>
+				<div class="item" data-value="07:00">07:00 / 07:00 AM</div>
+				<div class="item" data-value="08:00">08:00 / 08:00 AM</div>
+				<div class="item" data-value="09:00">09:00 / 09:00 AM</div>
+				<div class="item" data-value="10:00">10:00 / 10:00 AM</div>
+				<div class="item" data-value="11:00">11:00 / 11:00 AM</div>
+				<div class="item" data-value="12:00">12:00 / 12:00 PM</div>
+				<div class="item" data-value="13:00">13:00 / 01:00 PM</div>
+				<div class="item" data-value="14:00">14:00 / 02:00 PM</div>
+				<div class="item" data-value="15:00">15:00 / 03:00 PM</div>
+				<div class="item" data-value="16:00">16:00 / 04:00 PM</div>
+				<div class="item" data-value="17:00">17:00 / 05:00 PM</div>
+				<div class="item" data-value="18:00">18:00 / 06:00 PM</div>
+				<div class="item" data-value="19:00">19:00 / 07:00 PM</div>
+				<div class="item" data-value="20:00">20:00 / 08:00 PM</div>
+				<div class="item" data-value="21:00">21:00 / 09:00 PM</div>
+				<div class="item" data-value="22:00">22:00 / 10:00 PM</div>
+				<div class="item" data-value="23:00">23:00 / 11:00 PM</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="field">
 		<label for="close_time">Closing Time: </label>
-		<input type="text" name="close_time" placeholder="Closing Time" />
+		<div class="ui selection dropdown">
+			<input type="hidden" name="closing-time">
+			<i class="dropdown icon"></i> <div class="default text">Closing Time</div>
+			<div class="menu">
+				<div class="item" data-value="00:00">00:00 / 12:00 AM</div>
+				<div class="item" data-value="01:00">01:00 / 01:00 AM</div>
+				<div class="item" data-value="02:00">02:00 / 02:00 AM</div>
+				<div class="item" data-value="03:00">03:00 / 03:00 AM</div>
+				<div class="item" data-value="04:00">04:00 / 04:00 AM</div>
+				<div class="item" data-value="05:00">05:00 / 05:00 AM</div>
+				<div class="item" data-value="06:00">06:00 / 06:00 AM</div>
+				<div class="item" data-value="07:00">07:00 / 07:00 AM</div>
+				<div class="item" data-value="08:00">08:00 / 08:00 AM</div>
+				<div class="item" data-value="09:00">09:00 / 09:00 AM</div>
+				<div class="item" data-value="10:00">10:00 / 10:00 AM</div>
+				<div class="item" data-value="11:00">11:00 / 11:00 AM</div>
+				<div class="item" data-value="12:00">12:00 / 12:00 PM</div>
+				<div class="item" data-value="13:00">13:00 / 01:00 PM</div>
+				<div class="item" data-value="14:00">14:00 / 02:00 PM</div>
+				<div class="item" data-value="15:00">15:00 / 03:00 PM</div>
+				<div class="item" data-value="16:00">16:00 / 04:00 PM</div>
+				<div class="item" data-value="17:00">17:00 / 05:00 PM</div>
+				<div class="item" data-value="18:00">18:00 / 06:00 PM</div>
+				<div class="item" data-value="19:00">19:00 / 07:00 PM</div>
+				<div class="item" data-value="20:00">20:00 / 08:00 PM</div>
+				<div class="item" data-value="21:00">21:00 / 09:00 PM</div>
+				<div class="item" data-value="22:00">22:00 / 10:00 PM</div>
+				<div class="item" data-value="23:00">23:00 / 11:00 PM</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -18,20 +75,24 @@
 	<label for="location">Location: </label>
 	<input type="text" name="location" placeholder="Street, Barangay, City/Province" />
 </div>
+<div class="two fields">
+	<div class="required field">
+		<label for="category">Category: </label>
+		<div class="ui selection dropdown">
+				<input type="hidden" name="closing-time">
+				<i class="dropdown icon"></i> <div class="default text">Select a category...</div>
+				<div class="menu">
+					<div class="item" data-value="Social Hygiene Clinic">Social Hygiene Clinic</div>
+					<div class="item" data-value="Testing Hub">Testing Hub</div>
+					<div class="item" data-value="Treatment Center">Treatment Center</div>
+				</div>
+		</div>
+	</div>
 
-<div class="required field">
-	<label for="category">Category: </label>
-	<select name="category" required>
-		<option value="none">--- Select ---</option>
-		<option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
-		<option value="Testing Hub">Testing Hub</option>
-		<option value="Treatment Center">Treatment Center</option>
-	</select>
-</div>
-
-<div class="field">
-	<label for="staff">Contact person: </label>
-	<input type="text" name="staff" placeholder="Contact person or HACT Chairperson" />
+	<div class="field">
+		<label for="staff">Contact person: </label>
+		<input type="text" name="staff" placeholder="Contact person" />
+	</div>
 </div>
 
 <div class="field">
@@ -39,5 +100,9 @@
 	<textarea name="additional_info"></textarea>
 </div>
 
+
+<script type="text/javascript">
+	$('.ui.dropdown').dropdown();
+</script>
 
 {% endblock %}
