@@ -1,117 +1,137 @@
-{% extends "base.html" %}
-{% block content %}
-
-<div class="ui grid container center aligned" style="margin-top: 100px">
-    <div class="three column row">
+<div class="ui grid container center aligned">
         <div class="column"></div>
-            <div class="eleven wide column">  
-                <div class="ui blue stacked segment">           
+        <div class="eleven wide column">  
+            {% extends "base.html" %}
+            {% block content %}
+            <div class="row">
+                <div class="ui secondary menu" style="border-bottom: 2px solid rgba(34, 36, 38, 0.15);" >
+                  <a class="item" href={% url 'dashboard:home' %}>Home</a>
+                  <a class="active item" href={% url 'dashboard:institution-list' %}>View institutions</a>
+                  <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
+
+                  <div class="right secondary menu">
+                    <a class="ui item" href={% url 'logout' %}> <i class="sign out icon"></i> Logout</a>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ui blue very padded stacked segment">           
                     <h1>{{ object.username }}</h1>
                     <br>
                     <br>
-                
-                    <div style="text-align: left">
-                        <h2>Profile</h2>
-                        <p>Email: {{ object.email }}</p>
-                        <p>Mobile Number: {{ object.mobile_number }}</p>
-                        <p>Landline Number: {{ object.landline_number }}</p>
+                       
+                    <div class="ui grid">
+                        <div class="two column row">
+                            <div class="column" style="text-align: left">
+                                <h2>Profile</h2>
+                                <p>Email: {{ object.email }}</p>
+                                <p>Mobile Number: {{ object.mobile_number }}</p>
+                                <p>Landline Number: {{ object.landline_number }}</p>
 
-                        {% if object.is_admin %}
-                            <p>Opening Time: {{ object.administratordetails.open_time }}</p>
-                            <p>Closing Time: {{ object.administratordetails.close_time }}</p>
-                            <p>Address: {{ object.administratordetails.location }}</p>
-                            <p>Category: {{ object.administratordetails.category }}</p>
-                            <p>Staff: {{ object.administratordetails.staff }}</p>
-                            <p>Additional Info: {{ object.administratordetails.additional_info }}</p>
-
-                            <h2>Services Offered</h2>
-                            <ul>
-                            {% for service in object.administratordetails.services.all %}
-                                <li> {{ service.name }} </li>
-                            {% endfor %}
-                            </ul>
-
-                            <h2>Products In Stock</h2>
-                            <ul>
-                            {% for instance in my_products %}
-                                <li>
-                                    <p> {{ instance.product.brand_name }} - {{ instance.product.generic_name }}: <strong>P{{ instance.price }}</strong> </p>
-                                    <p> Description: {{ instance.description }} </p>
-                                </li>
-                                <br>
-                            {% endfor %}
-                            </ul>
-                        {% endif %}
-
-    <!-- If logged in user is not an admin and they are seeing an institution page,
-        they can set up an appointment and CRUD comments --> 
-
-                        {% if not current_user.is_admin %}
-                            <h1>My Appointments Here</h1>
-                            <a href="{% url 'appointments:create' slug=object.slug %}">Set an Appointment</a>
-                            {% if my_appointments_here %}    
+                                {% if object.is_admin %}
+                                    <p>Opening Time: {{ object.administratordetails.open_time }}</p>
+                                    <p>Closing Time: {{ object.administratordetails.close_time }}</p>
+                                    <p>Address: {{ object.administratordetails.location }}</p>
+                                    <p>Category: {{ object.administratordetails.category }}</p>
+                                    <p>Staff: {{ object.administratordetails.staff }}</p>
+                                    <p>Additional Info: {{ object.administratordetails.additional_info }}</p>
+                            </div>
+                            <div class="column" style="text-align: left">
+                                <h2>Services Offered</h2>
                                 <ul>
-                                    {% for aptmt in my_appointments_here %}
-                                        <li> {{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }} 
-                                            <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Cancel</a>
-                                        </li>
+                                    {% for service in object.administratordetails.services.all %}
+                                        <li> {{ service.name }} </li>
                                     {% endfor %}
                                 </ul>
-                            {% endif %}
-                        {% endif %} 
-        
-                        
-                        {% if not current_user.is_admin %}
-                            {% if object.is_admin %}
-                                <h1>Comments</h1>
-                                <p><strong>Add Comment</strong></p>
-                                <form action="{% url 'users:feedback' slug=object.slug %}" method="POST">
-                                    {% csrf_token %}
 
-                                    {% if current_feedback %}
-                                        <input type="hidden" name="feedback_id" value="{{ current_feedback.feedback_id }}">
-                                    {% endif %}
-
-                                    <label for="">Rating:</label>
-                                    <select name="rating" id="" required>
-                                        {% if current_feedback %}
-                                            <option value="{{ current_feedback.rating }}">{{ current_feedback.rating }}</option>
-                                        {% else %}
-                                            <option value="none">--- Select ---</option>
-                                        {% endif %}
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                    <br>
-                                    <br>
-
-                                    <label for="">Comment:</label>
-                                    <br>
-                                    <br>
-                                    <textarea name="comment" id="" cols="30" rows="10" >{% if current_feedback %}{{ current_feedback.comment }}{% endif %}</textarea>
-                                    <br>
-                                    <br>
-
-                                    <input type="submit" value="Submit" />
-                                </form>
-                            {% endif %}
-                        {% endif %}
-
-                        <br>
-                        {% for f in feedback %}
-                            <p>
-                                <strong>by {{ f.user.username}}</strong>: {{ f.rating }} stars 
-                                {% if f.user == current_user %}
-                                    <a href="{% url 'users:detail' slug=object.slug %}?fid={{ f.feedback_id }}">Edit</a>
-                                    <a href="{% url 'users:feedback' slug=object.slug %}?fid={{ f.feedback_id }}">Delete</a>
+                                <h2>Products In Stock</h2>
+                                    <ul>
+                                        {% for instance in my_products %}
+                                            <li>
+                                                <p> {{ instance.product.brand_name }} - {{ instance.product.generic_name }}: <strong>P{{ instance.price }}</strong> </p>
+                                                <p> Description: {{ instance.description }} </p>
+                                            </li>
+                                            <br>
+                                        {% endfor %}
+                                    </ul>
                                 {% endif %}
-                            </p>
-                            <p>{{ f.comment }}</p>
-                            <br>
-                        {% endfor %}
+
+                                {% if not current_user.is_admin %}
+                                    <h2>My Appointments Here</h2>
+                                    <a href="{% url 'appointments:create' slug=object.slug %}">Set an Appointment</a>
+                                    {% if my_appointments_here %}    
+                                        <ul>
+                                            {% for aptmt in my_appointments_here %}
+                                                <li> {{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }} 
+                                                    <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Cancel</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endif %} 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui divider"></div>
+                    <div class="ui grid center aligned">
+                        <h2 class="ui center aligned header" style="margin-top: 50px">Comments</h2>
+                        <div class="one column row">
+                            <div class="column">
+                                {% if not current_user.is_admin %}
+                                    {% if object.is_admin %}
+                                        <h4>Add Comment</h4>
+                                        <form class="ui form" action="{% url 'users:feedback' slug=object.slug %}" method="POST">
+                                            {% csrf_token %}
+
+                                            {% if current_feedback %}
+                                                <input type="hidden" name="feedback_id" value="{{ current_feedback.feedback_id }}">
+                                            {% endif %}
+
+                                            <div class="field">
+                                                <label for="">Rating:</label>
+                                                <select class="ui fluid dropdown" name="rating" id="" required>
+                                                    {% if current_feedback %}
+                                                        <option value="{{ current_feedback.rating }}">{{ current_feedback.rating }}</option>
+                                                    {% else %}
+                                                        <option value="none">--- Select ---</option>
+                                                    {% endif %}
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <div class="field">
+                                                <label for="">Comment:</label>
+                                                <textarea name="comment" id="" cols="30" rows="10" >{% if current_feedback %}{{ current_feedback.comment }}{% endif %}</textarea>
+                                            </div>
+                                            <input type="submit" value="Submit" class="ui positive button" />
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                                <br>
+                                <br>
+                                <h4>User Feedback</h4>
+                                <div class="ui segment" id="feedback">
+                                    <br>
+                                    {% for f in feedback %}
+                                        <p>
+                                            <strong>by {{ f.user.username}}</strong>: {{ f.rating }} stars 
+                                            {% if f.user == current_user %}
+                                                <a href="{% url 'users:detail' slug=object.slug %}?fid={{ f.feedback_id }}">Edit</a>
+                                                <a href="{% url 'users:feedback' slug=object.slug %}?fid={{ f.feedback_id }}">Delete</a>
+                                            {% endif %}
+                                        </p>
+                                        <p>{{ f.comment }}</p>
+                                        
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,27 @@
 .title {
     color: red;
 }
+
+#medcentermanager {
+	margin-top: 50px;
+	margin-bottom: 50px;
+	font-size: 40px;
+}
+
+.ui.blue.stacked.segment {
+	margin-top: 50px;
+}
+
+.ui.padded.segment {
+	margin-top: 20px;
+}
+
+#feedback {
+	height: 300px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+body {
+	background-color: #FBFCFC;
+}

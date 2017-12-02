@@ -1,21 +1,28 @@
-# from django.contrib.auth.models import User
-# from users.models import (RegularUser, AdministratorUser)
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 
-# import users.utils as utils
 
-# class CustomAuthBackend:
-#     def authenticate(self, request, user_type=None, email=None, password=None):
-#         print('in authenticate, got {} as {} user'.format(email, user_type))
-#         try:
-#             user = utils.get_user_by_email(user_type, email)
-#             print('got user: {}'.format(user))
-#             return user if user.check_password(password) else None
-#         except:
-#             raise Exception
+class EmailOrUsernameModelBackend(object):
+    """
+        This is a ModelBacked that allows authentication with either a username or an email address.
+    """
+    def authenticate(self, username=None, password=None):
+        user = None
 
-#     def get_user(self, user_id):
-#         print('in get_user for user_id {}'.format(user_id))
-#         try:
-#             return User.objects.get(pk=user_id)
-#         except User.DoesNotExist:
-#             return None
+        if '@' in username:
+            user = get_user_model().objects.get(email=username)
+        else:
+            user = get_user_model().objects.get(username=username)
+        try:
+            if user.check_password(password):
+                print('returning')
+                return user
+        except ObjectDoesNotExist:
+            return None
+
+    def get_user(self, username):
+        try:
+            return get_user_model().objects.get(pk=username)
+        except get_user_model().DoesNotExist:
+            return None
