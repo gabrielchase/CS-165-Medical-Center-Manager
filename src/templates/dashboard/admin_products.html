@@ -1,68 +1,97 @@
-{% extends "base.html" %}
+<div class="ui grid container center aligned" style="margin-top: 20px">
+    {% extends "base.html" %}
 
-{% block content %}
+    {% block content %}
+    <div class="eleven wide column">
+        <div class="ui secondary menu" style="border-top: 2px solid rgba(34, 36, 38, 0.15); padding:3px;">
+            <a class="active item" href={% url 'dashboard:home' %}>Home</a>
+            <a class="item" href={% url 'dashboard:institution-list' %}>View institutions</a>
+            <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
 
-<div class="ui grid container center aligned" style="margin-top: 100px">
-    <div class="two column row">
-        <div class="column">
-            <div class="ui stacked segment">
-                <h1>Add or Update a Product</h1>
-                <form class="ui form" action="{% url 'dashboard:products' %}" method="POST">
-                    {% csrf_token %}
-
-                    <div class="field">
-                        <label for="">Product: </label>
-                        <select name="product" id="">
-                            {% if edit_product %}
-                                <option value="{{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}">
-                                    {{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}
-                                </option>
-                            {% else %}
-                                <option value="none">--- Select ---</option>
-                            {% endif%}
-                    
-                            {% for product in other_products %}
-                                <option value="{{ product.generic_name }} - {{ product.brand_name }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="field"> 
-                        <label for="">Price:</label>
-                        <input type="number" step="0.01" name="price" {% if edit_product %} value="{{ edit_product.price }}" {% endif %} required>
-                    </div>
-
-                    <div class="field">
-                        <label for="">Stock:</label>
-                        <input type="number" step="1" name="stock" {% if edit_product %} value="{{ edit_product.stock }}" {% endif %} required>
-                    </div>
-
-                    <div class="field">
-                        <label for="">Description:</label>
-                        <input type="text" name="description" {% if edit_product %} value="{{ edit_product.description }}" {% endif %} >
-                    </div>
-
-                    <input type="submit" value="Submit" class="ui blue button" />
-                </form>
+            <div class="right secondary menu">
+                <a class="ui item" href={% url 'logout' %}> <i class="sign out icon"></i> Logout</a>
             </div>
-        </div>
 
-        <div class="column">
+        </div>
+    </div>
+    <div class="row">
+        <div class="fourteen wide column">
             <div class="ui segment">
-                <h1>My Products</h1>
-                <ul>
-                    {% for instance in my_products %}
-                    <li>{{ instance.product.generic_name }} -  {{ instance.product.brand_name }} by
-                        <strong>{{ instance.product.manufacturer }}</strong>:
-                        {{ instance.price }} {{ instance.stock}} {{ instance.description}}
-                        <a href="{% url 'dashboard:products' %}?p={{ instance.product.generic_name }}">Edit</a> 
-                        <a href="{% url 'dashboard:products-delete' %}?p={{ instance.product.generic_name }}">Delete</a>
-                    </li>
-                    {% endfor %}
-                </ul>
+                <div class="ui two column aligned relaxed grid" style="margin-top:3px;">
+                    <div class="row">
+                        <div class="column">
+                            <h1 class="ui header">My Products</h1>
+                            <div class="ui segment">
+
+                                <div class="ui divided list modlist" style="text-align:left;">
+                                    {% for instance in my_products %}
+                                    <div class="item">
+                                        <div class="right floated content">
+                                            <div class="tiny ui buttons">
+                                              <a href="{% url 'dashboard:products' %}?p={{ instance.product.generic_name }}" class="tiny ui secondary button" style="padding:10px 13px;"><i class="write icon"></i> Edit</a>
+                                              <a href="{% url 'dashboard:products-delete' %}?p={{ instance.product.generic_name }}" class="tiny ui icon button" style><i class="trash icon"></i></a>
+                                          </div>
+                                      </div>
+
+                                      <div class="content">
+                                        <h4 class="header">{{ instance.product.brand_name }}</h4>
+                                        <div>Generic name: {{ instance.product.generic_name }}</div>
+                                        <div>Manufacturer: <strong>{{ instance.product.manufacturer }}</strong></div>
+                                        <div>Price: {{ instance.price }}&nbsp;&nbsp;|&nbsp;&nbsp;Stock: {{ instance.stock}}</div>
+                                        {{ instance.description}}<br>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui vertical divider" style="left:50%;"> </div>
+
+                    <div class="column" style="padding:0 30px">
+                        <h1 class="ui header">Add or Update a Product</h1>
+                        <form class="ui form" action="{% url 'dashboard:products' %}" method="POST">
+                            {% csrf_token %}
+
+                            <div class="field">
+                                <label for="product" align="left">Product: </label>
+                                <select name="product" id="">
+                                    {% if edit_product %}
+                                    <option value="{{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}">
+                                        {{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}
+                                    </option>
+                                    {% else %}
+                                    <option value="">Select product...</option>
+                                    {% endif%}
+
+                                    {% for product in other_products %}
+                                    <option value="{{ product.generic_name }} - {{ product.brand_name }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="two fields">
+                                <div class="field"> 
+                                    <label for="price" align="left">Price:</label>
+                                    <input type="number" step="0.01" name="price" {% if edit_product %} value="{{ edit_product.price }}" {% endif %} required>
+                                </div>
+
+                                <div class="field">
+                                    <label for="stock" align="left">Stock:</label>
+                                    <input type="number" step="1" name="stock" {% if edit_product %} value="{{ edit_product.stock }}" {% endif %} required>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="description" align="left">Description:</label>
+                                <textarea name="description"> {% if edit_product %} {{ edit_product.description }} {% endif %}</textarea>
+                            </div>
+
+                            <input type="submit" value="Submit" class="ui blue button" />
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
+</div>
 {% endblock %}
