@@ -11,6 +11,7 @@
                 <form class="ui form" action={% url 'registration' user_type=user_type%} method="POST">
                     {% csrf_token %}
                     <div class="ui equal width form">
+                        <div class="ui error message"></div>
                         <div class="fields">
                             <div class="required field">
                                 {% if user_type == 'regular' %}

@@ -1,18 +1,18 @@
-{% extends "base.html" %}
-
-{% block content %}
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
-<div class="ui container centered grid">
-	<div class="eleven wide column segment" style="margin-top: 50px">
-		<div class="row" style="margin-bottom: 20px;">
+<div class="ui container centered grid" style="margin-top: 50px">
+	<div class="eleven wide column segment" >
+		<div class="row">
+			{% extends "base.html" %}
+
+			{% block content %}
   			<h1 class="ui header" align="left">Dashboard
-  			<div class="sub header"><small>Welcome, <strong>{{ current_user.username }} </strong> 
-  			&nbsp;({% if current_user.is_admin %}Administrator{% elif not current_user.is_admin %}Regular user{% endif %})
-			</small></div></h1>
+  			<div class="sub header" align="left" style="margin-bottom:5px;"><small>Welcome,&nbsp;
+  				<a href="{% url 'users:update' %}"><strong>{{ current_user.username }} </strong><i class="setting icon"></i></a></small>
+			</div></h1>
 		</div>
 		<div class="row">
-		<div class="ui secondary menu" style="border-bottom: 2px solid rgba(34, 36, 38, 0.15);"	>
+		<div class="ui secondary menu" style="border-top: 2px solid rgba(34, 36, 38, 0.15); padding:3px;">
 	  <a class="active item" href={% url 'dashboard:home' %}>Home</a>
 	  <a class="item" href={% url 'dashboard:institution-list' %}>View institutions</a>
 	  <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
@@ -23,64 +23,104 @@
 
 	</div>
 </div>
+
 <div class="row">
-	<p></p>
- 	<div class="ui grid">
-  <div class="row">
-    <div class="sixteen wide column">
-      <div class="ui horizontal segments">
-        <div class="ui secondary vertical pointing menu">
-          <a class="active item">Appointments</a>
-          <a class="item">Services</a>
-          <a class="item">Companies</a>
-          <a class="item">Links</a>
-        </div>
-        <div class="ui segment" style="border-left-width: 0px;">
-          <h2>Scheduled Appointments</h2>
-			{% if appointments %}
-				<ul>
-					{% for aptmt in appointments %}
-						<li> 
-							{{ aptmt }} 
-							{% if current_user.is_admin %} 
-							<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> {% endif %}
-						</li>
-					{% endfor %}
-				</ul>
-			{% else %}
-			<p>No scheduled appointments.</p>
-			{% endif %}
-
-			<h2>Pending Appointments</h2>
-			{% if pending_appointments %}
-				<ul>
-					{% for aptmt in pending_appointments %}
-						<li>
-							{{ aptmt }} 
-							
-							{% if current_user.is_admin %} 
-								<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
-								<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+	<div class="row" style="height:100%; margin-top:30px;">
+		<div class="ui horizontal stacked segments grid" style="border-width: 0px;">
+			<div class="twelve wide column" style="padding:0px;">
+				<div class="ui segment" style="border-right-width:0px; border-bottom-width:0px; box-shadow:none; border-top-right-radius:0px;">
+					<div style="padding:3px;">
+						<div class="ui active tab" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">
+							<h2>Scheduled Appointments</h2>
+							{% if appointments %}
+							<ul>
+								{% for aptmt in appointments %}
+								<li> 
+									{{ aptmt }} 
+									{% if current_user.is_admin %} 
+									<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> {% endif %}
+								</li>
+								{% endfor %}
+							</ul>
+							{% else %}
+							<p>No scheduled appointments.</p>
 							{% endif %}
-						</li>
-					{% endfor %}
-				</ul>
+							{% if current_user.is_admin == 0 %}</div><div class="ui tab" data-tab="pending-appointments"> {% endif %}
 
-			{% else %}
-			<p>No pending appointments.</p>
-			{% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
+								<h2>Pending Appointments</h2>
+								{% if pending_appointments %}
+								<ul>
+									{% for aptmt in pending_appointments %}
+									<li>{{ aptmt }} 
+										{% if current_user.is_admin %} 
+										<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
+										<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+										{% endif %}
+									</li>
+									{% endfor %}
+								</ul>
 
+								{% else %}
+								<p>No pending appointments.</p>
+								{% endif %}
+						</div>
+
+						<div class="ui tab" data-tab="services">
+							<h1>Services Offered</h1>
+							{% if my_services %}
+							<ul>
+								{% for instance in my_services %}
+								<li>{{ instance.service.name }}: {{ instance.price }} </li>
+								{% endfor %}
+							</ul>
+							{% else %}
+							<p>No services yet.</p>
+							{% endif %}
+							<a href="{% url 'dashboard:services' %}">Manage Services</a>
+						</div>
+
+						<div class="ui tab" data-tab="products">
+							<h1>Products Offered</h1>
+							{% if my_products %}
+							<ul>
+								{% for instance in my_products %}
+								<li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
+									{{ instance.price }} {{ instance.stock }} {{ instance.description }}
+								</li>
+								{% endfor %}
+							</ul>
+							{% else %}
+							<p>No services yet.</p>
+							{% endif %}
+							<a href="{% url 'dashboard:products' %}">Manage Products</a>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- MENU -->
+			<div class="fluid four wide column" style="padding:0px; display:flex;">
+				<div class="fluid" style="display:flex; width: 100%;">
+					<div class="ui fluid vertical right tabular menu" style="margin-bottom:3px;">
+						<a class="item active" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">{% if current_user.is_admin == 0 %}Scheduled {% endif %}Appointments</a>
+						{% if current_user.is_admin == 0 %}
+						<a class="item" data-tab="pending-appointments">Pending Appointments</a> 
+						
+						{% elif current_user.is_admin %}
+						<a class="item" data-tab="services">Services</a>
+						<a class="item" data-tab="products">Products</a>
+						{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-
-		<p></p>
-
+</div>
 	
 
-		{% if user.is_admin %}
+		<!-- {% if current_user.is_admin %}
 		<div class="ui grid container center aligned" style="margin-top: 50px">
 			<div class="two column row">
 				<div class="column">	
@@ -110,31 +150,24 @@
 				</div>
 			</div>
 		</div>
-		{% endif %}
+		{% endif %} -->
 	</div>
 </div>
 </div>
-{% endblock %}
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>
 
 <script type="text/javascript">
-
-function hey(){
-   $('.ui .item').on('click', function() {
-      $('.ui .item').removeClass('active');
+$('.item').on('click', function() {
+      $('.item').removeClass('active');
       $(this).addClass('active');
    });             
-});
 
-$(document).ready(function(){
-   $('.ui .item').on('click', function() {
-      $('.ui .item').removeClass('active');
-      $(this).addClass('active');
-   });             
-});
-
-	$('.tabular.menu .item').tab();
+	$('.menu .item').tab();
+	$('.ui.dropdown').dropdown();
 </script>
+
+{% endblock %}
+

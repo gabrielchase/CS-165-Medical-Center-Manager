@@ -1,7 +1,6 @@
-<div class="ui grid container center aligned" style="margin-top: 100px">
-    <div class="three column row">
-        <div class="column"></div>
-        <div class="eleven wide column">         
+<div class="ui grid container center aligned" style="margin-top: 60px">
+    <div class="row">
+        <div class="six wide computer column eleven wide tablet eleven wide mobile">       
 
             {% extends "base.html" %}
 
@@ -12,12 +11,12 @@
                     {% csrf_token %}
 
                     <div class="field">
-                        <label for="username">Username: </label>
+                        <label for="username" align="left">Username: </label>
                         <input type="text" name="username" value="{{ object.username }}"  />
                     </div>
 
                     <div class="field">
-                        <label for="email">Email: </label>
+                        <label for="email" align="left">Email: </label>
                         <input type="text" name="email" value="{{ object.email }}" />
                     </div>
 
