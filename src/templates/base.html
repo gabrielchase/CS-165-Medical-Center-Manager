@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}"/>    
     
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://use.fontawesome.com/5b20e0794d.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.css">
     <link rel="stylesheet" type="text/css" href="{% static '/bower_components/semantic-ui-calendar/dist/calendar.min.css' %}"/>
@@ -19,6 +20,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.js"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>
     <style>
+
+        body {
+            background-color: #FBFCFC;
+        }
         .ui.divided.list.modlist {
             margin-top: 0;
         }
@@ -28,28 +33,42 @@
         .ui.divided.list.modlist .item:first-child {
             padding-top: 0;
         }
-        </style>
+
+        .stars {
+            padding: 5px 0;
+        }
+
+        .stars.stars-4 > i.star.icon:nth-child(5), .stars.stars-3 > i.star.icon:nth-child(5), .stars.stars-3 > i.star.icon:nth-child(4), .stars.stars-2 > i.star.icon:nth-child(5), .stars.stars-2 > i.star.icon:nth-child(4), .stars.stars-2 > i.star.icon:nth-child(3), .stars.stars-1 > i.star.icon:nth-child(5), .stars.stars-1 > i.star.icon:nth-child(4), .stars.stars-1 > i.star.icon:nth-child(3), .stars.stars-1 > i.star.icon:nth-child(2), .stars.stars-0 > i.star.icon {
+            color: #ededed;
+        }
+
+        .stars > i.star.icon {
+            color: #ffdd11;
+            margin:0;
+        }
+    </style>
 </head>
 
-<body style="background-color: #FBFCFC">
+<body>
     <h1 id="medcentermanager" class="ui header" align="center" style="margin-bottom:20px;">Med Center Manager</h1>
-{% block messages %}
-{% if messages %}
-        {% if messages|length == 1 %}
-            {% for message in messages %}
-                <div class="ui message {% if message.tags %} {{ message.tags }}"{% endif %} align="left"> {{ message }} </div>
-            {% endfor %}
-        {% else %}
+    {% block messageblock %}
+    {% if messages %}
+    {% if messages|length == 1 %}
+    {% for message in messages %}
+    <div class="ui message {% if message.tags %} {{ message.tags }}"{% endif %} align="left"> {{ message }} </div>
+    {% endfor %}
+    {% else %}
     <div class="ui message">
         <ul class="list messages">
-        {% for message in messages %}
+            {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</li> 
-        {% endfor %}
+            {% endfor %}
         </ul>
     </div>
     {% endif %}
-{% endif %}
-{% endblock messages %}
+    {% endif %}
+    {% endblock messageblock %}
+
     {% block content %}
     {% endblock content %} 
 

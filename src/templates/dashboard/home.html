@@ -63,35 +63,46 @@
 										{% endif %}
 									</div>
 
-									<div class="ui tab" data-tab="services">
-										<h1>Services Offered</h1>
-										{% if my_services %}
-										<ul>
-											{% for instance in my_services %}
-											<li>{{ instance.service.name }}: {{ instance.price }} </li>
-											{% endfor %}
-										</ul>
-										{% else %}
-										<p>No services yet.</p>
-										{% endif %}
-										<a href="{% url 'dashboard:services' %}">Manage Services</a>
+									<div class="ui tab" data-tab="services" style="position:relative;">
+										<h1 class="ui header">Services Offered</h1>
+										<a href="{% url 'dashboard:services' %}" class="small ui right primary button" style="position: absolute;top: 0;right:0;"><i class="edit icon"></i> Manage</a>
+										<div class="row">
+											<p></p>
+											{% if my_services %}
+											<div class="ui bulleted list">
+												{% for instance in my_services %}
+												<div class="item">
+												{{ instance.service.name }} ({{ instance.price }} PHP)
+													</div>
+												{% endfor %}
+											</div>
+											{% else %}
+											<p>No services yet.</p>
+
+											{% endif %}
+										</div>
 									</div>
 
-									<div class="ui tab" data-tab="products">
-										<h1>Products Offered</h1>
-										{% if my_products %}
-										<ul>
-											{% for instance in my_products %}
-											<li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
-												{{ instance.price }} {{ instance.stock }} {{ instance.description }}
-											</li>
-											{% endfor %}
-										</ul>
-										{% else %}
-										<p>No services yet.</p>
-										{% endif %}
-										<a href="{% url 'dashboard:products' %}">Manage Products</a>
-										
+									<div class="ui tab" data-tab="products" style="position:relative;">
+										<h1 class="ui header">Products Offered</h1>
+										<a href="{% url 'dashboard:products' %}" class="small ui right primary button" style="position: absolute;top: 0;right:0;"><i class="edit icon"></i> Manage</a>
+										<div class="row">
+											<p></p>
+											{% if my_products %}
+											<div class="ui bulleted list">
+												{% for instance in my_products %}
+												<div class="item">
+													<div><h4 class="ui inline header">{{ instance.product.brand_name }}</h4>by {{ instance.product.manufacturer }}</div>
+													<div>{{ instance.product.generic_name }}</div>
+													<div>{{ instance.price }} PHP  /  {{ instance.stock }} in stock</div>
+													<div>{{ instance.description }}</div>
+												</div>
+												{% endfor %}
+											</div>
+											{% else %}
+											<p>No products yet.</p>
+											{% endif %}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -104,7 +115,7 @@
 									<a class="item active" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">{% if current_user.is_admin == 0 %}Scheduled {% endif %}Appointments</a>
 									{% if current_user.is_admin == 0 %}
 									<a class="item" data-tab="pending-appointments">Pending Appointments</a> 
-									
+
 									{% elif current_user.is_admin %}
 									<a class="item" data-tab="services">Services</a>
 									<a class="item" data-tab="products">Products</a>

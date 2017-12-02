@@ -28,13 +28,14 @@
                                 <div class="item">
                                     <div class="right floated content">
                                         <div class="tiny ui buttons">
-                                          <a href="{% url 'dashboard:services' %}?p={{ instance.service.name }}" class="tiny ui secondary button" style="padding:10px 13px;"><i class="write icon"></i> Edit</a>
-                                          <a href="{% url 'dashboard:services-delete' %}?p={{ instance.service.name }}" class="tiny ui icon button" style><i class="trash icon"></i></a>
+                                          <a href="{% url 'dashboard:services' %}?s={{ instance.service.name }}" class="tiny ui secondary button" style="padding:10px 13px;"><i class="write icon"></i> Edit</a>
+                                          <a href="{% url 'dashboard:services-delete' %}?s={{ instance.service.name }}" class="tiny ui icon button" style><i class="trash icon"></i></a>
                                       </div>
                                   </div>
                                   <div class="content">
                                     <h4 class="header">{{ instance.service.name }}</h4>
-                                    {{ instance.description }}
+                                    <div>Price:&nbsp; {{ instance.price }} PHP</div>
+                                    <div class="description" style="margin-top:3px;">{{ instance.description }}</div>
                                 </div>
                             </div>
                             {% endfor %}

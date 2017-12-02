@@ -1,18 +1,19 @@
 {% block search_bar %}
-
-<form class="ui form" ction="{% url 'dashboard:institution-list' %}" method="GET">
-        <div class="inline fields">
-            <div class="field">
+<div class="twelve wide column">
+    <div class="ui basic segment" style="padding:14px 0;">
+    <form class="ui compact form" action="{% url 'dashboard:institution-list' %}" method="GET">
+        <div class="fields">
+            <div class="four wide field">
                 <label for="">Category: </label>
-                <select class="ui fluid dropdown" name="c" id="">
+                <select class="ui compact dropdown" name="c" id="">
                     {% if category %}
-                        <option value="{{ category }}">{{ category }}</option>
+                    <option value="{{ category }}">{{ category }}</option>
                     {% endif %}
 
                     {% if category  %}
                     <option value="">None</option>
                     {% else %}
-                        <option value="">--- Select ---</option>
+                    <option value="">--- Select ---</option>
                     {% endif %}
                     
                     <option value="Treatment Center">Treatment Center</option>
@@ -21,17 +22,17 @@
                 </select>
             </div>
 
-            <div class="field">
-                <label for="">Location</label>
-                <select class="ui fluid dropdown" name="l" id="">
+            <div class="three wide field">
+                <label for="">Location:</label>
+                <select class="ui compact dropdown" name="l" id="">
                     {% if location %}
-                        <option value="{{ location }}">{{ location }}</option>
+                    <option value="{{ location }}">{{ location }}</option>
                     {% endif %}
 
                     {% if location %}
-                        <option value="">None</option>
+                    <option value="">None</option>
                     {% else %}
-                        <option value="">--- Select ---</option>
+                    <option value="">--- Select ---</option>
                     {% endif %}
                     
                     <option value="Quezon City">Quezon City</option>
@@ -40,46 +41,47 @@
                 </select>
             </div>
 
-            <div class="field">
-                <label for="">Service</label>
-                <select class="ui fluid dropdown" name="s" id="">
+            <div class="four wide field">
+                <label for="">Service:</label>
+                <select class="ui compact dropdown" name="s" id="">
                     {% if service %}
-                        <option value="{{ service }}">{{ service }}</option>
+                    <option value="{{ service }}">{{ service }}</option>
                     {% endif %}
                     
                     {% if service  %}
-                        <option value="">None</option>
+                    <option value="">None</option>
                     {% else %}
-                        <option value="">--- Select ---</option>
+                    <option value="">--- Select ---</option>
                     {% endif %}
                     
                     {% for service in services %}
-                        <option value="{{ service.name }}" type="checkbox">{{ service.name}}</option>
+                    <option value="{{ service.name }}" type="checkbox">{{ service.name}}</option>
                     {% endfor %}
                 </select>
             </div>
 
-            <div class="field">
-                <label for="">Product</label>
-                <select class="ui fluid dropdown" name="p" id="">
+            <div class="eight wide field">
+                <label for="">Product:</label>
+                <select class="ui compact dropdown" name="p" id="">
                     {% if product %}
-                        <option value="{{ product }}">{{ product }}</option>
+                    <option value="{{ product }}">{{ product }}</option>
                     {% endif %}
                     
                     {% if product %}
-                        <option value="">None</option>
+                    <option value="">None</option>
                     {% else %}
-                        <option value="">--- Select ---</option>
+                    <option value="">--- Select ---</option>
                     {% endif %}
                     
                     {% for product in products %}
-                        <option value="{{ product.generic_name}} - {{ product.brand_name }}" type="checkbox">{{ product.generic_name}} - {{ product.brand_name }}</option>
+                    <option value="{{ product.generic_name}} - {{ product.brand_name }}" type="checkbox">{{ product.generic_name}} - {{ product.brand_name }}</option>
                     {% endfor %}
                 </select>
             </div>
-
-            <input type="submit" value="Search" class="ui positive button">
         </div>
-</form>
-
+        <input type="submit" value="Search" class="ui positive button">
+        
+    </form>
+</div>
+</div>
 {% endblock %}

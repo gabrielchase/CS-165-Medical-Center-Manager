@@ -1,52 +1,79 @@
-{% extends "base.html" %}
+<div class="ui grid container centered aligned">
+    <div class="row">
+        <div class="eight wide computer column thirteen wide tablet thirteen wide mobile">       
 
-{% block content %}
+            {% extends "base.html" %}
 
-{% if not current_user.is_admin %}
-    <h3>Set an Appointment with {{ user_viewed.username }}</h3>
+            {% block content %}
 
-    <form action="{% url 'appointments:base' slug=user_viewed.slug %}" method="POST">
-        {% csrf_token %}
-
-        <div class="ui calendar" id="appointment-calendar">
-            <div class="ui input left icon">
-                <i class="calendar icon"></i>
-                <input type="text" name="date" placeholder="Date" {% if date %} value="{{ date }}" {% endif %}>
+            <div class="row">
+                <div class="ui secondary menu" style="border-bottom: 2px solid rgba(34, 36, 38, 0.15);" >
+                  <a class="item" href={% url 'dashboard:home' %}>Home</a>
+                  <a class="item" href={% url 'dashboard:institution-list' %}>View institutions</a>
+                  <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
+                  <div class="right secondary menu">
+                    <a class="ui item" href={% url 'logout' %}> <i class="sign out icon"></i> Logout</a>
+                </div>
             </div>
         </div>
-        <br>
-    
-        
-        <label for="">Timeslot: </label>
-        <select name="timeslot" id="">
-            <option value="none">--- Select ---</option>
-            {% for aptmt in available_appointment_timeslots %}
-                <option value="{{ aptmt.timeslot_id }}">{{ aptmt }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <br>
 
-        <label for="Service">Service: </label>
-        <select name="service" id="">
-            <option value="none">--- Select ---</option>
-            {% for service in user_viewed.administratordetails.services.all %}
-                <option value="{{ service.name }}">{{ service.name }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <br>
+        <div class="row">
+            <div class="ui stacked segment" style="margin-top: 20px">
+                {% if not current_user.is_admin %}
+                <h1 class="ui header" align="center">Set an Appointment
+                <div class="sub header">with <strong>{{ user_viewed.username }}</strong></div></h1>
+                <p></p>
 
-        <label for="">Additional Info:</label>
-        <br>
-        <br>
-        <textarea name="additional_info" id="" cols="30" rows="10" ></textarea>
-        <br>
-        <br>
+                <form class="ui form" action="{% url 'appointments:base' slug=user_viewed.slug %}" method="POST" style="padding:8px 15px;">
+                    {% csrf_token %}
+                    <div class="two fields">
+                        <div class="required field">
+                            <label for="date">Date:</label>
+                            <div class="ui calendar" id="appointment-calendar">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" name="date" placeholder="Date" {% if date %} value="{{ date }}" {% endif %}>
+                                </div>
+                            </div>
+                        </div>
 
-        <input type="submit" value="Submit" />                
-    </form>
-    <br>
-{% endif %}
+                        <div class="required field">
+                            <label for="timeslot">Timeslot: </label>
+                            <select name="timeslot" id="">
+                                <option value="none">--- Select ---</option>
+                                {% for aptmt in available_appointment_timeslots %}
+                                <option value="{{ aptmt.timeslot_id }}">{{ aptmt }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="required field">
+                        <label for="service">Service: </label>
+                        <select name="service" id="">
+                            <option value="none">--- Select ---</option>
+                            {% for service in user_viewed.administratordetails.services.all %}
+                            <option value="{{ service.name }}">{{ service.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="required field">
+                        <label for="">Additional Comments:</label>
+                        <textarea name="additional_info" id="" cols="30" rows="5" placeholder="Any requests, info, questions, etc."></textarea>
+                    </div>
+                    <p>&nbsp;</p>
+                    <div style="text-align:center;">
+                        <input class="ui positive button" type="submit" value="Submit" />
+                        <a class="ui button" href={% url 'dashboard:home' %}>Cancel</a>
+                    </div>                
+                </form>
+                <br>
+                {% endif %}
+            </div>
+        </div>
 
-{% endblock %}
+            {% endblock %}
+
+        </div>
+    </div>
+</div>
