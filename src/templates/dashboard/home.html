@@ -1,5 +1,3 @@
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-
 <div class="ui container centered grid" style="margin-top: 50px">
 	<div class="eleven wide column segment" >
 		<div class="row">
@@ -118,46 +116,7 @@
 		</div>
 	</div>
 </div>
-	
-
-		<!-- {% if current_user.is_admin %}
-		<div class="ui grid container center aligned" style="margin-top: 50px">
-			<div class="two column row">
-				<div class="column">	
-					<div class="ui basic segment">
-							<h1>Services Offered</h1>
-							<a href="{% url 'dashboard:services' %}">Manage Services</a>
-							<ul>
-							{% for instance in my_services %}
-								<li>{{ instance.service.name }}: {{ instance.price }} </li>
-							{% endfor %}
-							</ul>
-					</div>
-				</div>
-				<div class="ui vertical divider">and</div>
-				<div class="column">
-					<div class="ui basic segment">
-						<h1>Products Offered</h1>
-						<a href="{% url 'dashboard:products' %}">Manage Products</a>
-						<ul>
-							{% for instance in my_products %}
-								<li>{{ instance.product.generic_name }} / {{ instance.product.brand_name }} by {{ instance.product.manufacturer }}: 
-									{{ instance.price }} {{ instance.stock }} {{ instance.description }}
-								</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endif %} -->
-	</div>
 </div>
-</div>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.js"></script>
-<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.13/semantic.min.js"></script>
 
 <script type="text/javascript">
 $('.item').on('click', function() {

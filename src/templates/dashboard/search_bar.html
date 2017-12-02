@@ -1,55 +1,85 @@
 {% block search_bar %}
 
-<form action="{% url 'dashboard:institution-list' %}" method="GET">
-    <label for="">Category: </label>
-    <select name="c" id="">
-        {% if category %}
-            <option value="{{ category }}">{{ category }}</option>
-        {% else %}
-            <option value="">--- Select ---</option>
-        {% endif %}
-        <option value="Treatment Center">Treatment Center</option>
-        <option value="Testing Hub">Testing Hub</option>
-        <option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
-    </select>
+<form class="ui form" ction="{% url 'dashboard:institution-list' %}" method="GET">
+        <div class="inline fields">
+            <div class="field">
+                <label for="">Category: </label>
+                <select class="ui fluid dropdown" name="c" id="">
+                    {% if category %}
+                        <option value="{{ category }}">{{ category }}</option>
+                    {% endif %}
 
-    <label for="">Location</label>
-    <select name="l" id="">
-        {% if location %}
-            <option value="{{ location }}">{{ location }}</option>
-        {% else %}
-            <option value="">--- Select ---</option>
-        {% endif %}
-        <option value="Quezon City">Quezon City</option>
-        <option value="Mandaluyong">Mandaluyong</option>
-        <option value="Makati">Makati</option>
-    </select>
+                    {% if category  %}
+                    <option value="">None</option>
+                    {% else %}
+                        <option value="">--- Select ---</option>
+                    {% endif %}
+                    
+                    <option value="Treatment Center">Treatment Center</option>
+                    <option value="Testing Hub">Testing Hub</option>
+                    <option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
+                </select>
+            </div>
 
-    <label for="">Service</label>
-    <select name="s" id="">
-        {% if service %}
-            <option value="{{ service }}">{{ service }}</option>
-        {% else %}
-            <option value="">--- Select ---</option>
-        {% endif %}
-        {% for service in services %}
-            <option value="{{ service.name }}" type="checkbox">{{ service.name}}</option>
-        {% endfor %}
-    </select>
+            <div class="field">
+                <label for="">Location</label>
+                <select class="ui fluid dropdown" name="l" id="">
+                    {% if location %}
+                        <option value="{{ location }}">{{ location }}</option>
+                    {% endif %}
 
-    <label for="">Product</label>
-    <select name="p" id="">
-        {% if category %}
-            <option value="{{ category }}">{{ category }}</option>
-        {% else %}
-            <option value="">--- Select ---</option>
-        {% endif %}
-        {% for product in products %}
-            <option value="{{ product.generic_name }}" type="checkbox">{{ product.generic_name}} - {{ product.brand_name }}</option>
-        {% endfor %}
-    </select>
+                    {% if location %}
+                        <option value="">None</option>
+                    {% else %}
+                        <option value="">--- Select ---</option>
+                    {% endif %}
+                    
+                    <option value="Quezon City">Quezon City</option>
+                    <option value="Mandaluyong">Mandaluyong</option>
+                    <option value="Makati">Makati</option>
+                </select>
+            </div>
 
-    <input type="submit" value="Search">
+            <div class="field">
+                <label for="">Service</label>
+                <select class="ui fluid dropdown" name="s" id="">
+                    {% if service %}
+                        <option value="{{ service }}">{{ service }}</option>
+                    {% endif %}
+                    
+                    {% if service  %}
+                        <option value="">None</option>
+                    {% else %}
+                        <option value="">--- Select ---</option>
+                    {% endif %}
+                    
+                    {% for service in services %}
+                        <option value="{{ service.name }}" type="checkbox">{{ service.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="">Product</label>
+                <select class="ui fluid dropdown" name="p" id="">
+                    {% if product %}
+                        <option value="{{ product }}">{{ product }}</option>
+                    {% endif %}
+                    
+                    {% if product %}
+                        <option value="">None</option>
+                    {% else %}
+                        <option value="">--- Select ---</option>
+                    {% endif %}
+                    
+                    {% for product in products %}
+                        <option value="{{ product.generic_name}} - {{ product.brand_name }}" type="checkbox">{{ product.generic_name}} - {{ product.brand_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <input type="submit" value="Search" class="ui positive button">
+        </div>
 </form>
 
 {% endblock %}
