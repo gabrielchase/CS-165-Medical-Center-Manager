@@ -229,9 +229,9 @@ class ProductDeleteView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
-        generic_name = request.GET.get('p')
-        product = Product.objects.get(generic_name=generic_name)
+        product_id = request.GET.get('p')
+        product = Product.objects.get(product_id=product_id)
         AdministratorProducts.objects.get(admin__user=self.request.user, product=product).delete()
-        messages.success(request, '{} product deleted'.format(product))
+        messages.success(request, '{} - {} product deleted'.format(product.generic_name, product.brand_name))
 
         return redirect(reverse('dashboard:products'))
