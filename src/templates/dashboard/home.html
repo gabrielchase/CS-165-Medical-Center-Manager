@@ -8,7 +8,7 @@
 			{% block content %}
   			<h1 class="ui header" align="left">Dashboard
   			<div class="sub header" align="left" style="margin-bottom:5px;"><small>Welcome,&nbsp;
-  				<a href="{% url 'users:update' %}"><strong>{{ current_user.username }} </strong><i class="setting icon"></i></a></small>
+  				<a href="{% url 'users:update' %}" title="Edit profile"><strong>{{ current_user.username }} </strong><i class="setting icon"></i></a></small>
 			</div></h1>
 		</div>
 		<div class="row">
@@ -27,7 +27,7 @@
 <div class="row">
 	<div class="row" style="height:100%; margin-top:30px;">
 		<div class="ui horizontal stacked segments grid" style="border-width: 0px;">
-			<div class="twelve wide column" style="padding:0px;">
+			<div class="eleven wide column" style="padding:0px;">
 				<div class="ui segment" style="border-right-width:0px; border-bottom-width:0px; box-shadow:none; border-top-right-radius:0px;">
 					<div style="padding:3px;">
 						<div class="ui active tab" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">
@@ -100,7 +100,7 @@
 			</div>
 
 			<!-- MENU -->
-			<div class="fluid four wide column" style="padding:0px; display:flex;">
+			<div class="fluid five wide column" style="padding:0px; display:flex;">
 				<div class="fluid" style="display:flex; width: 100%;">
 					<div class="ui fluid vertical right tabular menu" style="margin-bottom:3px;">
 						<a class="item active" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">{% if current_user.is_admin == 0 %}Scheduled {% endif %}Appointments</a>

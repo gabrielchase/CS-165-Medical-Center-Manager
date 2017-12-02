@@ -34,60 +34,121 @@
 
 
                     {% if object.administratordetails %}
-                        <div class="two fields">
-                            <div class="field">
-                                <label for="open_time">Open Time: </label>
-                                <input type="text" name="open_time" {% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %} />
+                    <div class="two fields">
+                        <div class="field">
+                            <label for="open_time" align="left">Opening Time: </label>
+                            <!-- <input type="text" name="open_time" {% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %} /> -->
+
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="opening-time">
+                                <i class="dropdown icon"></i> <div class="text">{% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %}</div>
+                                <div class="menu">
+                                    <div class="item" data-value="00:00">00:00 / 12:00 AM</div>
+                                    <div class="item" data-value="01:00">01:00 / 01:00 AM</div>
+                                    <div class="item" data-value="02:00">02:00 / 02:00 AM</div>
+                                    <div class="item" data-value="03:00">03:00 / 03:00 AM</div>
+                                    <div class="item" data-value="04:00">04:00 / 04:00 AM</div>
+                                    <div class="item" data-value="05:00">05:00 / 05:00 AM</div>
+                                    <div class="item" data-value="06:00">06:00 / 06:00 AM</div>
+                                    <div class="item" data-value="07:00">07:00 / 07:00 AM</div>
+                                    <div class="item" data-value="08:00">08:00 / 08:00 AM</div>
+                                    <div class="item" data-value="09:00">09:00 / 09:00 AM</div>
+                                    <div class="item" data-value="10:00">10:00 / 10:00 AM</div>
+                                    <div class="item" data-value="11:00">11:00 / 11:00 AM</div>
+                                    <div class="item" data-value="12:00">12:00 / 12:00 PM</div>
+                                    <div class="item" data-value="13:00">13:00 / 01:00 PM</div>
+                                    <div class="item" data-value="14:00">14:00 / 02:00 PM</div>
+                                    <div class="item" data-value="15:00">15:00 / 03:00 PM</div>
+                                    <div class="item" data-value="16:00">16:00 / 04:00 PM</div>
+                                    <div class="item" data-value="17:00">17:00 / 05:00 PM</div>
+                                    <div class="item" data-value="18:00">18:00 / 06:00 PM</div>
+                                    <div class="item" data-value="19:00">19:00 / 07:00 PM</div>
+                                    <div class="item" data-value="20:00">20:00 / 08:00 PM</div>
+                                    <div class="item" data-value="21:00">21:00 / 09:00 PM</div>
+                                    <div class="item" data-value="22:00">22:00 / 10:00 PM</div>
+                                    <div class="item" data-value="23:00">23:00 / 11:00 PM</div>
+                                </div>
                             </div>
-
-                            <div class="field">
-                                <label for="close_time">Close Time: </label>
-                                <input type="text" name="close_time" {% if object.administratordetails.close_time %} value="{{ object.administratordetails.close_time }}" {% endif %} />
-                            </div>
                         </div>
 
-                        <div class="field">
-                            <label for="location">Location: </label>
-                            <input type="text" name="location" {% if object.administratordetails.location %} value="{{ object.administratordetails.location }}" {% endif %} />
-                        </div>
-
-                        <div class="field">
-                            <label for="category">Category: </label>
-                            <!-- <input type="text" name="category" {% if object.administratordetails.category %} value="{{ object.administratordetails.category }}" {% endif %} /> -->
-                            <select name="category" id="" required>
-                                {% if object.administratordetails.category %}
-                                    <option value="{{ object.administratordetails.category }}">{{ object.administratordetails.category }}</option>
-                                {% else %}
-                                    <option value="none">--- Select ---</option>
-                                {% endif %}
-                                <option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
-                                <option value="Testing Hub">Testing Hub</option>
-                                <option value="Treatment Center">Treatment Center</option>
-                            </select>
-                        </div>
-
-                        <div class="field">
-                            <label for="staff">Staff: </label>
-                            <input type="text" name="staff" {% if object.administratordetails.staff %} value="{{ object.administratordetails.staff }}" {% endif %} />
-                        </div>
-
-                        <div class="field">
-                            <label for="additional_info">Additional Information: </label>
-                            <input type="text" name="additional_info" {% if object.administratordetails.additional_info %} value="{{ object.administratordetails.additional_info }}" {% endif %} />
-                        </div>
-                    {% endif%}
-                    
                     <div class="field">
-                        <label for="password">Type password to confirm changes: </label>
-                        <input type="password" name="password" />
+                        <label for="close_time" align="left">Closing Time: </label>
+                        <!-- <input type="text" name="close_time" {% if object.administratordetails.close_time %} value="{{ object.administratordetails.close_time }}" {% endif %} /> -->
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="opening-time">
+                            <i class="dropdown icon"></i> <div class="text">{% if object.administratordetails.close_time %} {{ object.administratordetails.close_time }} {% endif %}</div>
+                            <div class="menu">
+                                <div class="item" data-value="00:00">00:00 / 12:00 AM</div>
+                                <div class="item" data-value="01:00">01:00 / 01:00 AM</div>
+                                <div class="item" data-value="02:00">02:00 / 02:00 AM</div>
+                                <div class="item" data-value="03:00">03:00 / 03:00 AM</div>
+                                <div class="item" data-value="04:00">04:00 / 04:00 AM</div>
+                                <div class="item" data-value="05:00">05:00 / 05:00 AM</div>
+                                <div class="item" data-value="06:00">06:00 / 06:00 AM</div>
+                                <div class="item" data-value="07:00">07:00 / 07:00 AM</div>
+                                <div class="item" data-value="08:00">08:00 / 08:00 AM</div>
+                                <div class="item" data-value="09:00">09:00 / 09:00 AM</div>
+                                <div class="item" data-value="10:00">10:00 / 10:00 AM</div>
+                                <div class="item" data-value="11:00">11:00 / 11:00 AM</div>
+                                <div class="item" data-value="12:00">12:00 / 12:00 PM</div>
+                                <div class="item" data-value="13:00">13:00 / 01:00 PM</div>
+                                <div class="item" data-value="14:00">14:00 / 02:00 PM</div>
+                                <div class="item" data-value="15:00">15:00 / 03:00 PM</div>
+                                <div class="item" data-value="16:00">16:00 / 04:00 PM</div>
+                                <div class="item" data-value="17:00">17:00 / 05:00 PM</div>
+                                <div class="item" data-value="18:00">18:00 / 06:00 PM</div>
+                                <div class="item" data-value="19:00">19:00 / 07:00 PM</div>
+                                <div class="item" data-value="20:00">20:00 / 08:00 PM</div>
+                                <div class="item" data-value="21:00">21:00 / 09:00 PM</div>
+                                <div class="item" data-value="22:00">22:00 / 10:00 PM</div>
+                                <div class="item" data-value="23:00">23:00 / 11:00 PM</div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <input type="submit" value="Save" class="ui blue button" />
-                </form>
-            </div>
+                </div>
 
-            {% endblock %}
+                <div class="field">
+                    <label for="location" align="left">Location: </label>
+                    <input type="text" name="location" {% if object.administratordetails.location %} value="{{ object.administratordetails.location }}" {% endif %} />
+                </div>
+
+                <div class="field">
+                    <label for="category" align="left">Category: </label>
+                    <!-- <input type="text" name="category" {% if object.administratordetails.category %} value="{{ object.administratordetails.category }}" {% endif %} /> -->
+                    <select class="ui dropdown" name="category" id="" required>
+                        {% if object.administratordetails.category %}
+                        <option value="{{ object.administratordetails.category }}">{{ object.administratordetails.category }}</option>
+                        {% else %}
+                        <option value="">Select a category...</option>
+                        {% endif %}
+                        <option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
+                        <option value="Testing Hub">Testing Hub</option>
+                        <option value="Treatment Center">Treatment Center</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="staff" align="left">Staff: </label>
+                    <input type="text" name="staff" {% if object.administratordetails.staff %} value="{{ object.administratordetails.staff }}" {% endif %} />
+                </div>
+
+                <div class="field">
+                    <label for="additional_info" align="left">Additional Information: </label>
+                    <input type="text" name="additional_info" {% if object.administratordetails.additional_info %} value="{{ object.administratordetails.additional_info }}" {% endif %} />
+                </div>
+                {% endif%}
+
+                <div class="field">
+                    <label for="password">Type password to confirm changes: </label>
+                    <input type="password" name="password" />
+                </div>
+
+                <input type="submit" value="Save" class="ui blue button" />
+            </form>
         </div>
-        <div class="column"></div>
+
+        {% endblock %}
     </div>
+    <div class="column"></div>
+</div>
 </div>
