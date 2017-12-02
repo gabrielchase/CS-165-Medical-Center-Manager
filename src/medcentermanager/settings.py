@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = ['users.backends.EmailOrUsernameModelBackend']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -135,7 +136,10 @@ STATICFILES_DIRS = (
 )
 
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, '/static/bower_components'),
-BOWER_PATH = '/usr/local/bin/bower'
+BOWER_PATH = '/usr/bin/bower'
+BOWER_INSTALLED_APPS = (
+    'semantic-ui-calendar',
+)
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
