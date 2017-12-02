@@ -33,7 +33,7 @@
 
 <body style="background-color: #FBFCFC">
     <h1 id="medcentermanager" class="ui header" align="center" style="margin-bottom:20px;">Med Center Manager</h1>
-
+{% block messages %}
 {% if messages %}
         {% if messages|length == 1 %}
             {% for message in messages %}
@@ -49,8 +49,7 @@
     </div>
     {% endif %}
 {% endif %}
-
-    
+{% endblock messages %}
     {% block content %}
     {% endblock content %} 
 
