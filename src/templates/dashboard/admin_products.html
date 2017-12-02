@@ -12,9 +12,9 @@
 
                     <div class="field">
                         <label for="">Product: </label>
-                        <select name="product" id="">
+                        <select name="product_id" id="">
                             {% if edit_product %}
-                                <option value="{{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}">
+                                <option value="{{ edit_product.product.product_id }}">
                                     {{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}
                                 </option>
                             {% else %}
@@ -22,7 +22,7 @@
                             {% endif%}
                     
                             {% for product in other_products %}
-                                <option value="{{ product.generic_name }} - {{ product.brand_name }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
+                                <option value="{{ product.product_id }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -55,8 +55,8 @@
                     <li>{{ instance.product.generic_name }} -  {{ instance.product.brand_name }} by
                         <strong>{{ instance.product.manufacturer }}</strong>:
                         {{ instance.price }} {{ instance.stock}} {{ instance.description}}
-                        <a href="{% url 'dashboard:products' %}?p={{ instance.product.generic_name }}">Edit</a> 
-                        <a href="{% url 'dashboard:products-delete' %}?p={{ instance.product.generic_name }}">Delete</a>
+                        <a href="{% url 'dashboard:products' %}?p={{ instance.admin_product_id }}">Edit</a> 
+                        <a href="{% url 'dashboard:products-delete' %}?p={{ instance.admin_product_id }}">Delete</a>
                     </li>
                     {% endfor %}
                 </ul>

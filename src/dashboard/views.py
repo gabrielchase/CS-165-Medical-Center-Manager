@@ -184,7 +184,7 @@ class ProductView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
-        generic_name, brand_name = request.POST.get('product').split(' - ')
+        product_id = request.POST.get('product_id')
         price = request.POST.get('price')
         stock = request.POST.get('stock')
         description = request.POST.get('description')
@@ -193,9 +193,9 @@ class ProductView(LoginRequiredMixin, View):
         product = None
 
         try:
-            product = Product.objects.get(generic_name=generic_name)
+            product = Product.objects.get(product_id=product_id)
         except Product.DoesNotExist:
-            messages.error(request, 'Product does not exist'.format(name))
+            messages.error(request, 'Product does not exist')
             return redirect(reverse('dashboard:products'))
 
         try:
@@ -207,7 +207,7 @@ class ProductView(LoginRequiredMixin, View):
              product.stock = stock
              product.description = description
              product.save()
-             messages.success(request, 'Updated {} as a product.'.format(generic_name))
+             messages.success(request, 'Successfully updated product')
         except AdministratorProducts.DoesNotExist:
             """ If service with given admin does not exist, create a new AdministratorService """
 
@@ -218,7 +218,7 @@ class ProductView(LoginRequiredMixin, View):
                 stock=stock,
                 description=description
             )
-            messages.success(request, 'Successfully added {} as a product'.format(generic_name))
+            messages.success(request, 'Successfully added {} - {} as a product'.format(product.generic_name, product.brand_name))
 
         return redirect(reverse('dashboard:products'))
 
