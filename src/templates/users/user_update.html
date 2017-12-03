@@ -1,9 +1,11 @@
-{% extends "base.html" %}
-
-{% block content %}
 <div class="ui grid container center aligned">
+    
     <div class="row">
+        
         <div class="eight wide computer column thirteen wide tablet thirteen wide mobile">       
+            {% extends "base.html" %}
+            
+            {% block content %}
             <div class="row">
                 <div class="ui secondary menu" style="border-bottom: 2px solid rgba(34, 36, 38, 0.15);" >
                   <a class="item" href={% url 'dashboard:home' %}>Home</a>
@@ -48,7 +50,7 @@
                 {% if object.administratordetails %}
                 <div class="two fields">
                     <div class="field">
-                        <label for="open_time" align="left">Opening Time: </label>
+                        <label for="open_time" align="left" {% if object.open_time %} value="{{ object.open_time }}" {% endif %}>Opening Time: </label>
                         <!-- <input type="text" name="open_time" {% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %} /> -->
 
                         <div class="ui selection dropdown">
@@ -87,7 +89,7 @@
                         <label for="close_time" align="left">Closing Time: </label>
                         <!-- <input type="text" name="close_time" {% if object.administratordetails.close_time %} value="{{ object.administratordetails.close_time }}" {% endif %} /> -->
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="close_time">
+                            <input type="hidden" name="close_time" {% if object.close_time %} value="{{ object.close_time }}" {% endif %}>
                             <i class="dropdown icon"></i> <div class="text">{% if object.administratordetails.close_time %} {{ object.administratordetails.close_time }} {% endif %}</div>
                             <div class="menu">
                                 <div class="item" data-value="00:00">00:00 / 12:00 AM</div>
