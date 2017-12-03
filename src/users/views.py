@@ -101,12 +101,13 @@ class LoginView(TemplateView):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=email, password=password)
+        try:
+            user = authenticate(request, username=email, password=password)
             
-        if user is not None:
-            login(request, user)
-            return redirect(reverse('dashboard:home'))
-        else:
+            if user is not None:
+                login(request, user)
+                return redirect(reverse('dashboard:home'))
+        except:
             messages.error(request, 'Login failed')
             return self.get(request)
 
