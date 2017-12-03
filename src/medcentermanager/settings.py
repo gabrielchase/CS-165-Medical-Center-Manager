@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'medcentermanager_db',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'r3v3l@t10n357',
         'HOST': 'localhost',
         'PORT': '',
     }
