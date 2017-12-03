@@ -15,4 +15,6 @@ $('#appointment-calendar').calendar({
         window.location.href = url
     },
 })
+
+$('.ui.dropdown').dropdown();
 console.log('done loading js')
