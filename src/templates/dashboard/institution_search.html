@@ -26,37 +26,42 @@
 			{% endblock  %}
 		</div>
 
-		<div class="row">
-			<table class="ui selectable celled table" style="margin-top: 20px;">
-				{% for inst in institutions %}
+		<table class="ui selectable celled table">
+			<thead>
 				<tr>
-					<td>    
-						<a href="{{ inst.get_profile }}">{{ inst.username | title }}</a>
-						<br>
-						<span>Category: {{ inst.administratordetails.category }}</span>
-						<br>
-						<span>Location: {{ inst.administratordetails.location }}</span>
-						<br>
-						<span>Services Provided: </span>
-						<ul>
+					<th>Institution</th>
+					<th>Category</th>
+					<th>Location</th>
+					<th>Services</th>
+					<th>Products</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for inst in institutions%}
+					<tr>
+						<td><a href="{{ inst.get_profile }}">{{ inst.username | title }}</a></td>
+						<td>{{ inst.administratordetails.category }}</td>
+						<td>{{ inst.administratordetails.location }}</td>
+						<td>
 							{% for service in inst.administratordetails.services.all %}
-								<li>{{ service }}</li>
+								<li> {{ service }}</li>
 							{% endfor %}
-						</ul>
-						<span>Products Provided: </span>
-						<ul>
+						</td>
+						<td>
 							{% for product in inst.administratordetails.products.all %}
 								<li>{{ product }}</li>
 							{% endfor %}
-						</ul>
-					</td>
-				</tr>
+						</td>
+					</tr>
+				</a>
 				{% endfor %}
-			</table>
-		</div>
+			</tbody>
+		</table>
 	</div>
-	<div class="column"></div>
 </div>
 </div>
+<br>
+<br>
+<br>
 
 {% endblock %}
