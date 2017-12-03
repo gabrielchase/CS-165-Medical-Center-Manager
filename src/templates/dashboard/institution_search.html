@@ -50,7 +50,7 @@
 						</td>
 						<td>
 							{% for product in inst.administratordetails.products.all %}
-								<li>{{ product }}</li>
+								<li>{{ product.generic_name }} - {{ product.brand_name }}</li>
 							{% endfor %}
 						</td>
 						<td>{{ inst.administratordetails.get_average_rating }}</td>
