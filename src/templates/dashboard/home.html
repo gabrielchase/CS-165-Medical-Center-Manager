@@ -28,7 +28,7 @@
 						<div class="eleven wide column" style="padding:0px;">
 							<div class="ui segment" style="border-right-width:0px; border-bottom-width:0px; box-shadow:none; border-top-right-radius:0px;">
 								<div style="padding:3px;">
-									<div class="ui active tab" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">
+									<div class="ui sidemenu active tab" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">
 										<h2>Scheduled Appointments</h2>
 										{% if appointments %}
 										<ul>
@@ -47,7 +47,7 @@
 										{% else %}
 										<p>No scheduled appointments.</p>
 										{% endif %}
-										{% if current_user.is_admin == 0 %}</div><div class="ui tab" data-tab="pending-appointments"> {% endif %}
+										{% if current_user.is_admin == 0 %}</div><div class="ui sidemenu tab" data-tab="pending-appointments"> {% endif %}
 
 										<h2>Pending Appointments</h2>
 										{% if pending_appointments %}
@@ -73,7 +73,7 @@
 										{% endif %}
 									</div>
 
-									<div class="ui tab" data-tab="services" style="position:relative;">
+									<div class="ui sidemenu tab" data-tab="services" style="position:relative;">
 										<h1 class="ui header">Services Offered</h1>
 										<a href="{% url 'dashboard:services' %}" class="small ui right primary button" style="position: absolute;top: 0;right:0;"><i class="edit icon"></i> Manage</a>
 										<div class="row">
@@ -93,7 +93,7 @@
 										</div>
 									</div>
 
-									<div class="ui tab" data-tab="products" style="position:relative;">
+									<div class="ui sidemenu tab" data-tab="products" style="position:relative;">
 										<h1 class="ui header">Products Offered</h1>
 										<a href="{% url 'dashboard:products' %}" class="small ui right primary button" style="position: absolute;top: 0;right:0;"><i class="edit icon"></i> Manage</a>
 										<div class="row">
@@ -122,13 +122,13 @@
 						<div class="fluid five wide column" style="padding:0px; display:flex;">
 							<div class="fluid" style="display:flex; width: 100%;">
 								<div class="ui fluid vertical right tabular menu" style="margin-bottom:3px;">
-									<a class="item active" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">{% if current_user.is_admin == 0 %}Scheduled {% endif %}Appointments</a>
+									<a class="sidemenu item active" data-tab="{% if current_user.is_admin == 0 %}scheduled-{% endif %}appointments">{% if current_user.is_admin == 0 %}Scheduled {% endif %}Appointments</a>
 									{% if current_user.is_admin == 0 %}
-									<a class="item" data-tab="pending-appointments">Pending Appointments</a> 
+									<a class="sidemenu item" data-tab="pending-appointments">Pending Appointments</a> 
 
 									{% elif current_user.is_admin %}
-									<a class="item" data-tab="services">Services</a>
-									<a class="item" data-tab="products">Products</a>
+									<a class="sidemenu item" data-tab="services">Services</a>
+									<a class="sidemenu item" data-tab="products">Products</a>
 									{% endif %}
 								</div>
 							</div>
@@ -140,8 +140,8 @@
 	</div>
 
 	<script type="text/javascript">
-	$('.item').on('click', function() {
-		$('.item').removeClass('active');
+	$('.sidemenu .item').on('click', function() {
+		$('.sidemenu .item').removeClass('active');
 		$(this).addClass('active');
 	});             
 
