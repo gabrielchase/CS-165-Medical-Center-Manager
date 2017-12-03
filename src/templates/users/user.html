@@ -83,8 +83,11 @@
     <div class="ui basic segment">
         <h2>Services Offered</h2>
         <ul>
-            {% for service in object.administratordetails.services.all %}
-            <li> {{ service.name }} </li>
+            {% for inst in user_viewed_services %}
+            <li> {{ inst.service.name }}
+                {{ inst.price }}
+                {{ inst.description}}
+            </li>
             {% endfor %}
         </ul>
     </div>
@@ -94,7 +97,7 @@
     <div class="ui basic segment">
         <h2>Products In Stock</h2>
         <ul>
-            {% for instance in my_products %}
+            {% for instance in user_viewed_products %}
             <li>
                 <p> {{ instance.product.brand_name }} - {{ instance.product.generic_name }}: <strong>P{{ instance.price }}</strong> </p>
                 <p> Description: {{ instance.description }} </p>
