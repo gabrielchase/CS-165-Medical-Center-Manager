@@ -62,33 +62,37 @@ class AppointmentCreateDelete(View):
         return redirect(reverse('users:detail', kwargs={'slug': slug}))
 
     def post(self, request, *args, **kwargs):
-        if self.request.user.is_admin: 
-            messages.error(request, 'You are an institution, you cannot make an appointment')
-        else:
-            date = get_date(request.POST.get('date')) 
-            timeslot_id = request.POST.get('timeslot')
-            service_name = request.POST.get('service')  
-            additional_info = request.POST.get('additional_info')
-            slug = kwargs.get('slug')
-            
-            timeslot = Timeslot.objects.get(timeslot_id=timeslot_id)
-            service = Service.objects.get(name=service_name)
-            admin_user = User.objects.get(slug=slug)
-            admin_instance = AdministratorDetails.objects.get(user=admin_user)
+        try: 
+            if self.request.user.is_admin: 
+                messages.error(request, 'You are an institution, you cannot make an appointment')
+            else:
+                date = get_date(request.POST.get('date')) 
+                timeslot_id = request.POST.get('timeslot')
+                service_name = request.POST.get('service')  
+                additional_info = request.POST.get('additional_info')
+                slug = kwargs.get('slug')
+                
+                timeslot = Timeslot.objects.get(timeslot_id=timeslot_id)
+                service = Service.objects.get(name=service_name)
+                admin_user = User.objects.get(slug=slug)
+                admin_instance = AdministratorDetails.objects.get(user=admin_user)
 
-            Appointment.objects.create(
-                date=date,
-                status='Pending',
-                admin=admin_instance,
-                service=service, 
-                timeslot=timeslot,
-                user=self.request.user,
-                additional_info=additional_info
-            )
-            messages.success(request, 'You have successfully requested an appointment on {} from {} for {} at {}'
-                                        .format(date, timeslot, service, admin_user.username))
-
-        return redirect(reverse('users:detail', kwargs={'slug': slug}))
+                Appointment.objects.create(
+                    date=date,
+                    status='Pending',
+                    admin=admin_instance,
+                    service=service, 
+                    timeslot=timeslot,
+                    user=self.request.user,
+                    additional_info=additional_info
+                )
+                messages.success(request, 'You have successfully requested an appointment on {} from {} for {} at {}'
+                                            .format(date, timeslot, service, admin_user.username))
+                return redirect(reverse('users:detail', kwargs={'slug': slug}))
+        except:
+            messages.error(request, 'Creating an appointment failed. Please fill out fields correctly')
+            return redirect(reverse('appointments:create', kwargs={'slug': slug}))
+        
  
 
 class AppointmentStatus(View):
