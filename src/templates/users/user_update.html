@@ -146,7 +146,7 @@
 
                     <div class="field">
                         <label for="additional_info" align="left">Additional Information: </label>
-                        <textarea name="additional_info"> {% if object.administratordetails.additional_info %} value="{{ object.administratordetails.additional_info }}" {% endif %} </textarea>
+                        <textarea name="additional_info">{% if object.administratordetails.additional_info %}{{ object.administratordetails.additional_info }}{% endif %}</textarea>
                     </div>
                     {% endif%}
 

@@ -113,8 +113,9 @@
         {% if my_appointments_here %}    
         <ul>
             {% for aptmt in my_appointments_here %}
-            <li> {{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }} 
-                <a href="{% url 'appointments:base' slug=object.slug %}?aptmtid={{ aptmt.appointment_id }}">Cancel</a>
+            <li> 
+                <span style="padding-right:15px;">{{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }}</span>
+                <a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled"><button class="tiny ui orange button">Cancel</button></a>
             </li>
             {% endfor %}
         </ul>

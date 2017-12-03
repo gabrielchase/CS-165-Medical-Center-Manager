@@ -35,12 +35,13 @@
 											{% for aptmt in appointments %}
 											<li> 
 												{% if current_user.is_admin %} 
-													<span style="padding-right:15px;">{{ aptmt.date }} ( {{ aptmt.timeslot }}): {{ aptmt.service }} for <a href="{% url 'users:detail' slug=aptmt.user.slug %}">{{ aptmt.user.username }}</a></span>
+													<span style="padding-right:15px;">{{ aptmt.date }} ({{ aptmt.timeslot }}): {{ aptmt.service }} for <a href="{% url 'users:detail' slug=aptmt.user.slug %}">{{ aptmt.user.username }}</a></span>
 												{% else %}
-													<span style="padding-right:15px;">{{ aptmt.date }} ( {{ aptmt.timeslot }}): {{ aptmt.service }} at <a href="{% url 'users:detail' slug=aptmt.admin.user.slug %}">{{ aptmt.admin.user.username }}</a></span>
+													<span style="padding-right:15px;">{{ aptmt.date }} ({{ aptmt.timeslot }}): {{ aptmt.service }} at <a href="{% url 'users:detail' slug=aptmt.admin.user.slug %}">{{ aptmt.admin.user.username }}</a></span>
 												{% endif %}
 												<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled"><button class="tiny ui orange button">Cancel</button></a>
 											</li>
+											<br>
 											{% endfor %}
 										</ul>
 										{% else %}
@@ -59,7 +60,7 @@
 													<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted"><button class="tiny ui green button">Accept</button></a> 
 													<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected"><button class="tiny ui red button">Reject</button></a> 
 												{% else %}
-													<span style="padding-right:15px;">{{ aptmt.date }} ( {{ aptmt.timeslot }}): {{ aptmt.service }} at <a href="{% url 'users:detail' slug=aptmt.admin.user.slug %}">{{ aptmt.admin.user.username }}</a></span>
+													<span style="padding-right:15px;">{{ aptmt.date }} ({{ aptmt.timeslot }}): {{ aptmt.service }} at <a href="{% url 'users:detail' slug=aptmt.admin.user.slug %}">{{ aptmt.admin.user.username }}</a></span>
 													<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled"><button class="tiny ui orange button">Cancel</button></a>
 												{% endif %}
 											</li>
