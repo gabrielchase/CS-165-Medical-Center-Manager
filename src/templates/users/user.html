@@ -83,14 +83,14 @@
             <div class="ui basic segment">
                 <h2>Services Offered</h2>
                 <div class="ui divided list modlist" style="text-align:left;">
-                    {% for service in object.administratordetails.services.all %}
+                    {% for service in user_viewed_services %}
                     <div class="item">
                         <div class="content">
-                            <h4 class="header">{{ service.name }}</h4>
+                            <h4 class="header">{{ service.service }}</h4>
                             <div>Price:&nbsp; {{ service.price }} PHP</div>
                             <div class="description" style="margin-top:3px;">{{ service.description }}</div>
                         </div>
-                       
+
                     </div> 
                     {% endfor %}
                 </div>
@@ -101,48 +101,70 @@
             <div class="ui basic segment">
                 <h2>Products In Stock</h2>
                 <div class="ui divided list modlist" style="text-align:left;">
-                    {% for instance in my_products %}
-                                <div class="item">
-                                  <div class="content">
-                                    <h4 class="header">{{ instance.product.brand_name }}</h4>
-                                    <div>Generic name: {{ instance.product.generic_name }}</div>
-                                    <div>Manufacturer: <strong>{{ instance.product.manufacturer }}</strong></div>
-                                    <div>Price: {{ instance.price }}&nbsp;&nbsp;|&nbsp;&nbsp;Stock: {{ instance.stock}}</div>
-                                    {{ instance.description}}<br>
-                                </div>
-                            </div>
-                            {% endfor %}
+                    {% for instance in user_viewed_products %}
+                    <div class="item">
+                      <div class="content">
+                        <h4 class="header">{{ instance.product.brand_name }}</h4>
+                        <div>Generic name: {{ instance.product.generic_name }}</div>
+                        <div>Manufacturer: <strong>{{ instance.product.manufacturer }}</strong></div>
+                        <div>Price: {{ instance.price }} PHP&nbsp;&nbsp;|&nbsp;&nbsp;Stock: {{ instance.stock }}</div>
+                        {{ instance.product.description }}<br>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="ui sidemenu tab" data-tab="appointments">
+        <div class="ui basic segment">
+            {% if not current_user.is_admin %}
+            <h2>My Appointments</h2>
+            <a href="{% url 'appointments:create' slug=object.slug %}">Set an Appointment</a>
+            {% if my_appointments_here %}    
+            <ul>
+                {% for aptmt in my_appointments_here %}
+                <li> 
+                    <span style="padding-right:15px;">{{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }}</span>
+                    <a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled"><button class="tiny ui orange button">Cancel</button></a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endif %}
+        </div>
+
+    </div>
+
+
+    <div class="ui sidemenu {% if current_feedback %}active{% endif %} sidemenu tab" data-tab="feedback">
+        <div class="ui basic segment">
+            <h4>Average Rating: {{ object.administratordetails.get_average_rating }}</h4>
+
+
+            <h4>User Feedback</h4>
+            <div class="ui segment">
+                <div class="ui divided list modlist">
+                    {% for f in feedback %}
+                    <div class="item">
+                        {% if f.user == current_user %}
+                        <div class="right floated content">
+                            <small>
+                                <a href="{% url 'users:detail' slug=object.slug %}?fid={{ f.feedback_id }}">Edit</a> |
+                                <a href="{% url 'users:feedback' slug=object.slug %}?fid={{ f.feedback_id }}"><span style="color:#999;">Delete</span></a>
+                            </small>
+                        </div>
+                        {% endif %}
+                        <h4 class="ui header">{{ f.user.username }}</h4>
+                        <div class="stars stars-{{ f.rating }}"><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i></div>
+                        <div class="content" style="padding:2px 0;">{{ f.comment }}</div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
 
-        <div class="ui sidemenu tab" data-tab="appointments">
-            <div class="ui basic segment">
-                {% if not current_user.is_admin %}
-                <h2>My Appointments</h2>
-                <a href="{% url 'appointments:create' slug=object.slug %}">Set an Appointment</a>
-                {% if my_appointments_here %}    
-                <ul>
-                    {% for aptmt in my_appointments_here %}
-                    <li> 
-                        <span style="padding-right:15px;">{{ aptmt.date}} ({{ aptmt.timeslot }}): {{ aptmt.service }}</span>
-                        <a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled"><button class="tiny ui orange button">Cancel</button></a>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {% endif %}
-            </div>
-
-        </div>
-
-
-        <div class="ui sidemenu {% if current_feedback %}active{% endif %} sidemenu tab" data-tab="feedback">
-            <div class="ui basic segment">
-                <h4>Average Rating: {{ object.administratordetails.get_average_rating }}</h4>
-                {% if not current_user.is_admin %}
+            {% if not current_user.is_admin %}
                 {% if object.is_admin %}
-                <h4>Add Comment</h4>
                 <form class="ui compact reply form" action="{% url 'users:feedback' slug=object.slug %}" method="POST">
                     {% csrf_token %}
 
@@ -159,12 +181,13 @@
                                 <i class="star icon"></i><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i>
                             </div>
                         </div>
+                        <div class="field">
+                            <div id="ratinglabel" name="ratinglabel"></div>
+                        </div>
                     </div>
                 </div>
-
-
                 <div class="field">
-                  <textarea name="comment">{% if current_feedback %}{{ current_feedback.comment }}{% endif %}</textarea>
+                  <textarea name="comment" placeholder="Write a feedback for {{ object.username }}">{% if current_feedback %}{{ current_feedback.comment }}{% endif %}</textarea>
               </div>
               <button type="submit" class="ui primary submit labeled icon button">
                   <i class="icon edit"></i> Add Comment
@@ -174,29 +197,8 @@
           </form>
           {% endif %}
           {% endif %}
-
-          <h4>User Feedback</h4>
-          <div class="ui segment">
-            <div class="ui divided list modlist">
-                {% for f in feedback %}
-                <div class="item">
-                    {% if f.user == current_user %}
-                    <div class="right floated content">
-                        <small>
-                            <a href="{% url 'users:detail' slug=object.slug %}?fid={{ f.feedback_id }}">Edit</a> |
-                            <a href="{% url 'users:feedback' slug=object.slug %}?fid={{ f.feedback_id }}"><span style="color:#999;">Delete</span></a>
-                        </small>
-                    </div>
-                    {% endif %}
-                    <h4 class="ui header">{{ f.user.username }}</h4>
-                    <div class="stars stars-{{ f.rating }}"><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i><i class="star icon"></i></div>
-                    <div class="content" style="padding:2px 0;">{{ f.comment }}</div>
-                </div>
-                {% endfor %}
-            </div>
         </div>
     </div>
-</div>
 
 
 </div>
@@ -228,9 +230,17 @@ function bituin(){
             $(this).addClass('stars-'+(stardex+1));
             $($(this).attr('data-input')).val(stardex+1);
             $(this).attr('data-value', stardex+1);
+            var rate = $(this).attr('data-value');
+            if (rate == "1") $('#ratinglabel').text("Poor");
+            else if (rate == "2") $('#ratinglabel').text("Okay");
+            else if (rate == "3") $('#ratinglabel').text("Good");
+            else if (rate == "4") $('#ratinglabel').text("Satisfactory");
+            else if (rate == "5") $('#ratinglabel').text("Excellent");
         } else {
         }
     })
+
+
 }
 $('.stars-input > .star').click(bituin);
 $('.stars-input > .star').hover(
