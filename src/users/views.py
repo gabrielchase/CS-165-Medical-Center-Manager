@@ -137,8 +137,6 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context['user_viewed_products'] = AdministratorProducts.objects.filter(admin__user=user_viewed)
         context['user_viewed_services'] = AdministratorServices.objects.filter(admin__user=user_viewed)
 
-        print()
-
         if fid:
             context['current_feedback'] = Feedback.objects.get(feedback_id=fid)
 
