@@ -119,7 +119,6 @@ class AdministratorDetails(models.Model):
     def get_average_rating(self):
         try: 
             feedback = Feedback.objects.filter(admin=self.user.administratordetails)
-            feedback_sum = sum([ fb.rating for fb in feedback ])
             return round(sum([ fb.rating for fb in feedback ]) / feedback.count(), 2)
         except ZeroDivisionError:
             return 'Not yet rated'
