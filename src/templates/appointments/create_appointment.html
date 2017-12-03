@@ -49,8 +49,8 @@
                     </div>
                     <div class="required field">
                         <label for="service">Service: </label>
-                        <select name="service" id="">
-                            <option value="none">--- Select ---</option>
+                        <select class="ui dropdown" name="service">
+                            <option value="">Select service...</option>
                             {% for service in user_viewed.administratordetails.services.all %}
                             <option value="{{ service.name }}">{{ service.name }}</option>
                             {% endfor %}
@@ -72,8 +72,12 @@
             </div>
         </div>
 
-            {% endblock %}
-
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('.ui.dropdown').dropdown();
+</script>
+
+{% endblock %}
