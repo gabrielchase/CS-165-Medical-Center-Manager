@@ -52,7 +52,7 @@
 
                         <div class="field">
                             <label for="product" align="left">Product: </label>
-                            <select name="product_id" id="">
+                            <select class="ui dropdown" name="product_id" id="">
                                 {% if edit_product %}
                                 <option value="{{ edit_product.product.product_id }}">
                                     {{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}
@@ -90,4 +90,9 @@
     </div>
 </div>
 </div>
+
+
+<script type="text/javascript">
+    $('.ui .dropdown').dropdown();
+</script>
 {% endblock %}

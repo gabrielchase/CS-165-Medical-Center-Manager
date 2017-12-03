@@ -55,7 +55,7 @@
                         {% csrf_token %}
                         <div class="field">
                             <label for="Service" align="left">Service: </label>
-                            <select name="name" id="">
+                            <select class="ui dropdown" name="name">
                                 {% if edit_service %} 
                                 <option value="{{ edit_service.service.name }}">{{ edit_service.service.name }}</option>
                                 {% else %}
@@ -89,5 +89,9 @@
     </div>
 </div>
 </div></div>
+
+<script type="text/javascript">
+    $('.ui .dropdown').dropdown();
+</script>
 
 {% endblock %}
