@@ -34,6 +34,7 @@
 					<th>Location</th>
 					<th>Services</th>
 					<th>Products</th>
+					<th>Rating</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,6 +53,7 @@
 								<li>{{ product }}</li>
 							{% endfor %}
 						</td>
+						<td>{{ inst.administratordetails.get_average_rating }}</td>
 					</tr>
 				</a>
 				{% endfor %}
