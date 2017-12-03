@@ -23,10 +23,14 @@
 
             <div class="ui top attached tabular menu">
                 <a class="{% if not current_feedback %}active{% endif %}  item" data-tab="profile">Profile</a>
-                <a class="item" data-tab="services">Services Offered</a>
-                <a class="item" data-tab="products">Products</a>
-                <a class="item" data-tab="appointments">Appointments</a>
-                <a class="{% if current_feedback %}active{% endif %} item" data-tab="feedback">Feedback</a>
+                {% if object.is_admin %}
+                    <a class="item" data-tab="services">Services Offered</a>
+                    <a class="item" data-tab="products">Products</a>
+                    {% if not current_user.is_admin %}
+                        <a class="item" data-tab="appointments">Appointments</a>
+                    {% endif %}
+                    <a class="{% if current_feedback %}active{% endif %} item" data-tab="feedback">Feedback</a>
+                {% endif %}
             </div>
             <div class="ui bottom attached segment">
               <div class="ui {% if not current_feedback %}active{% endif %} tab" data-tab="profile">
@@ -70,7 +74,6 @@
                         <div class="content">{{ object.administratordetails.additional_info }}</div>
                     </div>
                     {% endif %}
-                    
                 </div>
             </div>
         
