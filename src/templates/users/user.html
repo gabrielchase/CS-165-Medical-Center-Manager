@@ -128,6 +128,7 @@
 
 <div class="ui {% if current_feedback %}active{% endif %} tab" data-tab="feedback">
     <div class="ui basic segment">
+        <h4>Average Rating: {{ object.administratordetails.get_average_rating }}</h4>
         {% if not current_user.is_admin %}
             {% if object.is_admin %}
             <h4>Add Comment</h4>

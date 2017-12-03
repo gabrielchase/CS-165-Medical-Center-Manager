@@ -116,6 +116,11 @@ class AdministratorDetails(models.Model):
     
     objects = AdministratorDetailsManager()
 
+    def get_average_rating(self):
+        feedback = Feedback.objects.filter(admin=self.user.administratordetails)
+        feedback_sum = sum([ fb.rating for fb in feedback ])
+        return sum([ fb.rating for fb in feedback ]) / feedback.count()
+
     def __str__(self):
         return self.user.email
 
