@@ -60,9 +60,8 @@
                                 {% else %}
                                 <option value="">Select product...</option>
                                 {% endif%}
-
                                 {% for product in other_products %}
-                                    <option value="{{ edit_product.product.product_id }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
+                                    <option value="{{ product.product_id }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
                                 {% endfor %}
                             </select>
                         </div>

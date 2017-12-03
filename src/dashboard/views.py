@@ -178,8 +178,7 @@ class ProductView(LoginRequiredMixin, View):
 
         if product_id:
             current_product = Product.objects.get(product_id=product_id)
-            edit_product = AdministratorProducts.objects.get(admin__user=self.request.user, product=current_product)
-            context['edit_product'] = edit_product
+            context['edit_product'] = AdministratorProducts.objects.get(admin__user=self.request.user, product=current_product)
 
         return render(request, self.template_name, context)
     
