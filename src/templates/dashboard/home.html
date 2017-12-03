@@ -34,9 +34,12 @@
 										<ul>
 											{% for aptmt in appointments %}
 											<li> 
-												{{ aptmt }} 
 												{% if current_user.is_admin %} 
-												<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> {% endif %}
+													{{ aptmt.date }} ( {{ aptmt.timeslot }}): {{ aptmt.service }} for <a href="{% url 'users:detail' slug=aptmt.user.slug %}">{{ aptmt.user.username }}</a>
+												{% else %}
+													{{ aptmt.date }} ( {{ aptmt.timeslot }}): {{ aptmt.service }} at <a href="{% url 'users:detail' slug=aptmt.admin.user.slug %}">{{ aptmt.admin.user.username }}</a>
+												{% endif %}
+												<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a>
 											</li>
 											{% endfor %}
 										</ul>
@@ -49,11 +52,16 @@
 										{% if pending_appointments %}
 										<ul>
 											{% for aptmt in pending_appointments %}
-											<li>{{ aptmt }} 
+											<li>
 												{% if current_user.is_admin %} 
-												<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
-												<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+													{{ aptmt.date }} ( {{ aptmt.timeslot }}): {{ aptmt.service }} for <a href="{% url 'users:detail' slug=aptmt.user.slug %}">{{ aptmt.user.username }}</a>
+													<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Accepted">Accept</a> 
+													<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Rejected">Reject</a> 
+												{% else %}
+													{{ aptmt.date }} ( {{ aptmt.timeslot }}): {{ aptmt.service }} at <a href="{% url 'users:detail' slug=aptmt.admin.user.slug %}">{{ aptmt.admin.user.username }}</a>
+													<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled">Cancel</a> 
 												{% endif %}
+												
 											</li>
 											{% endfor %}
 										</ul>
