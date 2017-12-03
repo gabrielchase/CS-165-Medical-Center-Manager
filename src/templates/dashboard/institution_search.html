@@ -19,6 +19,7 @@
 			</div>
 		</div>
 
+		<br><br>
 		<div class="row">
 			{% block search_bar %}
 				{% include "dashboard/search_bar.html" %}
@@ -30,7 +31,24 @@
 				{% for inst in institutions %}
 				<tr>
 					<td>    
-						<a href="{{ inst.get_profile }}">{{ inst.username }}</a>
+						<a href="{{ inst.get_profile }}">{{ inst.username | title }}</a>
+						<br>
+						<span>Category: {{ inst.administratordetails.category }}</span>
+						<br>
+						<span>Location: {{ inst.administratordetails.location }}</span>
+						<br>
+						<span>Services Provided: </span>
+						<ul>
+							{% for service in inst.administratordetails.services.all %}
+								<li>{{ service }}</li>
+							{% endfor %}
+						</ul>
+						<span>Products Provided: </span>
+						<ul>
+							{% for product in inst.administratordetails.products.all %}
+								<li>{{ product }}</li>
+							{% endfor %}
+						</ul>
 					</td>
 				</tr>
 				{% endfor %}
