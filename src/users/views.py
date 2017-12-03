@@ -47,6 +47,7 @@ class RegistrationView(View):
 
         open_time = request.POST.get('open_time') or None
         close_time = request.POST.get('close_time') or None
+        address = request.POST.get('address') or None
         location = request.POST.get('location') or None
         category = request.POST.get('category')
         staff = request.POST.get('staff') or None
@@ -71,13 +72,13 @@ class RegistrationView(View):
                     landline_number=landline_number,
                     open_time=open_time,
                     close_time=close_time,
+                    address=address,
                     location=location,
                     category=category, 
                     staff=staff,
                     additional_info=additional_info,
                     password=password
                 )
-            
             context = {
                 'user_type': user_type,
                 'new_user': new_instance
@@ -157,6 +158,7 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
 
         open_time = request.POST.get('open_time') or None
         close_time = request.POST.get('close_time') or None
+        address = request.POST.get('address') or None
         location = request.POST.get('location') or None
         category = request.POST.get('category')
         staff = request.POST.get('staff') or None
@@ -178,7 +180,7 @@ class UserUpdateView(LoginRequiredMixin, DetailView):
             
                 user.administratordetails.open_time = open_time
                 user.administratordetails.close_time = close_time
-                user.administratordetails.close_time = close_time
+                user.administratordetails.address = address
                 user.administratordetails.location = location
                 user.administratordetails.category = category
                 user.administratordetails.staff = staff

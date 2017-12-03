@@ -77,25 +77,30 @@ class BaseUser(AbstractBaseUser):
 class AdministratorDetailsManager(models.Manager):
     
     def create_administrator(self, username, email, mobile_number, landline_number, 
-                            open_time, close_time, location, category, staff, additional_info,
+                            open_time, close_time, address, location, category, staff, additional_info,
                             password=None):
         
         if not email or not username:
             raise ValueError('Administrators must have an email address')
 
         user = BaseUser.objects.create_user(username, email, mobile_number, landline_number, True, password=password)
+        print(user)
 
         administrator_details = self.model(
             user=user,
             open_time=open_time,
             close_time=close_time,
+            address=address,
             location=location,
             category=category,
             staff=staff,
             additional_info=additional_info
         )
 
+        print(administrator_details)
+
         administrator_details.save()
+        print('done')
 
         return administrator_details
 
@@ -106,6 +111,7 @@ class AdministratorDetails(models.Model):
     user = models.OneToOneField(BaseUser, on_delete=models.CASCADE, primary_key=True)
     open_time = models.CharField(max_length=5, null=True) # '08:00'
     close_time = models.CharField(max_length=5, null=True) # '18:00'
+    address = models.TextField(null=False)
     location = models.CharField(max_length=255, null=True)
     category = models.CharField(max_length=21, null=False)
     staff = models.TextField(null=True)
