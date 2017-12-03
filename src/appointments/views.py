@@ -11,6 +11,8 @@ from appointments.models import (
 from appointments.utils import get_date
 from dashboard.models import Service
 
+from datetime import datetime
+
 User = get_user_model()
 
 
@@ -77,19 +79,46 @@ class AppointmentCreateDelete(View):
                 admin_user = User.objects.get(slug=slug)
                 admin_instance = AdministratorDetails.objects.get(user=admin_user)
 
-                Appointment.objects.create(
-                    date=date,
-                    status='Pending',
-                    admin=admin_instance,
-                    service=service, 
-                    timeslot=timeslot,
-                    user=self.request.user,
-                    additional_info=additional_info
-                )
-                messages.success(request, 'You have successfully requested an appointment on {} from {} for {} at {}'
+                print(timeslot)
+                print(timeslot.start_time, timeslot.end_time)
+                print(admin_instance.open_time, admin_instance.close_time)
+
+                tmslt_start_time = datetime.strptime(timeslot.start_time, '%H:%M').time()
+                tmslt_end_time = datetime.strptime(timeslot.end_time, '%H:%M').time()
+                inst_open_time = datetime.strptime(admin_instance.open_time, '%H:%M').time()
+                inst_close_time = datetime.strptime(admin_instance.close_time, '%H:%M').time()
+                within_institution_open_and_close = tmslt_start_time >= inst_open_time and tmslt_start_time <= inst_close_time and tmslt_end_time >= inst_open_time and tmslt_end_time <= inst_close_time
+
+                print('timeslot requested: {} - {}'.format(timeslot.start_time, timeslot.end_time))
+
+                print('Timeslot Admin time T/F')
+                print('{} >= {}: {}'.format(tmslt_start_time, inst_open_time, tmslt_start_time >= inst_open_time ))
+                print('{} <= {}: {}'.format(tmslt_start_time, inst_close_time, tmslt_start_time <= inst_close_time ))
+                print('{} >= {}: {}'.format(tmslt_end_time, inst_open_time, tmslt_end_time >= inst_open_time))
+                print('{} <=  {}: {}'.format(tmslt_end_time, inst_close_time, tmslt_end_time <= inst_close_time))
+
+                print('-----------')
+                print(within_institution_open_and_close)
+                print('-----------')
+
+                if within_institution_open_and_close:
+                    Appointment.objects.create(
+                        date=date,
+                        status='Pending',
+                        admin=admin_instance,
+                        service=service, 
+                        timeslot=timeslot,
+                        user=self.request.user,
+                        additional_info=additional_info
+                    )
+                    messages.success(request, 'You have successfully requested an appointment on {} from {} for {} at {}'
                                             .format(date, timeslot, service, admin_user.username))
-                return redirect(reverse('users:detail', kwargs={'slug': slug}))
-        except:
+                    return redirect(reverse('users:detail', kwargs={'slug': slug}))    
+                else:
+                    messages.error(request, "The timeslot you requested is not within this instutition's opening and closing time") 
+                    return redirect(reverse('appointments:create', kwargs={'slug': slug}))
+        except Exception as e:
+            print(e)
             messages.error(request, 'Creating an appointment failed. Please fill out fields correctly')
             return redirect(reverse('appointments:create', kwargs={'slug': slug}))
         
