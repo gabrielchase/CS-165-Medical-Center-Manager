@@ -6,7 +6,7 @@
             <div class="four wide field">
                 <label for="">Category: </label>
                 <select class="ui compact dropdown" name="c" id="">
-                    {% if category %}
+                    {% if category != '' %}
                         <option value="{{ category }}">{{ category }}</option>
                     {% endif %}
                     <option value=" "></option>
@@ -19,7 +19,7 @@
             <div class="three wide field">
                 <label for="">Location:</label>
                 <select class="ui compact dropdown" name="l" id="">
-                    {% if location %}
+                    {% if location != '' %}
                         <option value="{{ location }}">{{ location }}</option>
                     {% endif %}
                     <option value=" "></option>
@@ -32,7 +32,7 @@
             <div class="four wide field">
                 <label for="">Service:</label>
                 <select class="ui compact dropdown" name="s" id="">
-                    {% if service %}
+                    {% if service != '' %}
                         <option value="{{ service }}">{{ service }}</option>
                     {% endif %}
                     <option value=" "></option>
@@ -45,7 +45,7 @@
             <div class="eight wide field">
                 <label for="">Product:</label>
                 <select class="ui compact dropdown" name="p" id="">
-                    {% if product %}
+                    {% if product != '' %}
                         <option value="{{ product }}">{{ product }}</option>
                     {% endif %}
                     
