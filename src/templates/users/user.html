@@ -170,6 +170,66 @@
                         <a href="{% url 'users:detail' slug=object.slug %}?fid={{ f.feedback_id }}">Edit</a> |
                         <a href="{% url 'users:feedback' slug=object.slug %}?fid={{ f.feedback_id }}">Delete</a>
                         </small>
+                    <div class="ui divider"></div>
+                    <div class="ui grid center aligned">
+                        <h2 class="ui center aligned header" style="margin-top: 50px">Comments</h2>
+                        <div class="one column row">
+                            <div class="column">
+                                {% if not current_user.is_admin %}
+                                    {% if object.is_admin %}
+                                        <h4>Add Comment</h4>
+                                        <form class="ui form" action="{% url 'users:feedback' slug=object.slug %}" method="POST">
+                                            {% csrf_token %}
+
+                                            {% if current_feedback %}
+                                                <input type="hidden" name="feedback_id" value="{{ current_feedback.feedback_id }}">
+                                            {% endif %}
+
+                                            <div class="field">
+                                                <label for="">Rating:</label>
+                                                <select class="ui fluid dropdown" name="rating" id="" required>
+                                                    {% if current_feedback %}
+                                                        <option value="{{ current_feedback.rating }}">{{ current_feedback.rating }}</option>
+                                                    {% else %}
+                                                        <option value="none">--- Select ---</option>
+                                                    {% endif %}
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <div class="field">
+                                                <label for="">Comment:</label>
+                                                <textarea name="comment" id="" cols="30" rows="10" >{% if current_feedback %}{{ current_feedback.comment }}{% endif %}</textarea>
+                                            </div>
+                                            <input type="submit" value="Submit" class="ui positive button" />
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                                <br>
+                                <br>
+                                <h4>User Feedback</h4>
+                                <div class="ui segment" id="feedback">
+                                    <br>
+                                    {% for f in feedback %}
+                                        <div class="ui secondary vertical segment">
+                                            <strong>by {{ f.user.username}}</strong>: {{ f.rating }} stars 
+                                            <p>{{ f.comment }}</p>
+                                            {% if f.user == current_user %}
+                                                <a href="{% url 'users:detail' slug=object.slug %}?fid={{ f.feedback_id }}" class="ui tiny blue button">Edit</a>
+                                                <a href="{% url 'users:feedback' slug=object.slug %}?fid={{ f.feedback_id }}" class="ui tiny black button">Delete</a>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     {% endif %}
                     <h4 class="ui header">{{ f.user.username}}</h4>

@@ -1,7 +1,8 @@
-<div class="ui grid container center aligned" style="margin-top: 20px">
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
-    {% block content %}
+{% block content %}
+<div class="ui grid container center aligned" style="margin-top: 20px">
+
     <div class="eleven wide column">
         <div class="ui secondary menu" style="border-top: 2px solid rgba(34, 36, 38, 0.15); padding:3px;">
             <a class="item" href={% url 'dashboard:home' %}>Home</a>
@@ -26,8 +27,8 @@
                                 <div class="item">
                                     <div class="right floated content">
                                         <div class="tiny ui buttons">
-                                          <a href="{% url 'dashboard:products' %}?p={{ instance.product.generic_name }}" class="tiny ui secondary button" style="padding:10px 13px;"><i class="write icon"></i> Edit</a>
-                                          <a href="{% url 'dashboard:products-delete' %}?p={{ instance.product.generic_name }}" class="tiny ui icon button" style><i class="trash icon"></i></a>
+                                          <a href="{% url 'dashboard:products' %}?p={{ instance.product.product_id }}" class="tiny ui secondary button" style="padding:10px 13px;"><i class="write icon"></i> Edit</a>
+                                          <a href="{% url 'dashboard:products-delete' %}?p={{ instance.product.product_id }}" class="tiny ui icon button" style><i class="trash icon"></i></a>
                                       </div>
                                   </div>
                                   <div class="content">
@@ -51,9 +52,9 @@
 
                         <div class="field">
                             <label for="product" align="left">Product: </label>
-                            <select name="product" id="">
+                            <select name="product_id" id="">
                                 {% if edit_product %}
-                                <option value="{{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}">
+                                <option value="{{ edit_product.product.product_id }}">
                                     {{ edit_product.product.generic_name }} - {{ edit_product.product.brand_name }}
                                 </option>
                                 {% else %}
@@ -61,7 +62,7 @@
                                 {% endif%}
 
                                 {% for product in other_products %}
-                                <option value="{{ product.generic_name }} - {{ product.brand_name }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
+                                    <option value="{{ edit_product.product.product_id }}">{{ product.generic_name}} - {{ product.brand_name }}</option>
                                 {% endfor %}
                             </select>
                         </div>

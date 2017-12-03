@@ -162,7 +162,7 @@ class ProductView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
-        p_query = request.GET.get('p')
+        product_id = request.GET.get('p')
         
         products = Product.objects.all()
         my_products = AdministratorProducts.objects.filter(admin__user=self.request.user)
@@ -176,15 +176,15 @@ class ProductView(LoginRequiredMixin, View):
             'other_products': other_products
         }
 
-        if p_query:
-            current_product = Product.objects.get(generic_name=p_query)
+        if product_id:
+            current_product = Product.objects.get(product_id=product_id)
             edit_product = AdministratorProducts.objects.get(admin__user=self.request.user, product=current_product)
             context['edit_product'] = edit_product
 
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
-        generic_name, brand_name = request.POST.get('product').split(' - ')
+        product_id = request.POST.get('product_id')
         price = request.POST.get('price')
         stock = request.POST.get('stock')
         description = request.POST.get('description')
@@ -193,23 +193,23 @@ class ProductView(LoginRequiredMixin, View):
         product = None
 
         try:
-            product = Product.objects.get(generic_name=generic_name)
+            product = Product.objects.get(product_id=product_id)
         except Product.DoesNotExist:
-            messages.error(request, 'Product does not exist'.format(name))
+            messages.error(request, 'Product does not exist')
             return redirect(reverse('dashboard:products'))
 
         try:
-             product = AdministratorProducts.objects.get(admin__user=self.request.user, product=product)
+            admin_product = AdministratorProducts.objects.get(admin=self_admin_instance, product=product)
 
-             """ If service with given admin and service exist, update current values"""
+            """ If Product with given admin and Product exist, update current values"""
 
-             product.price = price
-             product.stock = stock
-             product.description = description
-             product.save()
-             messages.success(request, 'Updated {} as a product.'.format(generic_name))
+            admin_product.price = price
+            admin_product.stock = stock
+            admin_product.description = description
+            admin_product.save()
+            messages.success(request, 'Successfully updated product')
         except AdministratorProducts.DoesNotExist:
-            """ If service with given admin does not exist, create a new AdministratorService """
+            """ If Product with given admin does not exist, create a new AdministratorProduct """
 
             AdministratorProducts.objects.create(
                 admin=self_admin_instance,
@@ -218,7 +218,7 @@ class ProductView(LoginRequiredMixin, View):
                 stock=stock,
                 description=description
             )
-            messages.success(request, 'Successfully added {} as a product'.format(generic_name))
+            messages.success(request, 'Successfully added {} - {} as a product'.format(product.generic_name, product.brand_name))
 
         return redirect(reverse('dashboard:products'))
 
@@ -229,9 +229,9 @@ class ProductDeleteView(LoginRequiredMixin, View):
         return self.request.user
 
     def get(self, request, *args, **kwargs):
-        generic_name = request.GET.get('p')
-        product = Product.objects.get(generic_name=generic_name)
+        product_id = request.GET.get('p')
+        product = Product.objects.get(product_id=product_id)
         AdministratorProducts.objects.get(admin__user=self.request.user, product=product).delete()
-        messages.success(request, '{} product deleted'.format(product))
+        messages.success(request, '{} - {} product deleted'.format(product.generic_name, product.brand_name))
 
         return redirect(reverse('dashboard:products'))

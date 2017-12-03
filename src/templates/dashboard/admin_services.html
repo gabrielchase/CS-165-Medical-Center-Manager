@@ -1,7 +1,8 @@
-<div class="ui grid container center aligned" style="margin-top: 20px">
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
-    {% block content %}
+{% block content %}
+
+<div class="ui grid container center aligned" style="margin-top: 20px">
     <div class="eleven wide column">
         <div class="ui secondary menu" style="border-top: 2px solid rgba(34, 36, 38, 0.15); padding:3px;">
             <a class="item" href={% url 'dashboard:home' %}>Home</a>
@@ -49,7 +50,7 @@
 
                 <div class="ui vertical divider" style="left:50%;"> </div>
                 <div class="column" style="padding:0 30px;">
-                    <h1 class="ui header">Add or Update a Product</h1>
+                    <h1 class="ui header">Add or Update a Service</h1>
                     <form class="ui form" action="{% url 'dashboard:services' %}" method="POST">
                         {% csrf_token %}
                         <div class="field">
