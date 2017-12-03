@@ -83,12 +83,12 @@
             <div class="ui basic segment">
                 <h2>Services Offered</h2>
                 <div class="ui divided list modlist" style="text-align:left;">
-                    {% for service in user_viewed_services %}
+                    {% for instance in user_viewed_services %}
                     <div class="item">
                         <div class="content">
-                            <h4 class="header">{{ service.service }}</h4>
-                            <div>Price:&nbsp; {{ service.price }} PHP</div>
-                            <div class="description" style="margin-top:3px;">{{ service.description }}</div>
+                            <h4 class="header">{{ instance.service }}</h4>
+                            <div>Price:&nbsp; {{ instance.price }} PHP</div>
+                            <div class="description" style="margin-top:3px;">{{ instance.description }}</div>
                         </div>
 
                     </div> 
