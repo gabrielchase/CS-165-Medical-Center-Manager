@@ -99,12 +99,12 @@ class AppointmentStatus(View):
 
         appointment = Appointment.objects.get(appointment_id=appointment_id)
 
-        if appointment.admin.user == request.user:
+        if appointment.admin.user == request.user or appointment.user == request.user:
             appointment.status = status
             appointment.save()
 
-            messages.success(request, "Successfully set appointment with {} on {} at {} to '{}'"
-                                        .format(appointment.user.username, appointment.date, appointment.timeslot, status.upper()))            
+            messages.success(request, "Successfully set appointment on {} at {} to '{}'"
+                                        .format(appointment.date, appointment.timeslot, status.upper()))            
         else:
             print('Appointment admin and request.user are not the same')
             messages.error(request, "There was a problem with changing the appointment's status")
