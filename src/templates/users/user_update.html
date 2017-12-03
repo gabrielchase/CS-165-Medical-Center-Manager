@@ -54,8 +54,8 @@
                         <!-- <input type="text" name="open_time" {% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %} /> -->
 
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="open_time">
-                            <i class="dropdown icon"></i> <div class="text">{% if object.administratordetails.open_time %} {{ object.administratordetails.open_time }} {% endif %}</div>
+                            <input type="hidden" name="open_time" {% if object.administratordetails.open_time %} value="{{ object.administratordetails.open_time }}" {% endif %}>
+                            <i class="dropdown icon"></i> <div class="text"></div>
                             <div class="menu">
                                 <div class="item" data-value="00:00">00:00 / 12:00 AM</div>
                                 <div class="item" data-value="01:00">01:00 / 01:00 AM</div>
@@ -89,7 +89,7 @@
                         <label for="close_time" align="left">Closing Time: </label>
                         <!-- <input type="text" name="close_time" {% if object.administratordetails.close_time %} value="{{ object.administratordetails.close_time }}" {% endif %} /> -->
                         <div class="ui selection dropdown">
-                            <input type="hidden" name="close_time" {% if object.close_time %} value="{{ object.close_time }}" {% endif %}>
+                            <input type="hidden" name="close_time" {% if object.administratordetails.close_time %} value="{{ object.administratordetails.close_time }}" {% endif %}>
                             <i class="dropdown icon"></i> <div class="text">{% if object.administratordetails.close_time %} {{ object.administratordetails.close_time }} {% endif %}</div>
                             <div class="menu">
                                 <div class="item" data-value="00:00">00:00 / 12:00 AM</div>
