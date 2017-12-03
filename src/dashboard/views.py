@@ -43,27 +43,24 @@ class InstitutionList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(InstitutionList, self).get_context_data(**kwargs)
-
-        institutions = User.objects.all().filter(is_admin=True)
-
+        
+        institutions = User.objects.filter(is_admin=True)
         category = self.request.GET.get('c')
         location = self.request.GET.get('l')
         service = self.request.GET.get('s')
-        product = self.request.GET.get('p')
-        
-        if product:
-            generic_name, brand_name = product.split(' - ')
+        product = self.request.GET.get('p') 
 
-        if category:
+        if category  != ' ':
             institutions = institutions.filter(administratordetails__category=category)
         
-        if location:
+        if location  != ' ':
             institutions = institutions.filter(administratordetails__location__icontains=location)
 
-        if service:
+        if service  != ' ':
             institutions = institutions.filter(administratordetails__administratorservices__service=service)
 
-        if product:
+        if product  != ' ':
+            generic_name, brand_name = product.split(' - ')
             institutions = institutions.filter(administratordetails__administratorproducts__product__generic_name__icontains=generic_name)
 
         context['institutions'] = institutions

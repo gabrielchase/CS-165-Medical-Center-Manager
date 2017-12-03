@@ -7,15 +7,9 @@
                 <label for="">Category: </label>
                 <select class="ui compact dropdown" name="c" id="">
                     {% if category %}
-                    <option value="{{ category }}">{{ category }}</option>
+                        <option value="{{ category }}">{{ category }}</option>
                     {% endif %}
-
-                    {% if category  %}
-                    <option value="">None</option>
-                    {% else %}
-                    <option value="">--- Select ---</option>
-                    {% endif %}
-                    
+                    <option value=" "></option>
                     <option value="Treatment Center">Treatment Center</option>
                     <option value="Testing Hub">Testing Hub</option>
                     <option value="Social Hygiene Clinic">Social Hygiene Clinic</option>
@@ -26,15 +20,9 @@
                 <label for="">Location:</label>
                 <select class="ui compact dropdown" name="l" id="">
                     {% if location %}
-                    <option value="{{ location }}">{{ location }}</option>
+                        <option value="{{ location }}">{{ location }}</option>
                     {% endif %}
-
-                    {% if location %}
-                    <option value="">None</option>
-                    {% else %}
-                    <option value="">--- Select ---</option>
-                    {% endif %}
-                    
+                    <option value=" "></option>
                     <option value="Quezon City">Quezon City</option>
                     <option value="Mandaluyong">Mandaluyong</option>
                     <option value="Makati">Makati</option>
@@ -45,15 +33,9 @@
                 <label for="">Service:</label>
                 <select class="ui compact dropdown" name="s" id="">
                     {% if service %}
-                    <option value="{{ service }}">{{ service }}</option>
+                        <option value="{{ service }}">{{ service }}</option>
                     {% endif %}
-                    
-                    {% if service  %}
-                    <option value="">None</option>
-                    {% else %}
-                    <option value="">--- Select ---</option>
-                    {% endif %}
-                    
+                    <option value=" "></option>
                     {% for service in services %}
                     <option value="{{ service.name }}" type="checkbox">{{ service.name}}</option>
                     {% endfor %}
@@ -64,17 +46,12 @@
                 <label for="">Product:</label>
                 <select class="ui compact dropdown" name="p" id="">
                     {% if product %}
-                    <option value="{{ product }}">{{ product }}</option>
+                        <option value="{{ product }}">{{ product }}</option>
                     {% endif %}
                     
-                    {% if product %}
-                    <option value="">None</option>
-                    {% else %}
-                    <option value="">--- Select ---</option>
-                    {% endif %}
-                    
+                    <option value=" "></option>
                     {% for product in products %}
-                    <option value="{{ product.generic_name}} - {{ product.brand_name }}" type="checkbox">{{ product.generic_name}} - {{ product.brand_name }}</option>
+                        <option value="{{ product.generic_name}} - {{ product.brand_name }}" type="checkbox">{{ product.generic_name}} - {{ product.brand_name }}</option>
                     {% endfor %}
                 </select>
             </div>
