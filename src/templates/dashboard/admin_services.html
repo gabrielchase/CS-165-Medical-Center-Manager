@@ -1,9 +1,9 @@
-{% extends "base.html" %}
 
-{% block content %}
-
-<div class="ui grid container center aligned" style="margin-top: 20px">
+<div class="ui grid container center aligned" style="margin-top: 20px">        
     <div class="eleven wide column">
+            {% extends "base.html" %}
+            
+            {% block content %}
         <div class="ui secondary menu" style="border-top: 2px solid rgba(34, 36, 38, 0.15); padding:3px;">
             <a class="item" href={% url 'dashboard:home' %}>Home</a>
             <a class="item" href={% url 'dashboard:institution-list' %}>View institutions</a>

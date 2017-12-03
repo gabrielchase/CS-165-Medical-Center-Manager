@@ -5,7 +5,7 @@
 	<div class="field">
 		<label for="open_time">Opening Time: </label>
 		<div class="ui selection dropdown">
-			<input type="hidden" name="opening-time">
+			<input type="hidden" name="open_time">
 			<i class="dropdown icon"></i> <div class="default text">Opening Time</div>
 			<div class="menu">
 				<div class="item" data-value="00:00">00:00 / 12:00 AM</div>
@@ -39,7 +39,7 @@
 	<div class="field">
 		<label for="close_time">Closing Time: </label>
 		<div class="ui selection dropdown">
-			<input type="hidden" name="closing-time">
+			<input type="hidden" name="close_time">
 			<i class="dropdown icon"></i> <div class="default text">Closing Time</div>
 			<div class="menu">
 				<div class="item" data-value="00:00">00:00 / 12:00 AM</div>
@@ -65,10 +65,15 @@
 				<div class="item" data-value="20:00">20:00 / 08:00 PM</div>
 				<div class="item" data-value="21:00">21:00 / 09:00 PM</div>
 				<div class="item" data-value="22:00">22:00 / 10:00 PM</div>
-				<div class="item" data-value="23:00">23:00 / 11:00 PM</div>
+				<div class="item" data-value="23:59">23:59 / 11:59 PM</div>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="required field">
+	<label for="address">Address: </label>
+	<input type="text" name="address" placeholder="ex: 11 Washington St." />
 </div>
 
 <div class="required field">

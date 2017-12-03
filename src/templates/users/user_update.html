@@ -115,10 +115,15 @@
                                 <div class="item" data-value="20:00">20:00 / 08:00 PM</div>
                                 <div class="item" data-value="21:00">21:00 / 09:00 PM</div>
                                 <div class="item" data-value="22:00">22:00 / 10:00 PM</div>
-                                <div class="item" data-value="23:00">23:00 / 11:00 PM</div>
+                                <div class="item" data-value="23:59">23:59 / 11:59 PM</div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="field">
+                    <label for="address" align="left">Address: </label>
+                    <input type="text" name="address" {% if object.administratordetails.address %} value="{{ object.administratordetails.address }}" {% endif %} />
                 </div>
 
                 <div class="field">
