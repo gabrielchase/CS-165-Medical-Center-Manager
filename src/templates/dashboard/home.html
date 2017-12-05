@@ -36,10 +36,14 @@
 											<li> 
 												{% if current_user.is_admin %} 
 													<span style="padding-right:15px;">{{ aptmt.date }} ({{ aptmt.timeslot }}): {{ aptmt.service }} for <a href="{% url 'users:detail' slug=aptmt.user.slug %}">{{ aptmt.user.username }}</a></span>
+													<br>
+														
+													<span style="padding-right:15px;">Additional Info: {{ aptmt.additional_info }}</span>
 												{% else %}
 													<span style="padding-right:15px;">{{ aptmt.date }} ({{ aptmt.timeslot }}): {{ aptmt.service }} at <a href="{% url 'users:detail' slug=aptmt.admin.user.slug %}">{{ aptmt.admin.user.username }}</a></span>
 												{% endif %}
 												<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Cancelled"><button class="tiny ui orange button">Cancel</button></a>
+												<a href="{% url 'appointments:status' appointment_id=aptmt.appointment_id %}?s=Done"><button class="tiny ui blue button">Done</button></a>
 											</li>
 											<br>
 											{% endfor %}
