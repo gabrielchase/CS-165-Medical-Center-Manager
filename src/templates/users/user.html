@@ -10,6 +10,7 @@
               <a class="item" href={% url 'dashboard:home' %}>Home</a>
               <a class="active item" href={% url 'dashboard:institution-list' %}>View institutions</a>
               <a class="item" href={% url 'users:update' %}>Edit My Profile</a>
+              <a class="item" href={% url 'users:detail' slug=current_user.slug %}>View My Profile</a>
 
               <div class="right secondary menu">
                 <a class="ui item" href={% url 'logout' %}> <i class="sign out icon"></i> Logout</a>
